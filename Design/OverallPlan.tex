@@ -8,8 +8,6 @@
 % Title of the page
 \title{Game Plan}
 
-\date{\today}
-
 \begin{document}
 \maketitle
 
@@ -23,44 +21,32 @@
 \end{center}
 }
 
-% 
+% Sentence explaining the purpose of this document
+\bigskip
 The following are the overall game plan and description, as decided upon by the group.
 
 \section{Game Overview}
+    This game takes place inside of a forest maze. The main character spawns inside of the maze, which is made up of tall hedges, and must navigate through the maze-like map while avoiding enemies. There are also forest trees in the maze, which act as barriers for both the main character and entities.
 
-This game takes place inside of a forest maze. The main character spawns inside of the maze, which is made up of tall hedges, and must
-navigate through the maze-like map while avoiding enemies. There are also forest trees in the maze, which act as barriers for both the main
-character and entities.
-
-The main character's end goal is a treasure chest, which is locked behind hedges until the main character collects all regular rewards.
+    The main character's end goal is a treasure chest, which is locked behind hedges until the main character collects all regular rewards.
 
 \section{Gameplay and Entities}
+    The players control the main character, who's an explorer, throughout the maze to gather rewards and avoid punishing entities. The main character will move in a 2D dimension using the player's W/A/S/D keys to move up/left/down/right respectively.
 
-The players control the main character, who's an explorer, throughout the maze to gather rewards and avoid punishing entities. The main
-character will move in a 2D dimension using the player's W/A/S/D keys to move up/left/down/right respectively.
+    There will be thorns and bear traps, which act as the static punishments in the game. Upon stepping on a cell containing one of these static punishments, points will be deducted from the player's score.
 
-There will be thorns and bear traps, which act as the static punishments in the game. Upon stepping on a cell containing one of these
-static punishments, points will be deducted from the player's score.
-
-There will also pirates and animals inside of the maze, which will be moving punishments.
+    There will also pirates and animals inside of the maze, which will be moving punishments.
 
 \section{Scoring and Winning/Losing}
+    There will be golden coins, which are the regular rewards, that can be picked up by the main character by walking over them. Additionally, there will also be a barrier powerup, which is the bonus reward, which blocks incoming damage for a set amount of time before disappearing.
 
-There will be golden coins, which are the regular rewards, that can be picked up by the main character by walking over them. Additionally,
-there will also be a barrier powerup, which is the bonus reward, which blocks incoming damage for a set amount of time before disappearing.
+    In order for the player to win, they must have the main character collect all golden coins on the map, which will create an opening in the hedges surrounding the treasure chest. Once the main character walks over the treasure chest, the game will be won.
 
-In order for the player to win, they must have the main character collect all golden coins on the map, which will create an opening in the
-hedges surrounding the treasure chest. Once the main character walks over the treasure chest, the game will be won.
-
-In order for the player to lose, they must walk over enough bear traps or thorns to make them lose all of their coins. Additionally,
-if the main character ever enters the same cell as a pirate, they will immediately lose the game.
+    In order for the player to lose, they must walk over enough bear traps or thorns to make them lose all of their coins. Additionally,  if the main character ever enters the same cell as a pirate, they will immediately lose the game.
 
 \section{Implementation Plan}
+    We'll begin with splitting up required work equally among all team members. Although this is subject to change, we'll likely divide the work into certain major parts, such as the game layout and logic, punishments, rewards, UI and data, and the start/end goals.
 
-We'll begin with splitting up required work equally among all team members. Although this is subject to change, we'll likely
-divide the work into certain major parts, such as the game layout and logic, punishments, rewards, UI and data, and the start/end goals.
-
-While coding and implementing certain parts of the game, we'll utilize seperate branches for each member to work in, allowing them
-to independently work on their own, and then merge to the main branch once they're ready to push work to production.
+    We'll create branches for each member to work in, allowing them to independently work on their own, and then merge to the main branch once they're ready to push work to production.
 
 \end{document}
