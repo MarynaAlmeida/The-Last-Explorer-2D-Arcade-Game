@@ -1,7 +1,7 @@
 package game.enums;
 
 /**
- * The type of cells inside the game's dimensions
+ * Type of cells inside the game's dimensions
  */
 
 enum CellType{
