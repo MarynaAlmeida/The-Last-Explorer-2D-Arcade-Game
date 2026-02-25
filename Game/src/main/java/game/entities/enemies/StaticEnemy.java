@@ -14,3 +14,4 @@ public abstract class StaticEnemy extends Entity {
     public void onCollision(Explorer explorer) {
 
     }
+}
