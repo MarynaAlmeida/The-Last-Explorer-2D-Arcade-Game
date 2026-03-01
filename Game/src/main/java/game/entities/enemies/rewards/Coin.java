@@ -7,5 +7,7 @@ public class Coin extends Reward {
         super(pos, value);
     }
 
-    public void collect() {};
+    public void collect() {
+        this.collected = true;
+    };
 }
