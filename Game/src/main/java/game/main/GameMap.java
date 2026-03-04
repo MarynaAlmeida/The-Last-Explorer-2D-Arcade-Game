@@ -1,4 +1,8 @@
 package game.main;
+import java.util.*;
+
+
+import java.io.*;
 public class GameMap{
     private int height;
     private int width;
@@ -8,17 +12,56 @@ public class GameMap{
     public GameMap(int height, int width){
             this.height = height;
             this.width = width;
-            this.start = 0;
-            this.end = 0;
-            this.grid = new Cell[height][width]; //figure this out
+            this.grid = new Cell[width][height]; //figure this out
             this.start = null;
             this.end = null;
-        }
+    }
 
+    public Position getStart(){
+        return this.start;
+    }
     public void loadMap(String file){
         //idk what this day
+        Scanner sc = new Scanner(new File(file));
+        for(int y=0; y<height; y++){
+            for(int x=0; x< width; x++){
+                String cellTypeInFile = sc.next(); //whatever the word is
+                CellType type;
+                switch (cellTypeInFile) {
+                    case "HEDGE": 
+                        type = CellType.HEDGE; 
+                        break;
+                    case "TREE":  
+                        type = CellType.TREE;  
+                        break;
+                    case "EMPTY": 
+                        type = CellType.EMPTY; 
+                        break;
+                    case "START": 
+                        type = CellType.START; 
+                        break;
+                    case "END":   
+                        type = CellType.END;   
+                        break;
+                    default:      
+                        type = CellType.EMPTY; 
+                        break;
+                }
+                Position xy = new Position(x,y);
 
+                Cell cell = new Cell(xy, type);
+                grid[x][y] = cell;
+
+                if (cell.getCellType() == CellType.START) {
+                    this.start = xy;
+                }
+                if (cell.getCellType() == CellType.END) {
+                    this.end = xy;
+                }
+            }
         }
+        sc.close();
+    }
 
     public Cell getCell(Position c){
             //return the cell(position and type) from wherever its standing right nwo
