@@ -52,6 +52,15 @@ public class Cell {
     }
 
     /**
+     * Provides a return on present entity in cell or can be empty implying null
+     *
+     * @return the present or null entity
+     */
+    public Entity getEntity() {
+        return entity;
+    }
+
+    /**
      * Ensures to finding if cell contains no entity.
      *
      * @return true for the cell becoming empty, false if the entity available
