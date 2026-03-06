@@ -35,9 +35,14 @@ public class Shield extends Reward {
      * @return a boolean value depending on if the item is expired or not.
      */
     public boolean isExpired() {
-        return !collected && timeRemainingOnBoard <= 0;
+        return !this.collected && timeRemainingOnBoard >= 0;
     }
 
+    /**
+     * Returns an integer indicating the remaining time before the shield runs out.
+     * 
+     * @return an integer of the remaining effect duration.
+     */
     public int getEffectDuration() {
         return effectDuration;
     }
@@ -52,10 +57,5 @@ public class Shield extends Reward {
         if (!isExpired()) {
             timeRemainingOnBoard--;
         }
-    }
-
-    @Override
-    public void collect() {
-        this.collected = true;
     }
 }

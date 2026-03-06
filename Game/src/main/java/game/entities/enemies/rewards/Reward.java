@@ -6,7 +6,8 @@ import game.main.Position;
 /**
  * Represents an abstract collectable reward in the game.
  * 
- * 
+ * @author Nathaniel Chen
+ * @version 1.0
  */
 public abstract class Reward extends Entity {
     protected int value;
@@ -24,13 +25,28 @@ public abstract class Reward extends Entity {
         this.collected = false;
     }
 
+    /**
+     * Acts as the getter for the protected value attribute.
+     * 
+     * @return the value of the current abstract object value.
+     */
     public int getValue() {
         return this.value;
     }
 
+    /**
+     * Determines if the abstract object has been collected by the player.
+     * 
+     * @return a boolean indicating if the object has been collected or not.
+     */
     public boolean isCollected() {
         return collected;
     }
 
-    public abstract void collect();
+    /**
+     * Sets the collected attribute to true, indicating the player collected it.
+     */
+    public void collect() {
+        this.collected = true;
+    }
 }
