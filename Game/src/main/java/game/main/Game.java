@@ -1,12 +1,10 @@
 //Game 
-package game.main;
+package main.game.java;
 import game.entities.*;
 import game.entities.enemies.*;
 import game.entities.enemies.rewards.*;
 import game.enums.*;
 import java.util.List;
-
-
 import java.util.ArrayList;
 
 
@@ -27,7 +25,7 @@ class Game{
 
     public Game(){
         //constructor
-        this.gamemap = new GameMap(10, 10);
+        this.gamemap = new GameMap();
         this.explorer = new Explorer(new Position(0,14), gamemap);
         this.movingEnemies = new ArrayList<>();
         this.rewards = new ArrayList<>();
@@ -70,7 +68,7 @@ class Game{
     public List<StaticEnemy> getStaticEnemies() {
         return staticEnemies;
     }
-    
+
     public int getScore(){
         return this.score;
     }
