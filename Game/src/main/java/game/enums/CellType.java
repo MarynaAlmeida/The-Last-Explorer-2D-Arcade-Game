@@ -1,1 +1,9 @@
-package game.enums;
+package main.java.game.enums;
+
+/**
+ * Type of cells inside the game's dimensions
+ */
+
+enum CellType{
+    HEDGE, TREE, START, END, EMPTY
+}

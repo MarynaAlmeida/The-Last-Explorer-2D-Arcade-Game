@@ -110,6 +110,7 @@ class Game{
 
     public void checkWinCondition(){
         //collected all the coins ; walk over treasure map
+
         //check from the rewards array list
         if(rewards.isEmpty()){
             return;
@@ -125,6 +126,7 @@ class Game{
 
     public void checkLoseCondition(){
         //either lost all their coins or all their hearts
+
         if(this.hearts <= 0 || rewards.isEmpty()){
             state = GameState.LOST;
         }
@@ -171,6 +173,5 @@ class Game{
             checkWinCondition();
             checkLoseCondition();
         }
-        
     }
 }
