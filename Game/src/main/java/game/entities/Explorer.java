@@ -20,8 +20,9 @@ public class Explorer extends Character{
      * @param pos position of explorer on the game map
      * */
 
-    public Explorer(Position pos) {
-        super(pos);
+    public Explorer(Position pos, GameMap map) {
+        // should Character constructor have GameMap or Game as parameter
+        super(pos, map);
         this.hasShield = false;
         this.shieldTicksRemaining = 0;
     }

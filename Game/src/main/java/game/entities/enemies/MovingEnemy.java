@@ -1,6 +1,7 @@
 package main.java.game.entities.enemies;
 
 import main.java.game.entities.Character;
+import main.java.game.main.GameMap;
 import main.java.game.main.Position;
 
 /**
@@ -14,8 +15,8 @@ public abstract class MovingEnemy extends Character {
      * @param pos starting position of enemy on the game map
      * */
 
-    public MovingEnemy(Position pos) {
-        super(pos);
+    public MovingEnemy(Position pos, GameMap map) {
+        super(pos, map);
         moveSpeed = 1;
     }
 
