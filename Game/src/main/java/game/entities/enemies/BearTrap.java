@@ -1,5 +1,6 @@
 package entities.enemies;
 import main.java.game.entities.enemies.StaticEnemy;
+import javax.swing.text.Position;
 
 /**
  * A bear trap is a static enemy that when stepped onto causes damage .
