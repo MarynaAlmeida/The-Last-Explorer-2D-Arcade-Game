@@ -6,6 +6,7 @@ package main.java.game.entities.enemies;
  */
 public abstract class StaticEnemy extends Entity {
     protected int damageValue;
+    protected Game game;
 
     /**
      * Creates a StaticEnemy at a particular position with certain damage values.
@@ -37,7 +38,7 @@ public abstract class StaticEnemy extends Entity {
     @Override
     public void onCollision(Explorer explorer) {
         if (!explorer.isShieldActive()) {
-            explorer.updateHearts(-damageValue);
+            game.updateHearts(-damageValue);
         }
     }
 }
