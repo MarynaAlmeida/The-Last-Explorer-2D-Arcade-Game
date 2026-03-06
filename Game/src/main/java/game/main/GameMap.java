@@ -9,12 +9,12 @@ public class GameMap{
     private Cell[][] grid;
     private Position start;
     private Position end;
-    public GameMap(int height, int width){
-            this.height = height;
-            this.width = width;
+    public GameMap(){
             this.grid = new Cell[width][height]; //figure this out
-            this.start = null;
-            this.end = null;
+            //added
+            this.start = new Position(0,0);
+            //added
+            this.end = new Position(0, 14);
     }
 
     public Position getStart(){

@@ -15,6 +15,8 @@ class Game{
     private GameMap gamemap;
     private Explorer explorer;
     private List<MovingEnemy> movingEnemies;
+    //added
+    private List<StaticEnemy> staticEnemies;
     private List<Reward> rewards;
     private GameState state;
     private int score;
@@ -26,10 +28,12 @@ class Game{
     public Game(){
         //constructor
         this.gamemap = new GameMap(10, 10);
-        this.explorer = new Explorer(new Position(0,0));
+        this.explorer = new Explorer(new Position(0,14), gamemap);
         this.movingEnemies = new ArrayList<>();
         this.rewards = new ArrayList<>();
         this.state = GameState.MENU;
+        //added 
+        this.staticEnemies = new ArrayList<>();
         //how many hearts does the explorer have?
         this.hearts = 0;
         this.MovingEnemyDamage = 1;
@@ -40,10 +44,33 @@ class Game{
     //start the game put the explorer in the game
     public void startGame(){
         this.state = GameState.PLAYING;
-        gamemap.loadMap("map.txt");
+        gamemap.loadMap("assets/map.txt", rewards, movingEnemies, staticEnemies);
         explorer.setPosition(gamemap.getStart());
     }
+    public GameMap getMap(){
+        return this.gamemap;
+    }
 
+    //added 
+    public Explorer getExplorer() {
+        return explorer;
+    }
+
+    //added
+    public List<MovingEnemy> getMovingEnemies() {
+        return movingEnemies;
+    }
+
+    //added
+    public List<Reward> getRewards(){
+        return this.rewards;
+    }
+
+    //added
+    public List<StaticEnemy> getStaticEnemies() {
+        return staticEnemies;
+    }
+    
     public int getScore(){
         return this.score;
     }
