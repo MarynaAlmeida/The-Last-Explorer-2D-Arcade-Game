@@ -1,27 +1,27 @@
-//GameMap
-//GameMap
-//gameinput
 
-//this is class Gamemap
-//gamemap has a cell
-package game.main;
+package main.game.java;
+import java.util.*;
+
+import javax.swing.text.Position;
+
+import java.io.*;
 public class GameMap{
     private int height;
     private int width;
     private Cell[][] grid;
     private Position start;
     private Position end;
-    public GameMap(int height, int width){
-            this.height = height;
-            this.width = width;
+    public GameMap(){
+            //added
             this.start = new Position(0,0);
-            this.end = new Position(0,0);
-            this.grid = new Cell[height][width]; //figure this out
-        }
+            //added
+            this.end = new Position(0, 14);
+    }
 
-    public void loadMap(String file){
-        //idk what this day
-        }
+    public Position getStart(){
+        return this.start;
+    }
+    public void loadMap(String file, List<Reward> rewards, List<MovingEnemy> movingEnemies, List<StaticEnemy> staticEnemies){}
 
     public Cell getCell(Position c){
             //return the cell(position and type) from wherever its standing right nwo
@@ -62,11 +62,8 @@ public class GameMap{
             pos.setEntity(person);
         }
 
-    public void manualGetCell(int a, int b){
+    public Cell manualGetCell(int a, int b){
             //i dont think i get this one 
+            return grid[a][b];
         }
 }
-
-
-
-
