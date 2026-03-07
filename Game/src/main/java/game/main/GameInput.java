@@ -1,5 +1,6 @@
 package game.main;
 import java.awt.event.*;
+
 public class GameInput implements KeyListener{
     private Game game;
     public GameInput(Game game){
@@ -17,3 +18,4 @@ public class GameInput implements KeyListener{
     public void keyTyped(KeyEvent k){
 
     }
+}
