@@ -1,14 +1,14 @@
 //Game 
-package main.game.java;
-import game.entities.*;
-import game.entities.enemies.*;
-import game.entities.enemies.rewards.*;
+package main.java.game.main;
+import main.java.game.entities.*;
+import main.java.game.entities.enemies.*;
+import main.java.game.entities.enemies.rewards.*;
 import game.enums.*;
+import static main.java.game.enums.GameState.*;
 import java.util.List;
 import java.util.ArrayList;
-
-
 import java.awt.event.*;
+
 class Game{
     private GameMap gamemap;
     private Explorer explorer;
@@ -43,7 +43,7 @@ class Game{
     public void startGame(){
         this.state = GameState.PLAYING;
         gamemap.loadMap("assets/map.txt", rewards, movingEnemies, staticEnemies);
-        explorer.setPosition(gamemap.getStart());
+        //explorer.setPosition(gamemap.getStart());
     }
     public GameMap getMap(){
         return this.gamemap;
@@ -61,7 +61,7 @@ class Game{
 
     //added
     public List<Reward> getRewards(){
-        return this.rewards;
+        return rewards;
     }
 
     //added
