@@ -1,5 +1,5 @@
-package main.java.game.main;
-import main.java.game.ui.*;
+package game.main;
+import game.ui.*;
 import javax.swing.JFrame;
 
 /**

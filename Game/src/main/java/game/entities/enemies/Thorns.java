@@ -1,7 +1,7 @@
-package main.java.game.entities.enemies;
-import main.java.game.entities.Explorer;
-import main.java.game.entities.enemies.StaticEnemy;
-import main.java.game.main.Position;
+package game.entities.enemies;
+import game.entities.Explorer;
+import game.entities.enemies.StaticEnemy;
+import game.main.Position;
 
 
 /**

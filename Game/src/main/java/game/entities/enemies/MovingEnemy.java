@@ -1,8 +1,8 @@
-package main.java.game.entities.enemies;
+package game.entities.enemies;
 
-import main.java.game.entities.Character;
-import main.java.game.main.GameMap;
-import main.java.game.main.Position;
+import game.entities.Character;
+import game.main.GameMap;
+import game.main.Position;
 
 /**
  * Abstract base class for all enemies that navigate the map to the explorer

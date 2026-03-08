@@ -1,5 +1,5 @@
-package main.java.game.entities.enemies.rewards;
-import javax.swing.text.Position;
+package game.entities.enemies.rewards;
+import game.main.Position;
 
 /**
  * This is a chest which player can open through coins.
