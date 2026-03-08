@@ -20,7 +20,7 @@ public abstract class Reward extends Entity {
      * @param value the value/score of the reward object that is being created.
      */
     public Reward(Position pos, int value) {
-        super(position);
+        super(pos);
         this.value = value;
         this.collected = false;
     }

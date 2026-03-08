@@ -5,7 +5,7 @@ import main.java.game.entities.enemies.rewards.Coin;
 import main.java.game.entities.enemies.rewards.Reward;
 import main.java.game.entities.enemies.rewards.Shield;
 import main.java.game.main.*;
-import main.java.game.enums.*;
+import static main.java.game.enums.CellType.*;
 import javax.swing.*;
 import java.awt.*;
 

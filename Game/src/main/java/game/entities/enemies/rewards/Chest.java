@@ -1,4 +1,4 @@
-package game.entities.enemies.rewards;
+package main.java.game.entities.enemies.rewards;
 import javax.swing.text.Position;
 
 /**
