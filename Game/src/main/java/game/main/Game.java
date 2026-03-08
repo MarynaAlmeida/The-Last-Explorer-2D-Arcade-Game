@@ -3,13 +3,12 @@ package main.java.game.main;
 import main.java.game.entities.*;
 import main.java.game.entities.enemies.*;
 import main.java.game.entities.enemies.rewards.*;
-import game.enums.*;
-import static main.java.game.enums.GameState.*;
+import main.java.game.enums.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.event.*;
 
-class Game{
+public class Game{
     private GameMap gamemap;
     private Explorer explorer;
     private List<MovingEnemy> movingEnemies;
@@ -165,7 +164,7 @@ class Game{
             Cell cell = gamemap.getCell(next);
             Entity en = cell.getEntity();
             if(en !=null){
-                en.onCollision(explorer);
+                //en.onCollision(explorer);
             }
             gamemap.removeEntity(next);
             explorer.setPosition(next);

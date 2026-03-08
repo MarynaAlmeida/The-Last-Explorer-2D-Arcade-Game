@@ -1,4 +1,6 @@
 package main.java.game.entities.enemies;
+import main.java.game.main.*;
+import main.java.game.entities.*;
 
 /**
  * Abstract class for static enemies inflict damage when collided.
@@ -35,7 +37,7 @@ public abstract class StaticEnemy extends Entity {
      *
      * @param explorer the explorer who encounters collison
      */
-    @Override
+    //@Override
     public void onCollision(Explorer explorer) {
         if (!explorer.isShieldActive()) {
             game.updateHearts(-damageValue);

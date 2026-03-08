@@ -1,4 +1,6 @@
-package game.main;
+package main.java.game.main;
+import main.java.game.main.Game;
+
 import java.awt.event.*;
 
 public class GameInput implements KeyListener{

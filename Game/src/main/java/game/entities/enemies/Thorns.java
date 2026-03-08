@@ -1,6 +1,7 @@
-package entities.enemies;
+package main.java.game.entities.enemies;
+import main.java.game.entities.Explorer;
 import main.java.game.entities.enemies.StaticEnemy;
-import javax.swing.text.Position;
+import main.java.game.main.Position;
 
 
 /**
@@ -25,7 +26,7 @@ public class Thorns extends StaticEnemy {
      *
      * @param explorer the explorer moves into the trap
      */
-    @Override
+
     public void onCollision(Explorer explorer) {
         super.onCollision(explorer);
 

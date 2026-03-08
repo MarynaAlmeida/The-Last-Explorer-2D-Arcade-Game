@@ -3,9 +3,7 @@ package main.java.game.main;
 
 import main.java.game.entities.*;
 import main.java.game.entities.enemies.*;
-import main.java.game.entities.enemies.rewards.Coin;
-import main.java.game.entities.enemies.rewards.Reward;
-import main.java.game.entities.enemies.rewards.Shield;
+import main.java.game.entities.enemies.rewards.*;
 import main.java.game.enums.AnimalType;
 import main.java.game.enums.CellType;
 import main.java.game.enums.PirateType;
