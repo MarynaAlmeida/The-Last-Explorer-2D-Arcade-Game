@@ -1,6 +1,6 @@
-package game.entities.enemies.rewards;
+package main.java.game.entities.enemies.rewards;
 
-import game.main.Position;
+import main.java.game.main.Position;
 
 /**
  * Represents a coin reward that players must pick up to win the game.

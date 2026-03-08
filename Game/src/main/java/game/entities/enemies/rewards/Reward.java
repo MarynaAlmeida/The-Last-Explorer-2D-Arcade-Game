@@ -1,7 +1,7 @@
-package game.entities.enemies.rewards;
+package main.java.game.entities.enemies.rewards;
 
-import game.entities.Entity;
-import game.main.Position;
+import main.java.game.entities.Entity;
+import main.java.game.main.Position;
 
 /**
  * Represents an abstract collectable reward in the game.

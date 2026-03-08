@@ -1,6 +1,6 @@
-package game.entities.enemies.rewards;
+package main.java.game.entities.enemies.rewards;
 
-import game.main.Position;
+import main.java.game.main.Position;
 
 /**
  * Represents a shield reward that the player can pick up.
