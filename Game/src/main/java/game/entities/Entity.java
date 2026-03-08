@@ -1,6 +1,6 @@
-package main.java.game.entities;
+package game.entities;
 
-import main.java.game.main.Position;
+import game.main.Position;
 
 public abstract class Entity{
     protected Position position;

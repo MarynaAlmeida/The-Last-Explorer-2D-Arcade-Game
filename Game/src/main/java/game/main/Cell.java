@@ -1,7 +1,7 @@
-package main.java.game.main;
+package game.main;
 
-import main.java.game.enums.CellType;
-import main.java.game.entities.Entity;
+import game.enums.CellType;
+import game.entities.Entity;
 
 /**
  * Demonstrating a single cell in the game map's grid.

@@ -1,7 +1,7 @@
-package main.java.game.entities.enemies;
-import main.java.game.enums.AnimalType;
-import main.java.game.enums.PirateType;
-import main.java.game.main.*;
+package game.entities.enemies;
+import game.enums.AnimalType;
+import game.enums.PirateType;
+import game.main.*;
 /**
  * Represents pirate moving enemy
  * */

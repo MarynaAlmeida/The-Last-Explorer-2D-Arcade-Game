@@ -1,9 +1,9 @@
 //Game 
-package main.java.game.main;
-import main.java.game.entities.*;
-import main.java.game.entities.enemies.*;
-import main.java.game.entities.enemies.rewards.*;
-import main.java.game.enums.*;
+package game.main;
+import game.entities.*;
+import game.entities.enemies.*;
+import game.entities.enemies.rewards.*;
+import game.enums.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.event.*;
@@ -41,7 +41,7 @@ public class Game{
     //start the game put the explorer in the game
     public void startGame(){
         this.state = GameState.PLAYING;
-        gamemap.loadMap("assets/map.txt", rewards, movingEnemies, staticEnemies);
+        gamemap.loadMap("../Assets/map.txt", rewards, movingEnemies, staticEnemies);
         //explorer.setPosition(gamemap.getStart());
     }
     public GameMap getMap(){

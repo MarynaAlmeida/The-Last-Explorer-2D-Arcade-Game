@@ -1,8 +1,8 @@
-package main.java.game.entities.enemies;
-import main.java.game.enums.AnimalType;
-import main.java.game.main.Game;
-import main.java.game.main.GameMap;
-import main.java.game.main.Position;
+package game.entities.enemies;
+import game.enums.AnimalType;
+import game.main.Game;
+import game.main.GameMap;
+import game.main.Position;
 
 /**
  * Represents animal moving enemy

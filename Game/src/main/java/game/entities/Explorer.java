@@ -1,9 +1,9 @@
-package main.java.game.entities;
+package game.entities;
 
-import main.java.game.entities.enemies.rewards.*;
-import main.java.game.entities.enemies.*;
-import main.java.game.main.*;
-import main.java.game.enums.*;
+import game.entities.enemies.rewards.*;
+import game.entities.enemies.*;
+import game.main.*;
+import game.enums.*;
 
 /**
  * Represents explorer character and its interactions

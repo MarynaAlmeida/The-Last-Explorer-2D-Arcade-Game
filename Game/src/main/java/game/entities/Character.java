@@ -1,8 +1,8 @@
-package main.java.game.entities;
+package game.entities;
 
-import main.java.game.main.Position;
-import main.java.game.main.GameMap;
-import main.java.game.enums.Direction;
+import game.main.Position;
+import game.main.GameMap;
+import game.enums.Direction;
 
 public abstract class Character extends Entity{
     protected GameMap map;

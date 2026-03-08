@@ -1,12 +1,12 @@
 
-package main.java.game.main;
+package game.main;
 
-import main.java.game.entities.*;
-import main.java.game.entities.enemies.*;
-import main.java.game.entities.enemies.rewards.*;
-import main.java.game.enums.AnimalType;
-import main.java.game.enums.CellType;
-import main.java.game.enums.PirateType;
+import game.entities.*;
+import game.entities.enemies.*;
+import game.entities.enemies.rewards.*;
+import game.enums.AnimalType;
+import game.enums.CellType;
+import game.enums.PirateType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

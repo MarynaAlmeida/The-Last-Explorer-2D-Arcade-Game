@@ -1,5 +1,5 @@
-package main.java.game.main;
-import main.java.game.main.Game;
+package game.main;
+import game.main.Game;
 
 import java.awt.event.*;
 
