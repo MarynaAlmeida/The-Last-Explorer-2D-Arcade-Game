@@ -26,11 +26,8 @@ public class GameInput implements KeyListener{
     }
 
     @Override
-    public void keyReleased(KeyEvent k){
-
-    }
+    public void keyReleased(KeyEvent k){}
+    
     @Override
-    public void keyTyped(KeyEvent k){
-
-    }
+    public void keyTyped(KeyEvent k){}
 }

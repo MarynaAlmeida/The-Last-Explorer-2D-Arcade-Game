@@ -17,6 +17,7 @@ public class Main {
 
         window.add(view);
         window.pack();
+        view.requestFocusInWindow();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
