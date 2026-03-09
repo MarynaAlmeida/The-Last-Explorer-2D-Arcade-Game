@@ -59,13 +59,13 @@ public class GameMap{
                 }
                 // char c on map.txt means a coin was placed at that tile
                 else if(symbol == 'c') {
-                    Coin coin = new Coin(pos, 3);
+                    Coin coin = new Coin(pos, 1);
                     rewards.add(coin);
                     this.placeEntity(coin, pos);
                 }
                 // char s on map.txt means a shield was placed at that tile
                 else if(symbol == 's') {
-                    Shield shield = new Shield(pos, 3, 10);
+                    Shield shield = new Shield(pos, 200, 10);
                     rewards.add(shield);
                     this.placeEntity(shield, pos);
                 }

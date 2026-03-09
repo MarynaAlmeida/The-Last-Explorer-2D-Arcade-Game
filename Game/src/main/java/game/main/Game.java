@@ -21,11 +21,13 @@ public class Game{
     private int MovingEnemyDamage;
     private int shieldSpawnCooldown;
     private int ticksSinceLastShieldSpawn;
+    private boolean onStaticEntity;
 
     public Game(){
         //constructor
         this.gamemap = new GameMap();
         this.explorer = new Explorer(new Position(0,14), gamemap);
+        this.explorer.setGame(this);
         this.movingEnemies = new ArrayList<>();
         this.rewards = new ArrayList<>();
         this.state = GameState.MENU;
@@ -35,8 +37,9 @@ public class Game{
         this.hearts = 0;
         this.MovingEnemyDamage = 1;
         this.score = 0;
-        this.shieldSpawnCooldown = 10;
+        this.shieldSpawnCooldown = 20;
         this.ticksSinceLastShieldSpawn = 0;
+        this.onStaticEntity = false;
     }
     //start the game put the explorer in the game
     public void startGame(){
@@ -77,32 +80,75 @@ public class Game{
     }
     //update the hearts int
     public void updateHearts(int hearts){
-        this.hearts = hearts;
+        this.hearts += hearts;
     }
 
-    public void updateScore(int score){
-        this.score = score;
+    public void updateScore(int amountToIncrease){
+        this.score += amountToIncrease;
     }
 
     public void tick(){
+        Position explorerPos = this.explorer.getPosition();
+
         //moving the enemies to the explorer's position
         for(MovingEnemy m: movingEnemies){
             m.updateMovement(explorer.getPosition());
         }
         for(MovingEnemy m: movingEnemies){
-            Position enemy = m.getPosition();
-            Position explorerPos = this.explorer.getPosition();
-            if(enemy.equals(explorerPos)){
+            Position enemyPos = m.getPosition();
+            if(enemyPos.equals(explorerPos)){
                 //update hearts
                 if(!explorer.isShieldActive()){
-                    updateHearts(hearts - MovingEnemyDamage);
+                    updateHearts(-1);
+                } else {
+                    explorer.deactivateShield();
                 }
             }
         }
+
+        boolean standingOnHazard = false;
+
+        for (StaticEnemy s : staticEnemies) {
+            Position staticPos = s.getPosition();
+
+            if (staticPos.equals(explorerPos)) {
+                standingOnHazard = true;
+                
+                if (!onStaticEntity) {
+                    if (!explorer.isShieldActive()) {
+                        if (s instanceof Thorns) {
+                            this.updateScore(-1);
+                        } else if (s instanceof BearTrap) {
+                            this.updateScore(-3);
+                        }
+                    } else {
+                        explorer.deactivateShield();
+                    }
+                }
+            }
+        }
+
+        onStaticEntity = standingOnHazard;
+        explorer.updateShield();
+
         ticksSinceLastShieldSpawn++;
         if(ticksSinceLastShieldSpawn >= shieldSpawnCooldown){
             ticksSinceLastShieldSpawn = 0;
+
+            for (Reward shield : rewards) {
+                if (!shield.isCollected() && shield.getValue() == 0) {
+                    shield.setUncollected();
+                }
+            }
         }
+
+        for (Reward reward : rewards) {
+            if (reward.getPosition().equals(explorerPos) && !reward.isCollected()) {
+                explorer.collectReward(reward);
+                break;
+            }
+        }
+
         checkLoseCondition();
         checkWinCondition();
     }

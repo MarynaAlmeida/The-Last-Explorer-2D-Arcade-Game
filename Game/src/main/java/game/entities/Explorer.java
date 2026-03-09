@@ -26,6 +26,25 @@ public class Explorer extends Character{
         this.hasShield = false;
         this.shieldTicksRemaining = 0;
     }
+
+    /**
+     * Acts as a setter for the game variable.
+     * 
+     * @param game the variable which will set this class' game variable to.
+     */
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    /**
+     * Acts as the getter for the shieldTicksRemaining variable.
+     * 
+     * @return an integer indicating how many ticks the shield remains for.
+     */
+    public int getShieldTicksRemaining() {
+        return shieldTicksRemaining;
+    }
+
     /**
      * When explorer gets a reward the reward will be collected and activated/updated
      * @param reward specific Reward explorer will collect
@@ -64,7 +83,6 @@ public class Explorer extends Character{
      * Decrements shield timer by one tick
      * and deactivates shield once the timer reaches zero
      * */
-
     public void updateShield() {
         if(shieldTicksRemaining > 0) {
             shieldTicksRemaining--;
@@ -74,4 +92,10 @@ public class Explorer extends Character{
         }
     }
 
+    /**
+     * Acts as a setter for deactivating the shield in case the user runs into a moving or static enemy.
+     */
+    public void deactivateShield() {
+        hasShield = false;
+    }
 }

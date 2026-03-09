@@ -49,4 +49,8 @@ public abstract class Reward extends Entity {
     public void collect() {
         this.collected = true;
     }
+
+    public void setUncollected() {
+        this.collected = false;
+    }
 }

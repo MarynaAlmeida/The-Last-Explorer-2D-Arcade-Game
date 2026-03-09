@@ -110,6 +110,7 @@ public class GameView extends JPanel implements ActionListener{
         drawMovingEntities(g, tileSize);
         drawStaticEntities(g, tileSize);
         drawRewards(g, tileSize);
+        paintRewardHUDs(g);
 
         if (isTutorialActive) {
             paintTutorial(g);
@@ -231,8 +232,50 @@ public class GameView extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
-        game.tick();
+        if (!isTutorialActive) {
+            game.tick();
+        }
         repaint();
     }
+
+    /**
+     * Paints both the coin and shield HUDs.
+     * 
+     * @param g the graphics context for the drawing.
+     */
+    public void paintRewardHUDs(Graphics g) {
+        
+        String score = "Coins: " + game.getScore();
+
+        g.setFont(new Font("Arial", Font.BOLD, 27));
+
+        g.setColor(Color.BLACK);
+        g.drawString(score, getWidth() - 135, getHeight() - (getHeight() - 25));
+        g.drawString(score, getWidth() - 141, getHeight() - (getHeight() - 25));
+        g.drawString(score, getWidth() - 138, getHeight() - (getHeight() - 22));
+        g.drawString(score, getWidth() - 138, getHeight() - (getHeight() - 28));
+        
+        g.setColor(Color.WHITE);
+        g.drawString(score, getWidth() - 138, getHeight() - (getHeight() - 25));
+
+        if (game.getExplorer().isShieldActive()) {
+            int secondsRemaining = game.getExplorer().getShieldTicksRemaining() / 20;
+
+            g.drawImage(shieldImage, 20, 20, 10, 10, null);
+            
+            String shieldSecondsRemaining = Integer.toString(secondsRemaining);
+
+            g.setColor(Color.BLACK);
+            g.drawString(shieldSecondsRemaining, 55, 20);
+            g.drawString(shieldSecondsRemaining, 65, 20);
+            g.drawString(shieldSecondsRemaining, 60, 15);
+            g.drawString(shieldSecondsRemaining, 60, 25);
+
+            g.setColor(Color.WHITE);
+            g.drawString(shieldSecondsRemaining, 60, 20);
+        }
+
+    }
+
 
 }
