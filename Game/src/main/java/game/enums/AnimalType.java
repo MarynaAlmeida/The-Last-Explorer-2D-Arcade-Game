@@ -1,4 +1,4 @@
-package main.java.game.enums;
+package game.enums;
 /**
  * Type of animal inside the game map
  */

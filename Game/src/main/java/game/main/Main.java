@@ -1,5 +1,5 @@
-package main.java.game.main;
-import main.java.game.ui.*;
+package game.main;
+import game.ui.*;
 import javax.swing.JFrame;
 
 /**
@@ -17,6 +17,7 @@ public class Main {
         WinningView win = new WinningView(explorerGame);
         window.add(view);
         window.pack();
+        view.requestFocusInWindow();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

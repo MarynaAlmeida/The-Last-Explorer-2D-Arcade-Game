@@ -1,20 +1,23 @@
-package main.java.game.ui;
+package game.ui;
 import java.util.List;
-import main.java.game.entities.enemies.*;
-import main.java.game.entities.enemies.rewards.Coin;
-import main.java.game.entities.enemies.rewards.Reward;
-import main.java.game.entities.enemies.rewards.Shield;
-import main.java.game.main.*;
-import static main.java.game.enums.CellType.*;
+import game.entities.enemies.*;
+import game.entities.enemies.rewards.Coin;
+import game.entities.enemies.rewards.Reward;
+import game.entities.enemies.rewards.Shield;
+import game.main.*;
+import static game.enums.CellType.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Handles the visuals of the game world, including entities,
  * barriers and rewards on JPanel
  * */
-public class GameView extends JPanel {
+public class GameView extends JPanel implements ActionListener{
     private Game game;
+    Timer gameLoop;
     private Image hedgeImage;
     private Image thornImage;
     private Image treeImage;
@@ -36,20 +39,20 @@ public class GameView extends JPanel {
  * */
     public GameView(Game game) {
         this.game = game;
-        this.explorerImage = new ImageIcon("Assets/Icons/Explorer.png").getImage();
-        this.treeImage = new ImageIcon("Assets/Icons/Tree.png").getImage();
-        this.hedgeImage = new ImageIcon("Assets/Icons/Hedge.png").getImage();
-        this.pirate1Image = new ImageIcon("Assets/Icons/Pirate1.png").getImage();
-        this.pirate2Image = new ImageIcon("Assets/Icons/Pirate2.png").getImage();
-        this.boarImage = new ImageIcon("Assets/Icons/BoarWalk.png").getImage();
-        this.hareImage = new ImageIcon("Assets/Icons/Hare.png").getImage();
-        this.foxImage = new ImageIcon("Assets/Icons/Fox.png").getImage();
-        this.grassImage = new ImageIcon("Assets/Icons/GrassTile4copy.png").getImage();
-        this.thornImage = new ImageIcon("Assets/Icons/Thorn.png").getImage();
-        this.coinImage = new ImageIcon("Assets/Icons/Coin.png").getImage();
-        this.chestImage = new ImageIcon("Assets/Icons/ClosedChest.png").getImage();
-        this.bearTrapImage = new ImageIcon("Assets/Icons/Beartrap.png").getImage();
-        this.shieldImage = new ImageIcon("Assets/Icons/Shield.png").getImage();
+        this.explorerImage = new ImageIcon("../Assets/Icons/Explorer.png").getImage();
+        this.treeImage = new ImageIcon("../Assets/Icons/Tree.png").getImage();
+        this.hedgeImage = new ImageIcon("../Assets/Icons/Hedge.png").getImage();
+        this.pirate1Image = new ImageIcon("../Assets/Icons/Pirate1.png").getImage();
+        this.pirate2Image = new ImageIcon("../Assets/Icons/Pirate2.png").getImage();
+        this.boarImage = new ImageIcon("../Assets/Icons/BoarWalk.png").getImage();
+        this.hareImage = new ImageIcon("../Assets/Icons/Hare.png").getImage();
+        this.foxImage = new ImageIcon("../Assets/Icons/Fox.png").getImage();
+        this.grassImage = new ImageIcon("../Assets/Icons/GrassTile4copy.png").getImage();
+        this.thornImage = new ImageIcon("../Assets/Icons/Thorn.png").getImage();
+        this.coinImage = new ImageIcon("../Assets/Icons/Coin.png").getImage();
+        this.chestImage = new ImageIcon("../Assets/Icons/ClosedChest.png").getImage();
+        this.bearTrapImage = new ImageIcon("../Assets/Icons/Beartrap.png").getImage();
+        this.shieldImage = new ImageIcon("../Assets/Icons/Shield.png").getImage();
 
         // Gets the width and height of the game map and calculates its dimension with the tile size
         int width = game.getMap().getWidth() * 32;
@@ -57,6 +60,14 @@ public class GameView extends JPanel {
 
         // Tells the JFrame how big the panel is going to be
         this.setPreferredSize(new Dimension(width, height));
+
+        gameLoop = new Timer(50, this); // every 50 miliseconds we are going to repaint (20 frames/sec)
+        gameLoop.start();
+        GameInput input = new GameInput(game);
+        addKeyListener(input);
+        setFocusable(true);
+    
+        
     }
     /**
      * Paints all the enemies, barriers and rewards on the game panel
@@ -185,6 +196,13 @@ public class GameView extends JPanel {
                 g.drawImage(bearTrapImage, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);
             }
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        game.tick();
+        repaint();
     }
 
 }

@@ -1,6 +1,6 @@
-package main.java.game.entities.enemies;
-import main.java.game.main.*;
-import main.java.game.entities.*;
+package game.entities.enemies;
+import game.main.*;
+import game.entities.*;
 
 /**
  * Abstract class for static enemies inflict damage when collided.

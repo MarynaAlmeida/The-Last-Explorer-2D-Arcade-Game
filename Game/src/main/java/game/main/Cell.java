@@ -1,4 +1,7 @@
-package main.java.game.main;
+package game.main;
+
+import game.enums.CellType;
+import game.entities.Entity;
 
 /**
  * Demonstrating a single cell in the game map's grid.
@@ -67,5 +70,14 @@ public class Cell {
      */
     public boolean isEmpty() {
         return entity == null;
+    }
+
+    /**
+     * Returns the current cell of a type.
+     *
+     * @return the specific type of cell
+     */
+    public CellType getType() {
+        return type;
     }
 }

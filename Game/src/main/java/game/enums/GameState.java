@@ -1,4 +1,4 @@
-package main.java.game.enums;
+package game.enums;
 
 /**
  * Different game state indicators throughout
