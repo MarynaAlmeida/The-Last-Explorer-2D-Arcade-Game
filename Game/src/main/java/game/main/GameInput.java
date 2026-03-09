@@ -9,15 +9,11 @@ public class GameInput implements KeyListener{
         this.game = game;
     }
     @Override
-    public void keyPressed(KeyEvent k){
-                game.input(k);
-    }
+    public void keyPressed(KeyEvent k){}
     @Override
     public void keyReleased(KeyEvent k){
-
+         game.input(k);
     }
     @Override
-    public void keyTyped(KeyEvent k){
-
-    }
+    public void keyTyped(KeyEvent k){}
 }

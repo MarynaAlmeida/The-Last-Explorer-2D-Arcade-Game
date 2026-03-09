@@ -8,13 +8,16 @@ import game.main.*;
 import static game.enums.CellType.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Handles the visuals of the game world, including entities,
  * barriers and rewards on JPanel
  * */
-public class GameView extends JPanel {
+public class GameView extends JPanel implements ActionListener{
     private Game game;
+    Timer gameLoop;
     private Image hedgeImage;
     private Image thornImage;
     private Image treeImage;
@@ -57,6 +60,14 @@ public class GameView extends JPanel {
 
         // Tells the JFrame how big the panel is going to be
         this.setPreferredSize(new Dimension(width, height));
+
+        gameLoop = new Timer(50, this); // every 50 miliseconds we are going to repaint (20 frames/sec)
+        gameLoop.start();
+        GameInput input = new GameInput(game);
+        addKeyListener(input);
+        setFocusable(true);
+    
+        
     }
     /**
      * Paints all the enemies, barriers and rewards on the game panel
@@ -185,6 +196,13 @@ public class GameView extends JPanel {
                 g.drawImage(bearTrapImage, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);
             }
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        game.tick();
+        repaint();
     }
 
 }

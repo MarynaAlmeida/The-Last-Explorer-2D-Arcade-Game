@@ -148,25 +148,26 @@ public class Game{
                 next = new Position(current.getX(), current.getY()-1); //moving upwards
                 break;
             case KeyEvent.VK_A:
-                next = new Position(current.getX()-1, current.getY());
+                next = new Position(current.getX()-1, current.getY());//moving leftwards
                 break;
             case KeyEvent.VK_S:
-                next = new Position(current.getX(), current.getY()+1); //moving upwards
+                next = new Position(current.getX(), current.getY()+1); //moving downwards
                 break;
             case KeyEvent.VK_D:
-                next = new Position(current.getX()+1, current.getY()); //moving upwards
+                next = new Position(current.getX()+1, current.getY()); //moving rightwards
                 break;
         }
 
         if(next!=null && gamemap.isValidMove(next)){
-            //what if there is something on the next cell?
-            //ASSUMING I HAVE THE GETENTITY FUNCTION IN THE CELL CLASS
+            Position oldPos = explorer.getPosition();
             Cell cell = gamemap.getCell(next);
             Entity en = cell.getEntity();
-            if(en !=null){
-                //en.onCollision(explorer);
-            }
-            gamemap.removeEntity(next);
+            
+            // if(en !=null){
+            //     //en.onCollision(explorer);
+            // }
+    
+            gamemap.removeEntity(oldPos);
             explorer.setPosition(next);
             gamemap.placeEntity(explorer, next);
             checkWinCondition();

@@ -115,6 +115,7 @@ public class GameMap{
                     type = CellType.EMPTY;
                 }
                 grid[r][c] = new Cell(new Position(c, r), type);
+            
             }
         }
 
@@ -154,7 +155,10 @@ public class GameMap{
             //just return the cell from the position c
             int x = c.getX(); //check func name
             int y = c.getY();
-            return grid[x][y]; // return the cell
+            if (y < 0 || y >= grid.length || x < 0 || x >= grid[0].length) {
+                return null; 
+            }
+            return grid[y][x]; // y = rows, x = columns
         }
 
 
@@ -162,9 +166,12 @@ public class GameMap{
             //if i move to position x is it ok? can i move to that position?
             int x = c.getX();
             int y = c.getY();
-
-            Cell pos = grid[x][y];
-            if(pos.isEmpty()){ //check if the cell contains restricted things where the explorer cant go
+            // grid boundary check
+            if (x < 0 || x >= grid[0].length || y < 0 || y >= grid.length) {
+                return false; // It's outside the map, so it's not a valid move!
+            }
+            Cell pos = grid[y][x]; // y = rows, x = columns
+            if(pos.isEmpty() && pos.isTraversable()){ //check if the cell contains restricted things where the explorer cant go
                 return true;
             } 
             return false;
