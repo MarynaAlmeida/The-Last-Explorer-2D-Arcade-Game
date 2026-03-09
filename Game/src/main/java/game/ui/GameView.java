@@ -4,6 +4,7 @@ import game.entities.enemies.*;
 import game.entities.enemies.rewards.Coin;
 import game.entities.enemies.rewards.Reward;
 import game.entities.enemies.rewards.Shield;
+import game.enums.Direction;
 import game.main.*;
 import static game.enums.CellType.*;
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class GameView extends JPanel implements ActionListener{
     private Image thornImage;
     private Image treeImage;
     private Image explorerImage;
+    private Image explorerTurnImage;
     private Image pirate1Image;
     private Image pirate2Image;
     private Image boarImage;
@@ -53,6 +55,7 @@ public class GameView extends JPanel implements ActionListener{
         this.chestImage = new ImageIcon("../Assets/Icons/ClosedChest.png").getImage();
         this.bearTrapImage = new ImageIcon("../Assets/Icons/Beartrap.png").getImage();
         this.shieldImage = new ImageIcon("../Assets/Icons/Shield.png").getImage();
+        this.explorerTurnImage = new ImageIcon("../Assets/Icons/ExplorerTurn.png").getImage();
 
         // Gets the width and height of the game map and calculates its dimension with the tile size
         int width = game.getMap().getWidth() * 32;
@@ -127,7 +130,12 @@ public class GameView extends JPanel implements ActionListener{
     private void drawMovingEntities(Graphics g, int tileSize) {
         // draw explorer
         Position pPos = game.getExplorer().getPosition();
-        g.drawImage(explorerImage, pPos.getX() * tileSize, pPos.getY() * tileSize, tileSize, tileSize, null);
+        if(game.getExplorer().getFacing() == Direction.LEFT) {
+            g.drawImage(explorerTurnImage, pPos.getX() * tileSize, pPos.getY() * tileSize, tileSize, tileSize, null);
+        }
+        else if(game.getExplorer().getFacing() == Direction.RIGHT){ 
+            g.drawImage(explorerImage, pPos.getX() * tileSize, pPos.getY() * tileSize, tileSize, tileSize, null);
+        }
         // Draw Enemies
         for (MovingEnemy enemy : game.getMovingEnemies()) {
             Position ePos = enemy.getPosition();
