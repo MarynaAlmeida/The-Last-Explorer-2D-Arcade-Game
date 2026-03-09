@@ -55,7 +55,7 @@ public class GameView extends JPanel implements ActionListener{
         this.chestImage = new ImageIcon("../Assets/Icons/ClosedChest.png").getImage();
         this.bearTrapImage = new ImageIcon("../Assets/Icons/Beartrap.png").getImage();
         this.shieldImage = new ImageIcon("../Assets/Icons/Shield.png").getImage();
-        // this.tutorialPage = new ImageIcon("../Assets/Icons/Tutorial.png").getImage();
+        this.tutorialPage = new ImageIcon("../Assets/Icons/Tutorial.png").getImage();
 
         // Gets the width and height of the game map and calculates its dimension with the tile size
         int width = game.getMap().getWidth() * 32;
@@ -92,7 +92,7 @@ public class GameView extends JPanel implements ActionListener{
      * @param g the graphics context for drawing.
      */
     private void paintTutorial(Graphics g) {
-        g.drawImage(foxImage, (getHeight()/2), (getWidth()/2), null);
+        g.drawImage(tutorialPage, 0, 0, getWidth(), getHeight(), null);
     }
 
     /**
