@@ -1,22 +1,30 @@
 package game.ui;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.*;
 import java.awt.*;
-import main.java.game.ui.GameView;
+import game.main.*;
+import game.ui.GameView;
 
 public class LosingbyHearts extends JPanel{
     //check for the button IMPORTANT
     private GameView gv;
     private Image heart;
-    public LosingbyHearts(GameView gv){ //so that losing view is drawn OVER the gameview
+    public LosingbyHearts(GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
         this.gv = gv;
         this.heart = new ImageIcon("Assets/Icons/EmptyHeart.png").getImage();
         this.setPreferredSize(gv.getPreferredSize());
+
+        JButton back = new JButton("Back");
+        int buttonW = 100;
+        int buttonH = 70;
+        int buttonX = (getWidth() - buttonW) /2 ;
+        int buttonY = (getHeight()-buttonH) /2;
+        back.setBounds(buttonX, buttonY, buttonW, buttonH);
+        back.addActionListener( e ->{
+            cardLayout.show(container, "START"
+            );
+        });
+        add(back);
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -39,4 +47,7 @@ public class LosingbyHearts extends JPanel{
         }
         g.drawString("GAME OVER", boxX +50, boxY + 180);
     }
+
+    //the button takes you back to the home page 
+
 }

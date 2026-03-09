@@ -4,15 +4,27 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.*;
 import java.awt.*;
-import main.java.game.ui.GameView;
+import game.ui.GameView;
 public class LosingByCoins extends JPanel{
     //NO BUTTON YET CHECK!!
     private GameView gv;
     private Image coins;
-    public LosingByCoins(GameView gv){ //so that losing view is drawn OVER the gameview
+    public LosingByCoins(GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
         this.gv = gv;
         this.coins = new ImageIcon("Assets/Icons/Coin.png").getImage();
         this.setPreferredSize(gv.getPreferredSize());
+        //the button takes you back to the home page 
+        JButton back = new JButton("Back");
+        int buttonW = 100;
+        int buttonH = 70;
+        int buttonX = (getWidth() - buttonW) /2 ;
+        int buttonY = (getHeight()-buttonH) /2;
+        back.setBounds(buttonX, buttonY, buttonW, buttonH);
+        back.addActionListener( e ->{
+            cardLayout.show(container, "START"
+            );
+        });
+        add(back);
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -37,5 +49,7 @@ public class LosingByCoins extends JPanel{
         }
         g.drawString("GAME OVER", boxX +50, boxY + 180);
     }
+    
+
 }
 

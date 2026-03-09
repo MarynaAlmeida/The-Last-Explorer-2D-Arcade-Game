@@ -32,6 +32,7 @@ public class GameView extends JPanel implements ActionListener{
     private Image chestImage;
     private Image bearTrapImage;
     private Image shieldImage;
+    
 
 /**
  * Creates and stores all icon images in the game
@@ -54,6 +55,7 @@ public class GameView extends JPanel implements ActionListener{
         this.bearTrapImage = new ImageIcon("../Assets/Icons/Beartrap.png").getImage();
         this.shieldImage = new ImageIcon("../Assets/Icons/Shield.png").getImage();
 
+        
         // Gets the width and height of the game map and calculates its dimension with the tile size
         int width = game.getMap().getWidth() * 32;
         int height = game.getMap().getHeight() * 32;
