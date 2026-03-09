@@ -11,6 +11,7 @@ import game.enums.*;
  * */
 
 public class Explorer extends Character{
+    private Direction facing = Direction.RIGHT;
     private boolean hasShield;
     private int shieldTicksRemaining;
     Game game;
@@ -25,6 +26,14 @@ public class Explorer extends Character{
         super(pos, map);
         this.hasShield = false;
         this.shieldTicksRemaining = 0;
+    }
+    
+    public Direction getFacing() {
+        return this.facing;
+    }
+
+    public void setFacing(Direction facing) {
+        this.facing = facing;
     }
 
     /**

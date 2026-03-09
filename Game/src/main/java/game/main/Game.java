@@ -7,6 +7,7 @@ import game.enums.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.event.*;
+import game.ui.GameView;
 
 public class Game{
     private GameMap gamemap;
@@ -21,6 +22,7 @@ public class Game{
     private int MovingEnemyDamage;
     private int shieldSpawnCooldown;
     private int ticksSinceLastShieldSpawn;
+    private GameView view;
     private boolean onStaticEntity;
 
     public Game(){
@@ -195,12 +197,14 @@ public class Game{
                 break;
             case KeyEvent.VK_A:
                 next = new Position(current.getX()-1, current.getY());//moving leftwards
+                explorer.setFacing(Direction.LEFT);
                 break;
             case KeyEvent.VK_S:
                 next = new Position(current.getX(), current.getY()+1); //moving downwards
                 break;
             case KeyEvent.VK_D:
                 next = new Position(current.getX()+1, current.getY()); //moving rightwards
+                explorer.setFacing(Direction.RIGHT);
                 break;
         }
 
