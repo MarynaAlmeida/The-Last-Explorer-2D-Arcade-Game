@@ -29,6 +29,8 @@ public class GameView extends JPanel {
     private Image chestImage;
     private Image bearTrapImage;
     private Image shieldImage;
+    private Image tutorialPage;
+    private boolean isTutorialActive = true;
 
 /**
  * Creates and stores all icon images in the game
@@ -50,6 +52,7 @@ public class GameView extends JPanel {
         this.chestImage = new ImageIcon("../Assets/Icons/ClosedChest.png").getImage();
         this.bearTrapImage = new ImageIcon("../Assets/Icons/Beartrap.png").getImage();
         this.shieldImage = new ImageIcon("../Assets/Icons/Shield.png").getImage();
+        // this.tutorialPage = new ImageIcon("../Assets/Icons/Tutorial.png").getImage();
 
         // Gets the width and height of the game map and calculates its dimension with the tile size
         int width = game.getMap().getWidth() * 32;
@@ -58,6 +61,29 @@ public class GameView extends JPanel {
         // Tells the JFrame how big the panel is going to be
         this.setPreferredSize(new Dimension(width, height));
     }
+
+    /**
+     * Acts as a getter method for the isTutorialActive variable.
+     * 
+     * @return a boolean indicating if the tutorial is still active or not.
+     */
+    public boolean getTutorialStatus() {
+        return isTutorialActive;
+    }
+
+    public void setTutorialState(boolean status) {
+        this.isTutorialActive = status;
+    }
+
+    /**
+     * Paints the tutorial window.
+     * 
+     * @param g the graphics context for drawing.
+     */
+    private void paintTutorial(Graphics g) {
+        g.drawImage(foxImage, (getHeight()/2), (getWidth()/2), null);
+    }
+
     /**
      * Paints all the enemies, barriers and rewards on the game panel
      * @param g the graphics context for drawing
@@ -73,6 +99,10 @@ public class GameView extends JPanel {
         drawMovingEntities(g, tileSize);
         drawStaticEntities(g, tileSize);
         drawRewards(g, tileSize);
+
+        if (isTutorialActive) {
+            paintTutorial(g);
+        }
     }
     /**
      * Draws base grass tile for every cell and barries at a specific position
