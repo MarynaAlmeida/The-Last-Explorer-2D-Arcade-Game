@@ -11,10 +11,10 @@ public class Main {
         Game explorerGame = new Game();
 
         explorerGame.startGame();
-
+        
         JFrame window = new JFrame("The Last Explorer");
         GameView view = new GameView(explorerGame);
-
+        WinningView win = new WinningView(explorerGame);
         window.add(view);
         window.pack();
         window.setLocationRelativeTo(null);
