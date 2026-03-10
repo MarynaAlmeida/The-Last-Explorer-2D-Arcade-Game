@@ -13,6 +13,12 @@ import java.util.Scanner;
 import java.util.*;
 import java.io.*;
 
+/**
+ * Represents the game map for the current maze game.
+ * 
+ * @author Komal Kaur
+ * @version 1.0
+ */
 public class GameMap{
     private int height;
     private int width;
@@ -20,8 +26,11 @@ public class GameMap{
     private Position start;
     private Position end;
 
-    /** took out parameters from GameMap since loadmap reads the mapFile
-     * and gets its size depending on the size of the mapFile */
+    /** 
+     * Constructs the start and end positions of the game.
+     * 
+     * <p>This constructor can be modified to have custom start and end positions.</p>
+     */
     public GameMap(){
             // removed this.height and this.width since Game Map will be based on the size of the map file
             //added
@@ -30,16 +39,22 @@ public class GameMap{
             this.end = new Position(0, 14);
     }
 
+    /**
+     * Acts as a getter for the start position of the game.
+     * 
+     * @return the start position of the game.
+     */
     public Position getStart(){
         return this.start;
     }
 
     /**
-     * Sets objects in the grid based on the type of char that is on the map file
-     * @param blueprint gets each char at the specific row and column
-     * @param rewards keeps a list of all the rewards set in the game map
-     * @param movingEnemies keeps a list of all the rewards set in the game map
-     * @param staticEnemies keeps a list of all the rewards set in the game map
+     * Sets objects in the grid based on the type of char that is on the map file.
+     * 
+     * @param blueprint gets each char at the specific row and column.
+     * @param rewards keeps a list of all the rewards set in the game map.
+     * @param movingEnemies keeps a list of all the moving enemies set in the game map.
+     * @param staticEnemies keeps a list of all the static enemies set in the game map.
      * */
     private void fillGrid(String[] blueprint, List<Reward> rewards, List<MovingEnemy> movingEnemies, List<StaticEnemy> staticEnemies) {
         for(int r = 0; r < this.height; r++){
@@ -122,11 +137,12 @@ public class GameMap{
     }
 
     /**
-     * Reads map.txt and fills the grid with all the entities
-     * @param file gets the map file to read it
-     *  @param rewards keeps a list of all the rewards set in the game map
-     *  @param movingEnemies keeps a list of all the rewards set in the game map
-     *  @param staticEnemies keeps a list of all the rewards set in the game map
+     * Reads map.txt and fills the grid with all the entities.
+     * 
+     *  @param file gets the map file to read it.
+     *  @param rewards keeps a list of all the rewards set in the game map.
+     *  @param movingEnemies keeps a list of all the moving enemies set in the game map.
+     *  @param staticEnemies keeps a list of all the static enemies set in the game map.
      *  */
     public void loadMap(String file, List<Reward> rewards, List<MovingEnemy> movingEnemies, List<StaticEnemy> staticEnemies){
         try{
@@ -150,6 +166,12 @@ public class GameMap{
         }
     }
 
+    /**
+     * Acts as a getter for a specified cell.
+     * 
+     * @param c the position of the cell that the user would like to get.
+     * @return the row and column of the cell that the user would like to get.
+     */
     public Cell getCell(Position c){
             //return the cell(position and type) from wherever its standing right nwo
             //just return the cell from the position c
@@ -161,7 +183,13 @@ public class GameMap{
             return grid[y][x]; // y = rows, x = columns
         }
 
-
+    /**
+     * Checks to see if specified position is a valid cell that the explorer can move to,
+     *  and returns true if so and false if not.
+     * 
+     * @param c the position of the cell that the user wants to validate.
+     * @return a boolean that's true if the cell is a valid move, and false if it is not.
+     */
     public boolean isValidMove(Position c){
             //if i move to position x is it ok? can i move to that position?
             int x = c.getX();
@@ -177,8 +205,12 @@ public class GameMap{
             return false;
         }
 
+    /**
+     * Removes a specified entity from the map.
+     * 
+     * @param c the position of the entity's cell that the user wants removed. 
+     */
     public void removeEntity(Position c){
-            //remove the person from that aka i think pirates and moving enemies
             int x = c.getX();
             int y = c.getY();
 
@@ -186,6 +218,12 @@ public class GameMap{
             pos.removeEntity();
         }
 
+    /**
+     * Places a specified entity on the map.
+     * 
+     * @param person the entity that the user would like placed on the map.
+     * @param f the position that the user would like the specified entity placed on.
+     */
     public void placeEntity(Entity person, Position f){
             //at position f place that particular person
             int x = f.getX();
@@ -194,21 +232,32 @@ public class GameMap{
             pos.setEntity(person);
         }
 
-    public Cell manualGetCell(int a, int b){
-            //i dont think i get this one 
-            return grid[a][b];
-        }
-    // added getters for height and width
+    /**
+     * Gets the height of the map.
+     * 
+     * @return the height of the game's entire map.
+     */
     public int getHeight () {
-
         return this.height;
-
     }
-    public int getWidth () {
 
+    /**
+     * Gets the width of the map.
+     * 
+     * @return the width of the game's entire map.
+     */
+    public int getWidth () {
         return this.width;
     }
-    public Cell getCell ( int c, int r){
+
+    /**
+     * Gets a cell at a specified coordinate.
+     * 
+     * @param c the column of the desired cell.
+     * @param r the row of the desired cell.
+     * @return the cell of the corresponding column and row.
+     */
+    public Cell getCell (int c, int r){
 
         return grid[r][c];
 

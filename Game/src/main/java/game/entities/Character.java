@@ -4,6 +4,14 @@ import game.main.Position;
 import game.main.GameMap;
 import game.enums.Direction;
 
+/**
+ * Represents an abstract character class.
+ * 
+ * <p>This is a subclass that extends from {@link Entity}.
+ * 
+ * @author Jayden Pai
+ * @version 1.0
+ */
 public abstract class Character extends Entity{
     protected GameMap map;
 
@@ -20,11 +28,12 @@ public abstract class Character extends Entity{
 
     /**
      * Attempts to move character in the specified direction.
-     * The new position is calcuated based on the direction
-     * and validity is checked before the move is performed.
+     * 
+     * <p>The new position is calcuated based on the direction
+     * and validity is checked before the move is performed.</p>
      *
-     * @param dir the direction to move the character
-     * @return true if movement was successful (false if invalid)
+     * @param dir the direction to move the character.
+     * @return true if movement was successful (false if invalid).
      */
     public boolean move(Direction dir){
         Position currentPos = this.getPosition();
@@ -59,8 +68,9 @@ public abstract class Character extends Entity{
 
     /**
      * Determines whether the character can move to the specified position.
-     * Checks that position and null are not null and verifies using game map
-     * that the move is valid.
+     * 
+     * <p>Checks that position and null are not null and verifies using game map
+     * that the move is valid.</p>
      *
      * @param pos the position to check
      * @return true if the character can move to the position (false otherwise)

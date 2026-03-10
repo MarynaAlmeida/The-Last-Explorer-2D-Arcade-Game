@@ -9,11 +9,16 @@ import java.util.ArrayList;
 import java.awt.event.*;
 import game.ui.GameView;
 
+/**
+ * Creates the maze game and updates the maze.
+ * 
+ * @author Komal Kaur
+ * @version 1.0
+ */
 public class Game{
     private GameMap gamemap;
     private Explorer explorer;
     private List<MovingEnemy> movingEnemies;
-    //added
     private List<StaticEnemy> staticEnemies;
     private List<Reward> rewards;
     private GameState state;
@@ -25,6 +30,11 @@ public class Game{
     private GameView view;
     private boolean onStaticEntity;
 
+    /**
+     * Constructor for the game class.
+     * 
+     * <p>This constructor initializes the values, hearts, score, cooldowns, and arrays for all entities.</p>
+     */
     public Game(){
         //constructor
         this.gamemap = new GameMap();
@@ -43,52 +53,102 @@ public class Game{
         this.ticksSinceLastShieldSpawn = 0;
         this.onStaticEntity = false;
     }
-    //start the game put the explorer in the game
+
+    /**
+     * Sets the game state to 'Playing' and loads the map.
+     */
     public void startGame(){
         this.state = GameState.PLAYING;
         gamemap.loadMap("../Assets/map.txt", rewards, movingEnemies, staticEnemies);
         //explorer.setPosition(gamemap.getStart());
     }
+
+    /**
+     * Acts as a getter for the current game's map.
+     * 
+     * @return the current game's map.
+     */
     public GameMap getMap(){
         return this.gamemap;
     }
 
-    //added 
+    /**
+     * Acts as a getter for the explorer.
+     * 
+     * @return the current game's explorer object.
+     */
     public Explorer getExplorer() {
         return explorer;
     }
 
-    //added
+    /**
+     * Acts as the getter for moving enemies.
+     * 
+     * @return the array list of all moving enemies in the game.
+     */
     public List<MovingEnemy> getMovingEnemies() {
         return movingEnemies;
     }
 
-    //added
+    /**
+     * Acts as the getter for all rewards.
+     * 
+     * @return the array list of all rewards in the game.
+     */
     public List<Reward> getRewards(){
         return rewards;
     }
 
-    //added
+    /**
+     * Acts as the getter for all static enemies.
+     * 
+     * @return the array list of all static enemies in the game.
+     */
     public List<StaticEnemy> getStaticEnemies() {
         return staticEnemies;
     }
 
+    /**
+     * Acts as the getter for the game score.
+     * 
+     * @return the current game's score.
+     */
     public int getScore(){
         return this.score;
     }
 
+    /**
+     * Acts as the getter for the explorer's current total hearts.
+     * 
+     * @return an int of the total hearts the explorer has.
+     */
     public int getHearts(){
         return this.hearts;
     }
-    //update the hearts int
+
+    /**
+     * Acts as the setter for updating the explorer's total hearts.
+     * 
+     * @param hearts the amount to increment or decrement the explorer's hearts.
+     */
     public void updateHearts(int hearts){
         this.hearts += hearts;
     }
 
+    /**
+     * Acts as the setter for updating the explorer's total score.
+     * 
+     * @param amountToIncrease the amount to increment or decrement the explorer's score.
+     */
     public void updateScore(int amountToIncrease){
         this.score += amountToIncrease;
     }
 
+    /**
+     * Represents a single tick in the game.
+     * 
+     * <p>This method will be called every tick, which will then perform various operations to update the game state.</p>
+     */
     public void tick(){
         Position explorerPos = this.explorer.getPosition();
 
@@ -155,6 +215,9 @@ public class Game{
         checkWinCondition();
     }
 
+    /**
+     * Checks to see if the game's winning conditions is satisfied, and sets the game's state to 'WON' if so.
+     */
     public void checkWinCondition(){
         //collected all the coins ; walk over treasure map
 
@@ -171,6 +234,9 @@ public class Game{
         state = GameState.WON;
     }
 
+    /**
+     * Checks to see if the game's losing conditions are satisfied, and sets the game's state to 'LOST' if so.     * 
+     */
     public void checkLoseCondition(){
         //either lost all their coins or all their hearts
 
@@ -178,15 +244,12 @@ public class Game{
             state = GameState.LOST;
         }
     }
-
-    public void endGame(boolean hasWon){
-        if(hasWon==true){
-            state = GameState.WON;
-        }
-        else{
-            state = GameState.LOST;
-        }
-    }
+    
+    /**
+     * Updates the users position, and performs relevant logic after the player moves, based on the user's input.
+     * 
+     * @param e the key that the user pressed.
+     */
     public void input(KeyEvent e){
         //this is the one that actually implements it
         Position current = explorer.getPosition();

@@ -6,7 +6,6 @@ import game.entities.enemies.rewards.Reward;
 import game.entities.enemies.rewards.Shield;
 import game.enums.Direction;
 import game.main.*;
-import static game.enums.CellType.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +13,10 @@ import java.awt.event.ActionListener;
 
 /**
  * Handles the visuals of the game world, including entities,
- * barriers and rewards on JPanel
+ * barriers and rewards on JPanel.
+ * 
+ * @author Komal Kaur
+ * @version 1.0
  * */
 public class GameView extends JPanel implements ActionListener{
     private Game game;
@@ -39,13 +41,13 @@ public class GameView extends JPanel implements ActionListener{
 
     private boolean isMapToggled = false;
     private int zoomedInTileSize;
-    private int zoomedOutTileSize;
 
     private int zoomedInTotalTilesForWidth;
     private int zoomedInTotalTilesForHeight;
 
 /**
- * Creates and stores all icon images in the game
+ * Creates and stores all icon images in the game.
+ * 
  * @param game the game state to be visualized
  * */
     public GameView(Game game) {
@@ -72,7 +74,6 @@ public class GameView extends JPanel implements ActionListener{
         int height = game.getMap().getHeight() * 32;
 
         zoomedInTileSize = 48;
-        zoomedOutTileSize = 32;
 
         zoomedInTotalTilesForWidth = 12;
         zoomedInTotalTilesForHeight = 10;
@@ -112,10 +113,14 @@ public class GameView extends JPanel implements ActionListener{
         isMapToggled = !isMapToggled;
     }
 
+    /**
+     * Acts as a getter for the status of whether the map is toggled or not.
+     * 
+     * @return a boolean that is true if the map is toggled, and false if not.
+     */
     public boolean mapToggled() {
         return isMapToggled;
     }
-
 
     /**
      * Paints the tutorial window.
@@ -127,10 +132,10 @@ public class GameView extends JPanel implements ActionListener{
     }
 
     /**
-     * Paints all the enemies, barriers and rewards on the game panel
-     * @param g the graphics context for drawing
+     * Paints all the enemies, barriers and rewards on the game panel.
+     * 
+     * @param g the graphics context for drawing.
      * */
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -147,6 +152,13 @@ public class GameView extends JPanel implements ActionListener{
         }
     }
 
+    /**
+     * Draws the entire map.
+     * 
+     * <p>This method is called when the map is toggled.</p>
+     * 
+     * @param g the graphics context for drawing.
+     */
     public void drawWholeMap(Graphics g) {
         int tileSize = 32;
         drawBarriers(g, tileSize);
@@ -155,6 +167,13 @@ public class GameView extends JPanel implements ActionListener{
         drawRewards(g, tileSize);
     }
 
+    /**
+     * Draws a part of the map around the explorer.
+     * 
+     * <p>This method is called when the map is toggled off.</p>
+     * 
+     * @param g the graphics context for drawing.
+     */
     public void drawPartialMap(Graphics g) {
         drawVisibleBarriers(g);
         drawVisibleMovingEntities(g);
@@ -164,9 +183,10 @@ public class GameView extends JPanel implements ActionListener{
     }
 
     /**
-     * Draws base grass tile for every cell and barries at a specific position
-     * @param g the graphics context for drawing
-     * @param tileSize tile size of the game map
+     * Draws base grass tile for every cell and barries at a specific position.
+     * 
+     * @param g the graphics context for drawing.
+     * @param tileSize tile size of the game map.
      * */
     private void drawBarriers(Graphics g, int tileSize) {
         GameMap map = game.getMap();
@@ -197,9 +217,10 @@ public class GameView extends JPanel implements ActionListener{
     }
 
     /**
-     * Draws the moving entities (explorer, enemies)
-     * @param g the graphics context for drawing
-     * @param tileSize tile size of the game map
+     * Draws the moving entities (explorer, enemies).
+     * 
+     * @param g the graphics context for drawing.
+     * @param tileSize tile size of the game map.
      * */
     private void drawMovingEntities(Graphics g, int tileSize) {
         // draw explorer
@@ -243,9 +264,10 @@ public class GameView extends JPanel implements ActionListener{
     }
 
     /**
-     * Draws the rewards (shield, coin)
-     * @param g the graphics context for drawing
-     * @param tileSize tile size of the game map
+     * Draws the rewards (shield, coin).
+     * 
+     * @param g the graphics context for drawing.
+     * @param tileSize tile size of the game map.
      * */
     private void drawRewards(Graphics g, int tileSize) {
         List<Reward> rewards = game.getRewards();
@@ -263,12 +285,12 @@ public class GameView extends JPanel implements ActionListener{
     }
 
     /**
-     * Draws the static entities (bear trap, thorns)
-     * @param g the graphics context for drawing
-     * @param tileSize tile size of the game map
+     * Draws the static entities (bear trap, thorns).
+     * 
+     * @param g the graphics context for drawing.
+     * @param tileSize tile size of the game map.
      * */
     private void drawStaticEntities(Graphics g, int tileSize) {
-        List<StaticEnemy> staticEnemies = game.getStaticEnemies();
         for(StaticEnemy sE : game.getStaticEnemies() ) {
             Position ePos = sE.getPosition();
             if(sE instanceof Thorns) {
@@ -280,6 +302,11 @@ public class GameView extends JPanel implements ActionListener{
         }
     }
 
+    /**
+    * Gets the starting cell column that should be painted when the map is toggled off.
+    * 
+    * @return an integer indicating the starting cell column that should be painted.
+    */
     public int getStartingXCell() {
         GameMap map = game.getMap();
         Position explorerPos = game.getExplorer().getPosition();
@@ -288,6 +315,11 @@ public class GameView extends JPanel implements ActionListener{
         map.getHeight() - zoomedInTotalTilesForHeight));
     }
 
+    /**
+     * Gets the starting cell row that should be painted when the map is toggled off.
+     * 
+     * @return an integer indicating the starting cell row that should be painted.
+     */
     public int getStartingYCell() {
         GameMap map = game.getMap();
         Position explorerPos = game.getExplorer().getPosition();
@@ -296,6 +328,14 @@ public class GameView extends JPanel implements ActionListener{
         map.getHeight() - zoomedInTotalTilesForHeight));
     }
 
+    /**
+     * Draws game barriers within a specified range of the explorer.
+     * 
+     * <p>This method is only called when the map is toggled off, and the map that
+     * the user can see is limited.</p>
+     * 
+     * @param g the graphics context for drawing.
+     */
     public void drawVisibleBarriers(Graphics g) {
         GameMap map = game.getMap();
 
@@ -327,6 +367,14 @@ public class GameView extends JPanel implements ActionListener{
             }
         }
     }
+    /**
+     * Draws moving entities within a specified range of the explorer.
+     * 
+     * <p>This method is only called when the map is toggled off, and the map that
+     * the user can see is limited.</p>
+     * 
+     * @param g the graphics context for drawing.
+     */
     public void drawVisibleMovingEntities(Graphics g) {
          // draw explorer
         Position pPos = game.getExplorer().getPosition();
@@ -378,6 +426,14 @@ public class GameView extends JPanel implements ActionListener{
         }
     }
     
+    /**
+     * Draws static enemies within a specific range of the explorer.
+     * 
+     * <p>This method is only called when the map is toggled off, and the map that
+     * the user can see is limited.</p>
+     * 
+     * @param g the graphics context for drawing.
+     */
     public void drawVisibleStaticEntities(Graphics g) {
         for(StaticEnemy sE : game.getStaticEnemies() ) {
             Position ePos = sE.getPosition();
@@ -399,6 +455,14 @@ public class GameView extends JPanel implements ActionListener{
         }
     }
 
+    /**
+     * Paints rewards within a specified range of the explorer.
+     * 
+     * <p>This method is only called when the map is toggled off, and the map that
+     * the user can see is limited.</p>
+     * 
+     * @param g the graphics context for drawing.
+     */
     public void drawVisibleRewards(Graphics g) {
         for(Reward r : game.getRewards()) {
             Position rPos = r.getPosition();
