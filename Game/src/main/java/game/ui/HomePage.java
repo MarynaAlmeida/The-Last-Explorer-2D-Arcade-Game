@@ -3,37 +3,40 @@ package game.ui;
 import game.main.Game;
 
 import javax.swing.*;
+
+
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import game.ui.GameView;
 public class HomePage extends JPanel{
     private Image background;
-    private Image pirateFlag; //check if you really need this
-    private Image boar;
-    private Image explorer;
-    private Image hare;
-    private Image chest;
-    private Image foxRun;
+    private Image start;
+    private int buttonX, buttonY, buttonW, buttonH;
     //need a start button too
     public HomePage(Game game, JPanel container, CardLayout cardLayout, GameView view){
         this.background = new ImageIcon("../Assets/Icons/HomePage.png").getImage();
-
+        this.start = new ImageIcon("../Assets/Icons/startButton.png").getImage();
         int width = game.getMap().getWidth()*32;
         int height = game.getMap().getHeight()*32;
 
         this.setPreferredSize(new Dimension(width, height));
         this.setLayout(null);
-        JButton start = new JButton("Start");
-        int buttonW = 100;
-        int buttonH = 60;
-        int buttonX = (width - buttonW) /2;
-        int buttonY = (height-buttonH) /2 + 50;
-        start.setBounds(buttonX, buttonY, buttonW, buttonH);
-        start.addActionListener( e ->{
-            cardLayout.show(container, "GAME");   //this goes to TUTORIAL not GAME VIEW
-            //it goes homepage-> tutorials ->game view 
-            view.requestFocusInWindow();
+        buttonW = 100;
+        buttonH = 60;
+        buttonX = (width - buttonW) /2;
+        buttonY = (height-buttonH) /2 + 50;
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(e.getX() >= buttonX && e.getX() <= buttonX + buttonW
+                && e.getY() >= buttonY && e.getY() <= buttonY+buttonH){
+                    cardLayout.show(container, "GAME");
+                }
+            }
         });
-        add(start);
+
     }
 
     public void paintComponent(Graphics g){
@@ -45,5 +48,6 @@ public class HomePage extends JPanel{
 
         g.drawString("The Last Explorer", textX, textY);
         //start button takes you where
+        g.drawImage(start,buttonX, buttonY, buttonW, buttonH, null);
     }
 }
