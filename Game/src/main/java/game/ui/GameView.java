@@ -158,7 +158,7 @@ public class GameView extends JPanel implements ActionListener{
     public void drawPartialMap(Graphics g) {
         drawVisibleBarriers(g);
         drawVisibleMovingEntities(g);
-        drawVisisbleStaticEntities(g);
+        drawVisibleStaticEntities(g);
         drawVisibleRewards(g);
         paintRewardHUDs(g);
     }
@@ -253,10 +253,10 @@ public class GameView extends JPanel implements ActionListener{
             if(!r.isCollected()){
                 Position rPos = r.getPosition();
                 if(r instanceof Coin) {
-                    g.drawImage(coinImage,rPos.getX() * tileSize, rPos.getY() * tileSize , (int) (tileSize * 0.5), (int) (tileSize * 0.5),null );
+                    g.drawImage(coinImage,rPos.getX() * tileSize + 8, rPos.getY() * tileSize + 8, (int) (tileSize * 0.5), (int) (tileSize * 0.5),null );
                 }
                 else if(r instanceof Shield) {
-                    g.drawImage(shieldImage,rPos.getX() * tileSize, rPos.getY() * tileSize , (int) (tileSize * 0.6), (int) (tileSize * 0.6),null );
+                    g.drawImage(shieldImage,rPos.getX() * tileSize + 10, rPos.getY() * tileSize + 10, (int) (tileSize * 0.6), (int) (tileSize * 0.6),null );
                 }
             }
         }
@@ -280,20 +280,24 @@ public class GameView extends JPanel implements ActionListener{
         }
     }
 
-    public int getStartingXCell(GameMap map) {
+    public int getStartingXCell() {
+        GameMap map = game.getMap();
+        Position explorerPos = game.getExplorer().getPosition();
+
         return Math.max(0, Math.min(explorerPos.getX() - zoomedInTotalTilesForWidth / 2,
+        map.getHeight() - zoomedInTotalTilesForHeight));
+    }
+
+    public int getStartingYCell() {
+        GameMap map = game.getMap();
+        Position explorerPos = game.getExplorer().getPosition();
+
+        return Math.max(0, Math.min(explorerPos.getY() - zoomedInTotalTilesForHeight / 2,
         map.getHeight() - zoomedInTotalTilesForHeight));
     }
 
     public void drawVisibleBarriers(Graphics g) {
         GameMap map = game.getMap();
-        
-        Position explorerPos = game.getExplorer().getPosition();
-
-        int startingXCell = Math.max(0, Math.min(explorerPos.getX() - zoomedInTotalTilesForWidth / 2,
-        map.getHeight() - zoomedInTotalTilesForHeight));
-        int startingYCell = Math.max(0, Math.min(explorerPos.getY() - zoomedInTotalTilesForHeight / 2,
-        map.getHeight() - zoomedInTotalTilesForHeight));
 
         /**
          * Loops through the rows and columns of the grid and draws
@@ -301,8 +305,8 @@ public class GameView extends JPanel implements ActionListener{
          * */
         for (int r = 0; r < zoomedInTotalTilesForHeight; r++) {
             for (int c = 0; c < zoomedInTotalTilesForWidth; c++) {
-                int xOfCell = startingXCell + c;
-                int yOfCell = startingYCell + r;
+                int xOfCell = getStartingXCell() + c;
+                int yOfCell = getStartingYCell() + r;
 
                 Cell cell = map.getCell(xOfCell, yOfCell); /* Gets the cell at this grid position */
                 int x = c * zoomedInTileSize; /* Translate grid to pixels */
@@ -327,59 +331,92 @@ public class GameView extends JPanel implements ActionListener{
          // draw explorer
         Position pPos = game.getExplorer().getPosition();
 
-
+        int x = (pPos.getX() - getStartingXCell()) * zoomedInTileSize;
+        int y = (pPos.getY() - getStartingYCell()) * zoomedInTileSize;
 
         if(game.getExplorer().getFacing() == Direction.LEFT) {
-            g.drawImage(explorerTurnImage, pPos.getX() * tileSize, pPos.getY() * tileSize, tileSize, tileSize, null);
+            g.drawImage(explorerTurnImage, x, y, zoomedInTileSize, zoomedInTileSize, null);
         }
         else if(game.getExplorer().getFacing() == Direction.RIGHT){ 
-            g.drawImage(explorerImage, pPos.getX() * tileSize, pPos.getY() * tileSize, tileSize, tileSize, null);
+            g.drawImage(explorerImage, x, y, zoomedInTileSize, zoomedInTileSize, null);
         }
         // Draw Enemies
         for (MovingEnemy enemy : game.getMovingEnemies()) {
             Position ePos = enemy.getPosition();
-            if(enemy instanceof Animal) {
-                Animal animal = (Animal) enemy;
-                switch(animal.getAnimalType()) {
-                    case HARE:
-                        g.drawImage(hareImage, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);
-                        break;
-                    case BOAR:
-                        g.drawImage(boarImage, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);
-                        break;
-                    case FOX:
-                        g.drawImage(foxImage, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);
-                        break;
-                }
-            }
-            if(enemy instanceof Pirate) {
-                Pirate pirate = (Pirate) enemy;
-                switch(pirate.getPirateType()) {
-                    case PIRATE1:
-                        g.drawImage(pirate1Image, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);
-                        break;
-                    case PIRATE2:
-                        g.drawImage(pirate2Image, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);
-                        break;
-                }
-            }
 
+            int enemyX = ePos.getX() - getStartingXCell();
+            int enemyY = ePos.getY() - getStartingYCell();
+            if (enemyX < zoomedInTotalTilesForWidth && enemyY < zoomedInTotalTilesForHeight) {
+                int enemyXCell = enemyX * zoomedInTileSize;
+                int enemyYCell = enemyY * zoomedInTileSize;
+                if(enemy instanceof Animal) {
+                    Animal animal = (Animal) enemy;
+                    switch(animal.getAnimalType()) {
+                        case HARE:
+                            g.drawImage(hareImage, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize, null);
+                            break;
+                        case BOAR:
+                            g.drawImage(boarImage, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize, null);
+                            break;
+                        case FOX:
+                            g.drawImage(foxImage, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize, null);
+                            break;
+                    }
+                }
+                if(enemy instanceof Pirate) {
+                    Pirate pirate = (Pirate) enemy;
+                    switch(pirate.getPirateType()) {
+                        case PIRATE1:
+                            g.drawImage(pirate1Image, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize, null);
+                            break;
+                        case PIRATE2:
+                            g.drawImage(pirate2Image, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize, null);
+                            break;
+                    }
+                }
+            }
         }
     }
     
-    public void drawVisisbleStaticEntities(Graphics g) {
-        
-    }
-    public void drawVisibleRewards(Graphics g) {
-        List<Reward> rewards = game.getRewards();
-        for(Reward r : rewards) {
-            if(!r.isCollected()){
-                Position rPos = r.getPosition();
-                if(r instanceof Coin) {
-                    g.drawImage(coinImage,rPos.getX() * tileSize, rPos.getY() * tileSize , (int) (tileSize * 0.5), (int) (tileSize * 0.5),null );
+    public void drawVisibleStaticEntities(Graphics g) {
+        for(StaticEnemy sE : game.getStaticEnemies() ) {
+            Position ePos = sE.getPosition();
+            
+            int enemyX = ePos.getX() - getStartingXCell();
+            int enemyY = ePos.getY() - getStartingYCell();
+
+            if (enemyX < zoomedInTotalTilesForWidth && enemyY < zoomedInTotalTilesForHeight) {
+                int enemyXCell = enemyX * zoomedInTileSize;
+                int enemyYCell = enemyY * zoomedInTileSize;
+
+                if(sE instanceof Thorns) {
+                    g.drawImage(thornImage, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize , null);
                 }
-                else if(r instanceof Shield) {
-                    g.drawImage(shieldImage,rPos.getX() * tileSize, rPos.getY() * tileSize , (int) (tileSize * 0.6), (int) (tileSize * 0.6),null );
+                if(sE instanceof BearTrap) {
+                    g.drawImage(bearTrapImage, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize, null);
+                }
+            }
+        }
+    }
+
+    public void drawVisibleRewards(Graphics g) {
+        for(Reward r : game.getRewards()) {
+            Position rPos = r.getPosition();
+            
+            int rewardX = rPos.getX() - getStartingXCell();
+            int rewardY = rPos.getY() - getStartingYCell();
+
+            if (rewardX < zoomedInTotalTilesForWidth && rewardY < zoomedInTotalTilesForHeight) {
+                int rewardXCell = rewardX * zoomedInTileSize;
+                int rewardYCell = rewardY * zoomedInTileSize;
+
+                if(!r.isCollected()){
+                    if(r instanceof Coin) {
+                        g.drawImage(coinImage, rewardXCell + 12, rewardYCell +12, (int) (zoomedInTileSize * 0.5), (int) (zoomedInTileSize * 0.5),null );
+                    }
+                    else if(r instanceof Shield) {
+                        g.drawImage(shieldImage, rewardXCell + 17, rewardYCell + 17, (int) (zoomedInTileSize * 0.6), (int) (zoomedInTileSize * 0.6),null );
+                    }
                 }
             }
         }
@@ -388,7 +425,7 @@ public class GameView extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
-        if (!isTutorialActive && isMapToggled) {
+        if (!isTutorialActive && !isMapToggled) {
             game.tick();
         }
         repaint();
