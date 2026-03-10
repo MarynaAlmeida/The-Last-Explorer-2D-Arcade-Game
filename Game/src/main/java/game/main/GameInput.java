@@ -21,13 +21,24 @@ public class GameInput implements KeyListener{
             }
             return;
         }
+
+        if (k.getKeyCode() == KeyEvent.VK_M) {
+            gameView.toggleMap();
+            gameView.repaint();
+            return;
+        }
+
+        if (gameView.mapToggled()) {
+            return;
+        }
+
         game.input(k);
         gameView.repaint();
     }
 
     @Override
     public void keyReleased(KeyEvent k){}
-    
+
     @Override
     public void keyTyped(KeyEvent k){}
 }
