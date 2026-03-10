@@ -4,6 +4,8 @@ import game.entities.enemies.*;
 import game.entities.enemies.rewards.Coin;
 import game.entities.enemies.rewards.Reward;
 import game.entities.enemies.rewards.Shield;
+import game.enums.Direction;
+import game.enums.GameState;
 import game.main.*;
 import static game.enums.CellType.*;
 import javax.swing.*;
@@ -18,10 +20,12 @@ import java.awt.event.ActionListener;
 public class GameView extends JPanel implements ActionListener{
     private Game game;
     Timer gameLoop;
+    int tileSize = 32;
     private Image hedgeImage;
     private Image thornImage;
     private Image treeImage;
     private Image explorerImage;
+    private Image explorerTurnImage;
     private Image pirate1Image;
     private Image pirate2Image;
     private Image boarImage;
@@ -32,6 +36,9 @@ public class GameView extends JPanel implements ActionListener{
     private Image chestImage;
     private Image bearTrapImage;
     private Image shieldImage;
+    private Image fullHeartImage;
+    private Image halfHeartImage;
+    private Image emptyHeartImage;
 
 /**
  * Creates and stores all icon images in the game
@@ -53,10 +60,14 @@ public class GameView extends JPanel implements ActionListener{
         this.chestImage = new ImageIcon("../Assets/Icons/ClosedChest.png").getImage();
         this.bearTrapImage = new ImageIcon("../Assets/Icons/Beartrap.png").getImage();
         this.shieldImage = new ImageIcon("../Assets/Icons/Shield.png").getImage();
+        this.explorerTurnImage = new ImageIcon("../Assets/Icons/ExplorerTurn.png").getImage();
+        this.fullHeartImage = new ImageIcon("../Assets/Icons/Heart.png").getImage();
+        this.halfHeartImage = new ImageIcon("../Assets/Icons/HalfHeart.png").getImage();
+        this.emptyHeartImage = new ImageIcon("../Assets/Icons/EmptyHeart.png").getImage();
 
         // Gets the width and height of the game map and calculates its dimension with the tile size
-        int width = game.getMap().getWidth() * 32;
-        int height = game.getMap().getHeight() * 32;
+        int width = game.getMap().getWidth() * tileSize;
+        int height = game.getMap().getHeight() * tileSize;
 
         // Tells the JFrame how big the panel is going to be
         this.setPreferredSize(new Dimension(width, height));
@@ -79,11 +90,11 @@ public class GameView extends JPanel implements ActionListener{
 
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        int tileSize = 32;
         drawBarriers(g, tileSize);
         drawMovingEntities(g, tileSize);
         drawStaticEntities(g, tileSize);
         drawRewards(g, tileSize);
+        drawHearts(g, tileSize);
     }
     /**
      * Draws base grass tile for every cell and barries at a specific position
@@ -93,7 +104,6 @@ public class GameView extends JPanel implements ActionListener{
 
     private void drawBarriers(Graphics g, int tileSize) {
         GameMap map = game.getMap();
-        tileSize = 32;
         /**
          * Loops through the rows and columns of the grid and draws
          * the cell type and entities at the calculated pixel position
@@ -149,10 +159,10 @@ public class GameView extends JPanel implements ActionListener{
                 Pirate pirate = (Pirate) enemy;
                 switch(pirate.getPirateType()) {
                     case PIRATE1:
-                        g.drawImage(pirate1Image, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);
+                        g.drawImage(pirate1Image, ePos.getX() * tileSize, ePos.getY() * tileSize, (int) (tileSize * 1.1), (int) (tileSize * 1.1), null);
                         break;
                     case PIRATE2:
-                        g.drawImage(pirate2Image, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);
+                        g.drawImage(pirate2Image, ePos.getX() * tileSize, ePos.getY() * tileSize, (int) (tileSize * 1.1), (int) (tileSize * 1.1), null);
                         break;
                 }
             }
@@ -198,11 +208,46 @@ public class GameView extends JPanel implements ActionListener{
         }
     }
 
+    public void drawHearts(Graphics g, int tileSize) {
+        // starting position (Top Left Corner)
+        int x = tileSize/2;
+        int y = tileSize/2;
+        int space = tileSize + 3;
+        int i = 0;
+
+        // draws max/empty hearts
+        while(i < game.getMaxHearts()/2) {
+            g.drawImage(emptyHeartImage, x, y, (int) (tileSize ), (int) (tileSize ), null);
+            i++;
+            x += space;
+        }
+
+        // reset
+        x = tileSize/2;
+        y = tileSize/2;
+        i = 0;
+
+        // draw current heart
+        while(i < game.getHearts()) {
+            g.drawImage(halfHeartImage, x, y, (int) (tileSize), (int) (tileSize ), null);
+            i++;
+            if(i < game.getHearts()) {
+                g.drawImage(fullHeartImage, x, y, (int) (tileSize ), (int) (tileSize ), null);
+            }
+            i++;
+            x += space;
+        }
+
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
         game.tick();
         repaint();
+        // if(GameState.LOST) {
+        //     gameLoop.stop();
+        // }
     }
 
 }

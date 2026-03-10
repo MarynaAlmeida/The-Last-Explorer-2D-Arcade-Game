@@ -175,7 +175,21 @@ public class GameMap{
                 return true;
             } 
             return false;
+    }
+
+    public boolean isValidEnemyMove(Position c) {
+        int x = c.getX();
+        int y = c.getY();
+        // grid boundary check
+        if (x < 0 || x >= grid[0].length || y < 0 || y >= grid.length) {
+            return false; // It's outside the map, so it's not a valid move!
         }
+        Cell pos = grid[y][x]; 
+        // Enemies only care if the tile is a physical wall (Hedge/Tree)
+        // They ignore whether an entity (like the Explorer) is there.
+        return pos.isTraversable();
+
+    }
 
     public void removeEntity(Position c){
             //remove the person from that aka i think pirates and moving enemies

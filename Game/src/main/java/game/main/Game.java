@@ -4,6 +4,7 @@ import game.entities.*;
 import game.entities.enemies.*;
 import game.entities.enemies.rewards.*;
 import game.enums.*;
+import game.ui.GameView;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.event.*;
@@ -18,9 +19,13 @@ public class Game{
     private GameState state;
     private int score;
     private int hearts;
+    private int maxHearts;
     private int MovingEnemyDamage;
     private int shieldSpawnCooldown;
     private int ticksSinceLastShieldSpawn;
+    private GameView view;
+    public boolean invincible = false;
+    public int invincibleCounter = 0;
 
     public Game(){
         //constructor
@@ -31,8 +36,8 @@ public class Game{
         this.state = GameState.MENU;
         //added 
         this.staticEnemies = new ArrayList<>();
-        //how many hearts does the explorer have?
-        this.hearts = 0;
+        this.maxHearts = 6; // 1 heart = half heart, 6 hearts = 3 full hearts
+        this.hearts = maxHearts; // players current heart value
         this.MovingEnemyDamage = 1;
         this.score = 0;
         this.shieldSpawnCooldown = 10;
@@ -75,6 +80,11 @@ public class Game{
     public int getHearts(){
         return this.hearts;
     }
+
+    public int getMaxHearts(){
+        return this.maxHearts;
+    }
+
     //update the hearts int
     public void updateHearts(int hearts){
         this.hearts = hearts;
@@ -84,18 +94,56 @@ public class Game{
         this.score = score;
     }
 
+    public int getPixelX(Entity e) {
+        if( e instanceof MovingEnemy) {
+            return ((MovingEnemy) e).getPixelX(); // The sliding coordinate
+        }
+        return e.getPosition().getX() * 32; // The grid coordinate converted to pixels
+    }
+
+    public int getPixelY(Entity e) {
+        if( e instanceof MovingEnemy) {
+            return ((MovingEnemy) e).getPixelY(); // The sliding coordinate
+        }
+        return e.getPosition().getY() * 32; // The grid coordinate converted to pixels
+    }
+
+    
+    // detect collison between explorer and moving enemies
+    public boolean checkCollision(Entity a, Entity b) {
+        // explorer is tyle-based and movingEnemy is pixel-based we will get the pixel coordinates for both
+        // for a sliding enemy, use pixelX/Y, for a grid explorer, multiply grid pos by 32.
+        int size = 32;
+        int aX = getPixelX(a);
+        int aY = getPixelY(a);
+        int bX = getPixelX(b);
+        int bY = getPixelY(b);
+        return aX < bX + size &&
+               aX + size > bX &&
+               aY < bY + size &&
+               aY + size > bY;
+    }
+
+
     public void tick(){
-        //moving the enemies to the explorer's position
+        if(invincible) {
+            invincibleCounter++;
+            if(invincibleCounter > 20) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
+
+        }
         for(MovingEnemy m: movingEnemies){
             m.updateMovement(explorer.getPosition());
         }
         for(MovingEnemy m: movingEnemies){
-            Position enemy = m.getPosition();
-            Position explorerPos = this.explorer.getPosition();
-            if(enemy.equals(explorerPos)){
-                //update hearts
-                if(!explorer.isShieldActive()){
-                    updateHearts(hearts - MovingEnemyDamage);
+            if(checkCollision(m, explorer )) {
+                if(!explorer.isShieldActive() && !invincible){
+                    this.hearts -= MovingEnemyDamage;
+                    updateHearts(hearts);
+                    invincible = true;
+                    invincibleCounter = 0;
                 }
             }
         }
@@ -173,5 +221,6 @@ public class Game{
             checkWinCondition();
             checkLoseCondition();
         }
+
     }
 }

@@ -9,7 +9,9 @@ public class GameInput implements KeyListener{
         this.game = game;
     }
     @Override
-    public void keyPressed(KeyEvent k){}
+    public void keyPressed(KeyEvent k){
+        //game.input(k);
+    }
     @Override
     public void keyReleased(KeyEvent k){
          game.input(k);

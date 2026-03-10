@@ -19,7 +19,6 @@ public class Explorer extends Character{
      * Initializes explorer in specific position with no active shield
      * @param pos position of explorer on the game map
      * */
-
     public Explorer(Position pos, GameMap map) {
         // should Character constructor have GameMap or Game as parameter
         super(pos, map);

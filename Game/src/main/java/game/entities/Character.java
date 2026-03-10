@@ -71,4 +71,5 @@ public abstract class Character extends Entity{
         }
         return map.isValidMove(pos);
     }
+    
 }

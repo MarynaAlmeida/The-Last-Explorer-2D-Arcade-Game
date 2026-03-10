@@ -1,7 +1,7 @@
 package game.entities.enemies;
-import game.enums.AnimalType;
 import game.enums.PirateType;
 import game.main.*;
+
 /**
  * Represents pirate moving enemy
  * */
