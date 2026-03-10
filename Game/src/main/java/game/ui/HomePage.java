@@ -21,15 +21,16 @@ public class HomePage extends JPanel{
         int height = game.getMap().getHeight()*32;
 
         this.setPreferredSize(new Dimension(width, height));
-
+        this.setLayout(null);
         JButton start = new JButton("Start");
         int buttonW = 100;
-        int buttonH = 70;
+        int buttonH = 60;
         int buttonX = (width - buttonW) /2;
-        int buttonY = (height-buttonH) /2;
+        int buttonY = (height-buttonH) /2 + 50;
         start.setBounds(buttonX, buttonY, buttonW, buttonH);
         start.addActionListener( e ->{
-            cardLayout.show(container, "GAME");
+            cardLayout.show(container, "GAME");   //this goes to TUTORIAL not GAME VIEW
+            //it goes homepage-> tutorials ->game view 
             view.requestFocusInWindow();
         });
         add(start);
@@ -37,10 +38,12 @@ public class HomePage extends JPanel{
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        int textX = (getWidth() - 400)/2; //centering starting coordinates
+        int textY = (getHeight() - 200)/2;
         g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
-        g.setFont(getFont());
+        g.setFont(new Font("Arial", Font.BOLD, 50));
 
-        g.drawString("The Last Explorer", 300, 300);
+        g.drawString("The Last Explorer", textX, textY);
         //start button takes you where
     }
 }

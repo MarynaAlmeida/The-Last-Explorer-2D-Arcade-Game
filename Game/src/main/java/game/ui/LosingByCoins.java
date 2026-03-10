@@ -11,14 +11,15 @@ public class LosingByCoins extends JPanel{
     private Image coins;
     public LosingByCoins(GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
         this.gv = gv;
-        this.coins = new ImageIcon("Assets/Icons/Coin.png").getImage();
+        this.coins = new ImageIcon("../Assets/Icons/Coin.png").getImage();
         this.setPreferredSize(gv.getPreferredSize());
+        this.setLayout(null);
         //the button takes you back to the home page 
         JButton back = new JButton("Back");
-        int buttonW = 100;
-        int buttonH = 70;
-        int buttonX = (getWidth() - buttonW) /2 ;
-        int buttonY = (getHeight()-buttonH) /2;
+        int buttonW = 80;
+        int buttonH = 40;
+        int buttonX = (gv.getPreferredSize().width - buttonW) /2 ;
+        int buttonY = (gv.getPreferredSize().height-buttonH) /2 + 100;
         back.setBounds(buttonX, buttonY, buttonW, buttonH);
         back.addActionListener( e ->{
             cardLayout.show(container, "START"
@@ -39,15 +40,15 @@ public class LosingByCoins extends JPanel{
 
         g.setColor(Color.YELLOW);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("No more coins left", boxX + 30, boxY + 50);
+        g.drawString("No more coins left", boxX + 70, boxY + 50);
 
         int size = 32;
-        int startX = boxX + 50;
+        int startX = boxX + 90;
         int startY = boxY + 100;
         for(int i=0; i<3; i++){
-            g.drawImage(coins, startX + (i*size), startY, size, size, null);
+            g.drawImage(coins, startX + (i*(size+10)), startY, size, size, null);
         }
-        g.drawString("GAME OVER", boxX +50, boxY + 180);
+        g.drawString("GAME OVER", boxX +100, boxY + 180);
     }
     
 

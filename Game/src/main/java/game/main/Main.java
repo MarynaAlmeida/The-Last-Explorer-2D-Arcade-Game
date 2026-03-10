@@ -24,8 +24,8 @@ public class Main {
 
         GameView view = new GameView(explorerGame);
         WinningView win = new WinningView(explorerGame);
-        LosingByCoins loseH = new LosingByCoins(view, cardLayout, container);
-        LosingbyHearts loseC = new LosingbyHearts(view, cardLayout, container);
+        LosingByCoins loseC = new LosingByCoins(view, cardLayout, container);
+        LosingbyHearts loseH = new LosingbyHearts(view, cardLayout, container);
         HomePage home = new HomePage(explorerGame, container, cardLayout, view);
 
         container.add(home, "START");
@@ -35,7 +35,7 @@ public class Main {
         container.add(win, "WIN");
 
         //start the game with showing the home page
-        cardLayout.show(container, "WIN"); 
+        cardLayout.show(container, "COINSLOSING"); 
 
         //add the container to the window
         window.add(container);
@@ -45,6 +45,5 @@ public class Main {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 }
