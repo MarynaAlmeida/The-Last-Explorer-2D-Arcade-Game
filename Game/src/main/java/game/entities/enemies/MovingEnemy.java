@@ -11,7 +11,8 @@ import game.main.Position;
 public abstract class MovingEnemy extends Character {
     protected int moveSpeed;
     /**
-     * Initializes moving enemy position with a default speed
+     * Initializes moving enemy at a certain position with a default speed
+     * 
      * @param pos starting position of enemy on the game map
      * */
 

@@ -10,7 +10,6 @@ import game.enums.PirateType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.*;
 import java.io.*;
 
 /**
@@ -24,7 +23,6 @@ public class GameMap{
     private int width;
     private Cell[][] grid;
     private Position start;
-    private Position end;
 
     /** 
      * Constructs the start and end positions of the game.
@@ -35,8 +33,6 @@ public class GameMap{
             // removed this.height and this.width since Game Map will be based on the size of the map file
             //added
             this.start = new Position(0,0);
-            //added
-            this.end = new Position(0, 14);
     }
 
     /**
@@ -258,8 +254,6 @@ public class GameMap{
      * @return the cell of the corresponding column and row.
      */
     public Cell getCell (int c, int r){
-
         return grid[r][c];
-
     }
 }
