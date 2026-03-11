@@ -3,12 +3,21 @@ package game.ui;
 import game.main.*;
 import javax.swing.*;
 import java.awt.*;
+/**
+ * Handles visuals for the winning screen including background,
+ * chest images and winning text
+ * @author Komal Kaur
+ */
 public class WinningView extends JPanel{
     private Image winningBg;
     private Image chest;
     private Game game;
     private int width;
     private int height;
+    /**
+     * Creates the winning view panel with background and chest images
+     * @param game the game used to set the dimensions
+     */
     public WinningView(Game game){
         this.winningBg = new ImageIcon("../Assets/Icons/WinBackground.png").getImage();
         this.chest = new ImageIcon("../Assets/Icons/ClosedChest.png").getImage();
@@ -18,6 +27,10 @@ public class WinningView extends JPanel{
         
         this.setPreferredSize(new Dimension(width, height));
     }
+    /**
+     * Draws the winning background, chest images and winning text
+     * @param g the graphics context for drawing
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(winningBg, 0, 0, getWidth(),getHeight(),null);
