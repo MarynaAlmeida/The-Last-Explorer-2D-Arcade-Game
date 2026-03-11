@@ -2,8 +2,7 @@ package game.enums;
 
 /**
  * Represents the types of cells inside the game's dimensions.
- * 
- * @author Maryna Almeida
+ * @author Harman Bains
  * @version 1.0
  */
 public enum CellType{

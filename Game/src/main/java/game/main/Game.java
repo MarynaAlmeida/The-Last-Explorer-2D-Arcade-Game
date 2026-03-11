@@ -42,17 +42,15 @@ public class Game{
      * <p>This constructor initializes the values, hearts, score, cooldowns, and arrays for all entities.</p>
      */
     public Game(){
-        //constructor
         this.gamemap = new GameMap();
         this.explorer = new Explorer(new Position(0,14), gamemap);
         this.explorer.setGame(this);
         this.movingEnemies = new ArrayList<>();
         this.rewards = new ArrayList<>();
         this.state = GameState.MENU;
-        //added 
         this.staticEnemies = new ArrayList<>();
-        this.maxHearts = 6; // 1 heart = half heart, 6 hearts = 3 full hearts
-        this.hearts = maxHearts; // players current heart value
+        this.maxHearts = 6; /** 1 heart = half heart, 6 hearts = 3 full hearts */
+        this.hearts = maxHearts;
         this.MovingEnemyDamage = 1;
         this.score = 0;
         this.coinsCollected = 0;
@@ -80,6 +78,11 @@ public class Game{
         return this.gamemap;
     }
 
+    /**
+     * Acts as a getter for the chest.
+     * 
+     * @return the game chest.
+     */
     public Chest getChest() {
         return chest;
     }
@@ -165,25 +168,43 @@ public class Game{
         this.score += amountToIncrease;
     }
 
+    /** Returns the horizontal pixel coordinate of the given entity.
+     * <p>If the entity is a {@link MovingEnemy}, it returns a sliding 
+     * pixel position. Otherwise, it calculates the pixel position based on the 
+     * entity's grid coordinates multiplied by the tile size.</p>
+     * @param e the entity that the x-coordinate is being asked.
+     * @retun x-coordinate in pixel.
+     */
     public int getPixelX(Entity e) {
         if( e instanceof MovingEnemy) {
-            return ((MovingEnemy) e).getPixelX(); // The sliding coordinate
+            return ((MovingEnemy) e).getPixelX(); 
         }
-        return e.getPosition().getX() * 32; // The grid coordinate converted to pixels
+        return e.getPosition().getX() * 32;
     }
 
+    /** Returns the vertical pixel coordinate of the given entity.
+     * <p>If the entity is a {@link MovingEnemy}, it returns a sliding 
+     * pixel position. Otherwise, it calculates the pixel position based on the 
+     * entity's grid coordinates multiplied by the tile size.</p>
+     * @param e the entity that the y-coordinate is being asked.
+     * @retun y-coordinate in pixel.
+     */
     public int getPixelY(Entity e) {
         if( e instanceof MovingEnemy) {
-            return ((MovingEnemy) e).getPixelY(); // The sliding coordinate
+            return ((MovingEnemy) e).getPixelY(); 
         }
-        return e.getPosition().getY() * 32; // The grid coordinate converted to pixels
+        return e.getPosition().getY() * 32; 
     }
 
     
-    // detect collison between explorer and moving enemies
+    /** Detects the collision between the moving enemy and the explorer.
+     * Since explorer is tyle-based and moving enemy is pixel-based, it will get
+     * the pixel coordinates for both.
+     * @param a the first entity.
+     * @param b the second entity.
+     * @return true if the entities cell overlap, false otherwise.
+     */
     public boolean checkCollision(Entity a, Entity b) {
-        // explorer is tyle-based and movingEnemy is pixel-based we will get the pixel coordinates for both
-        // for a sliding enemy, use pixelX/Y, for a grid explorer, multiply grid pos by 32.
         int size = 32;
         int aX = getPixelX(a);
         int aY = getPixelY(a);
@@ -210,7 +231,6 @@ public class Game{
             }
         }
 
-        //moving the enemies to the explorer's position
         for(MovingEnemy m: movingEnemies){
             m.updateMovement(explorer.getPosition());
         }

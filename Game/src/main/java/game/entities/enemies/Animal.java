@@ -16,6 +16,8 @@ public class Animal extends MovingEnemy {
      * Act as the constructor for the animal class.
      * 
      * @param pos position of the Animal.
+     * @param map game map that the animal exists on.
+     * @param type the type of animal (hare, fox, boar).
      * */
     public Animal(Position pos,  GameMap map, AnimalType type) {
         super(pos, map);
