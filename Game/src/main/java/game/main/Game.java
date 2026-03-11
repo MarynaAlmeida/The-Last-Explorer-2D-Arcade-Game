@@ -4,10 +4,10 @@ import game.entities.*;
 import game.entities.enemies.*;
 import game.entities.enemies.rewards.*;
 import game.enums.*;
+import game.ui.GameView;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.event.*;
-import game.ui.GameView;
 
 /**
  * Creates the maze game and updates the maze.
@@ -24,11 +24,15 @@ public class Game{
     private GameState state;
     private int score;
     private int hearts;
+    private int maxHearts;
     private int MovingEnemyDamage;
     private int shieldSpawnCooldown;
     private int ticksSinceLastShieldSpawn;
     private GameView view;
+    public boolean invincible = false;
+    public int invincibleCounter = 0;
     private boolean onStaticEntity;
+
 
     /**
      * Constructor for the game class.
@@ -45,8 +49,8 @@ public class Game{
         this.state = GameState.MENU;
         //added 
         this.staticEnemies = new ArrayList<>();
-        //how many hearts does the explorer have?
-        this.hearts = 0;
+        this.maxHearts = 6; // 1 heart = half heart, 6 hearts = 3 full hearts
+        this.hearts = maxHearts; // players current heart value
         this.MovingEnemyDamage = 1;
         this.score = 0;
         this.shieldSpawnCooldown = 20;
@@ -127,12 +131,21 @@ public class Game{
     }
 
     /**
+     * Acts as the getter for the explorer's maximum number of hearts.
+     * 
+     * @return an int of the total hearts the explorer is set to have at the start of the game.
+     */
+    public int getMaxHearts(){
+        return this.maxHearts;
+    }
+
+    /**
      * Acts as the setter for updating the explorer's total hearts.
      * 
      * @param hearts the amount to increment or decrement the explorer's hearts.
      */
     public void updateHearts(int hearts){
-        this.hearts += hearts;
+        this.hearts = hearts;
     }
 
     /**
@@ -144,6 +157,36 @@ public class Game{
         this.score += amountToIncrease;
     }
 
+    public int getPixelX(Entity e) {
+        if( e instanceof MovingEnemy) {
+            return ((MovingEnemy) e).getPixelX(); // The sliding coordinate
+        }
+        return e.getPosition().getX() * 32; // The grid coordinate converted to pixels
+    }
+
+    public int getPixelY(Entity e) {
+        if( e instanceof MovingEnemy) {
+            return ((MovingEnemy) e).getPixelY(); // The sliding coordinate
+        }
+        return e.getPosition().getY() * 32; // The grid coordinate converted to pixels
+    }
+
+    
+    // detect collison between explorer and moving enemies
+    public boolean checkCollision(Entity a, Entity b) {
+        // explorer is tyle-based and movingEnemy is pixel-based we will get the pixel coordinates for both
+        // for a sliding enemy, use pixelX/Y, for a grid explorer, multiply grid pos by 32.
+        int size = 32;
+        int aX = getPixelX(a);
+        int aY = getPixelY(a);
+        int bX = getPixelX(b);
+        int bY = getPixelY(b);
+        return aX < bX + size &&
+               aX + size > bX &&
+               aY < bY + size &&
+               aY + size > bY;
+    }
+
     /**
      * Represents a single tick in the game.
      * 
@@ -151,20 +194,26 @@ public class Game{
      */
     public void tick(){
         Position explorerPos = this.explorer.getPosition();
+        if(invincible) {
+            invincibleCounter++;
+            if(invincibleCounter > 20) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
 
         //moving the enemies to the explorer's position
         for(MovingEnemy m: movingEnemies){
             m.updateMovement(explorer.getPosition());
         }
         for(MovingEnemy m: movingEnemies){
-            Position enemyPos = m.getPosition();
-            if(enemyPos.equals(explorerPos)){
-                //update hearts
-                if(!explorer.isShieldActive()){
-                    updateHearts(-1);
-                } else {
-                    explorer.deactivateShield();
-                }
+            if(checkCollision(m, explorer )) {
+                if(!explorer.isShieldActive() && !invincible){
+                    this.hearts -= MovingEnemyDamage;
+                    updateHearts(hearts);
+                    invincible = true;
+                    invincibleCounter = 0;
+                }    
             }
         }
 
@@ -286,5 +335,6 @@ public class Game{
             checkWinCondition();
             checkLoseCondition();
         }
+
     }
 }

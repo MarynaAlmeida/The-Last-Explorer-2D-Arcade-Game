@@ -3,6 +3,10 @@ import game.enums.PirateType;
 import game.main.*;
 
 /**
+ * Represents pirate moving enemy
+ * */
+
+/**
  * Represents a moving pirate enemy.
  * 
  * @author Maryna Almeida
