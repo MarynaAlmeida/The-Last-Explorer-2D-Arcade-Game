@@ -75,8 +75,8 @@ public class GameView extends JPanel implements ActionListener{
 
         zoomedInTileSize = 48;
 
-        zoomedInTotalTilesForWidth = 12;
-        zoomedInTotalTilesForHeight = 10;
+        zoomedInTotalTilesForWidth = 16;
+        zoomedInTotalTilesForHeight = 12;
 
         // Tells the JFrame how big the panel is going to be
         this.setPreferredSize(new Dimension(width, height));
