@@ -7,10 +7,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * The entry point of the game. Responsible for initializing the game logic,
- * setting up the GUI window and starting the game
+ * Initalizes the game logic and sets up the GUI window and starts the game.
+ * 
+ * @author Maryna Almeida
+ * @version 1.0
  * */
 public class Main {
+    /**
+     * Initializes necessary variables, and calls {@link Game} to start the game.
+     * 
+     * @param args parameters given when main is called from the terminal.
+     * @throws Exception throws any potential errors that may arise.
+     */
     public static void main(String[] args) throws Exception {
         Game explorerGame = new Game();
 
@@ -22,7 +30,7 @@ public class Main {
         CardLayout cardLayout = new CardLayout(); //the one that manages all the views by " "
         JPanel container = new JPanel(cardLayout); //has all the views
 
-        GameView view = new GameView(explorerGame);
+        GameView view = new GameView(explorerGame, container, cardLayout);
         WinningView win = new WinningView(explorerGame);
         LosingByCoins loseC = new LosingByCoins(view, cardLayout, container);
         LosingbyHearts loseH = new LosingbyHearts(view, cardLayout, container);

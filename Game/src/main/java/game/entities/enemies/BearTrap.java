@@ -1,15 +1,16 @@
 package game.entities.enemies;
 import game.entities.Explorer;
-import game.entities.enemies.StaticEnemy;
 import game.main.*;
 
 /**
- * A bear trap is a static enemy that when stepped onto causes damage .
+ * Acts as a static enemy that when stepped onto causes damage.
+ * 
+ * @author Harman Bains
+ * @version 1.0
  */
 public class BearTrap extends StaticEnemy {
-
     /**
-     * Making a bear trap on a particular position.
+     * Makes a bear trap on a particular position.
      *
      * @param position    bear trap's grid position on map
      * @param damageValue the damage occurring once activated
