@@ -15,12 +15,13 @@ import java.awt.event.ActionListener;
  * Handles the visuals of the game world, including entities,
  * barriers and rewards on JPanel.
  * 
- * @author Komal Kaur
- * @version 1.0
+ * @author Maryna Almeida
+ * @version 2.0
  * */
 public class GameView extends JPanel implements ActionListener{
     private Game game;
     Timer gameLoop;
+    int tileSize = 32;
     private Image hedgeImage;
     private Image thornImage;
     private Image treeImage;
@@ -36,6 +37,9 @@ public class GameView extends JPanel implements ActionListener{
     private Image chestImage;
     private Image bearTrapImage;
     private Image shieldImage;
+    private Image fullHeartImage;
+    private Image halfHeartImage;
+    private Image emptyHeartImage;
     private Image tutorialPage;
     private boolean isTutorialActive = true;
 
@@ -66,12 +70,15 @@ public class GameView extends JPanel implements ActionListener{
         this.chestImage = new ImageIcon("../Assets/Icons/ClosedChest.png").getImage();
         this.bearTrapImage = new ImageIcon("../Assets/Icons/Beartrap.png").getImage();
         this.shieldImage = new ImageIcon("../Assets/Icons/Shield.png").getImage();
+        this.fullHeartImage = new ImageIcon("../Assets/Icons/Heart.png").getImage();
+        this.halfHeartImage = new ImageIcon("../Assets/Icons/HalfHeart.png").getImage();
+        this.emptyHeartImage = new ImageIcon("../Assets/Icons/EmptyHeart.png").getImage();
         this.tutorialPage = new ImageIcon("../Assets/Icons/Tutorial.png").getImage();
         this.explorerTurnImage = new ImageIcon("../Assets/Icons/ExplorerTurn.png").getImage();
 
         // Gets the width and height of the game map and calculates its dimension with the tile size
-        int width = game.getMap().getWidth() * 32;
-        int height = game.getMap().getHeight() * 32;
+        int width = game.getMap().getWidth() * tileSize;
+        int height = game.getMap().getHeight() * tileSize;
 
         zoomedInTileSize = 48;
 
@@ -165,6 +172,7 @@ public class GameView extends JPanel implements ActionListener{
         drawMovingEntities(g, tileSize);
         drawStaticEntities(g, tileSize);
         drawRewards(g, tileSize);
+        drawHearts(g, tileSize);
     }
 
     /**
@@ -180,6 +188,7 @@ public class GameView extends JPanel implements ActionListener{
         drawVisibleStaticEntities(g);
         drawVisibleRewards(g);
         paintRewardHUDs(g);
+        drawHearts(g, tileSize);
     }
 
     /**
@@ -190,7 +199,6 @@ public class GameView extends JPanel implements ActionListener{
      * */
     private void drawBarriers(Graphics g, int tileSize) {
         GameMap map = game.getMap();
-        tileSize = 32;
         /**
          * Loops through the rows and columns of the grid and draws
          * the cell type and entities at the calculated pixel position
@@ -252,10 +260,10 @@ public class GameView extends JPanel implements ActionListener{
                 Pirate pirate = (Pirate) enemy;
                 switch(pirate.getPirateType()) {
                     case PIRATE1:
-                        g.drawImage(pirate1Image, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);
+                        g.drawImage(pirate1Image, ePos.getX() * tileSize, ePos.getY() * tileSize, (int) (tileSize * 1.1), (int) (tileSize * 1.1), null);
                         break;
                     case PIRATE2:
-                        g.drawImage(pirate2Image, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);
+                        g.drawImage(pirate2Image, ePos.getX() * tileSize, ePos.getY() * tileSize, (int) (tileSize * 1.1), (int) (tileSize * 1.1), null);
                         break;
                 }
             }
@@ -299,6 +307,40 @@ public class GameView extends JPanel implements ActionListener{
             if(sE instanceof BearTrap) {
                 g.drawImage(bearTrapImage, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);
             }
+        }
+    }
+
+    /**
+     * Draw hearts and updates heart count based on enemy collision damage.
+     * @param g the graphics context for drawing.
+     * @param tileSize tile size of the game map.
+     */
+
+    public void drawHearts(Graphics g, int tileSize) {
+        /** Configures the panel coordinates and padding for the heart icons. */
+        int x = tileSize/2;
+        int y = tileSize/9;
+        int space = tileSize + 3;
+        int i = 0;
+        /** Draw empty hearts for the total heart capacity. */
+        while(i < game.getMaxHearts()/2) {
+            g.drawImage(emptyHeartImage, x, y, tileSize, tileSize, null);
+            i++;
+            x += space;
+        }
+        /** Resets layout variables to overlay current heart status. */
+        x = tileSize/2;
+        y = tileSize/9;
+        i = 0;
+        /** Draw half or full hearts based on current heart status. */
+        while(i < game.getHearts()) {
+            g.drawImage(halfHeartImage, x, y, tileSize, tileSize, null);
+            i++;
+            if(i < game.getHearts()) {
+                g.drawImage(fullHeartImage, x, y, tileSize , tileSize, null);
+            }
+            i++;
+            x += space;
         }
     }
 
@@ -484,7 +526,9 @@ public class GameView extends JPanel implements ActionListener{
                 }
             }
         }
+
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -523,16 +567,15 @@ public class GameView extends JPanel implements ActionListener{
             String shieldSecondsRemaining = Integer.toString(secondsRemaining);
 
             g.setColor(Color.BLACK);
-            g.drawString(shieldSecondsRemaining, 135, 26);
-            g.drawString(shieldSecondsRemaining, 141, 26);
-            g.drawString(shieldSecondsRemaining, 138, 24);
-            g.drawString(shieldSecondsRemaining, 138, 28);
+            g.drawString(shieldSecondsRemaining, 135, 26); 
+            g.drawString(shieldSecondsRemaining, 141, 26); 
+            g.drawString(shieldSecondsRemaining, 138, 24); 
+            g.drawString(shieldSecondsRemaining, 138, 28); 
 
             g.setColor(Color.WHITE);
-            g.drawString(shieldSecondsRemaining, 138, 26);
+            g.drawString(shieldSecondsRemaining, 138, 26); 
         }
 
     }
-
 
 }

@@ -2,6 +2,8 @@ package game.entities.enemies.rewards;
 import game.main.Position;
 
 /**
+ *  @author Harman Bains
+ *  @version 1.0
  * This is a chest which player can open through coins.
  * Only if collecting all the coins on the map, which opening gives a bonus score.
  */
