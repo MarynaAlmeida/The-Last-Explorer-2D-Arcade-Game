@@ -43,7 +43,7 @@ public class Main {
         container.add(win, "WIN");
 
         //start the game with showing the home page
-        cardLayout.show(container, "WIN"); 
+        cardLayout.show(container, "START"); 
 
         //add the container to the window
         window.add(container);
