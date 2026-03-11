@@ -13,8 +13,14 @@ import game.main.Game;
 import game.main.Main;
 import game.entities.enemies.rewards.Reward;
 import game.enums.GameState;
-
 import game.ui.GameView;
+
+/**
+ * Handles visuals for the losing screen by coins including background,
+ * coin images and game over text
+ * @author Komal Kaur
+ * @version 1.0
+ */
 public class LosingByCoins extends JPanel{
     //NO BUTTON YET CHECK!!
     private GameView gv;
@@ -24,6 +30,14 @@ public class LosingByCoins extends JPanel{
     private int buttonX, buttonY, buttonW, buttonH;
     private Game g;
 
+
+    /**
+     * creates the losingcoins panel with back button, background and game over text
+     *
+     * @param gv the game view used to set the dimensions
+     * @param cardLayout the layout used to manage the views
+     * @param container the container to store all the views 
+     */
     public LosingByCoins(Game g, GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
         this.g = g;
         this.gv = gv;
@@ -49,6 +63,10 @@ public class LosingByCoins extends JPanel{
             }
         });
     }
+     /**
+     * Draws the background the title and the back button
+     * @param g the graphics context for drawing
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         gv.paintComponent(g); //the game bg first

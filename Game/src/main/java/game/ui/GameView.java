@@ -530,9 +530,21 @@ public class GameView extends JPanel implements ActionListener{
             int rewardX = rPos.getX() - getStartingXCell();
             int rewardY = rPos.getY() - getStartingYCell();
 
+            
+
             if (rewardX < zoomedInTotalTilesForWidth && rewardY < zoomedInTotalTilesForHeight) {
                 int rewardXCell = rewardX * zoomedInTileSize;
                 int rewardYCell = rewardY * zoomedInTileSize;
+
+                if (r instanceof Chest) {
+                    Chest chest = (Chest) r;
+                    if(chest.canChestOpen()){
+                        g.drawImage(openChestImage,rewardXCell, rewardYCell, zoomedInTileSize, zoomedInTileSize, null);
+                    }
+                    else {
+                        g.drawImage(closedChestImage, rewardXCell, rewardYCell, zoomedInTileSize, zoomedInTileSize, null);
+                    }
+                }
 
                 if(!r.isCollected()){
                     if(r instanceof Coin) {
