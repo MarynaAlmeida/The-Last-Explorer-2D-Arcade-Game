@@ -20,9 +20,11 @@ public class Game{
     private Explorer explorer;
     private List<MovingEnemy> movingEnemies;
     private List<StaticEnemy> staticEnemies;
+    private Chest chest;
     private List<Reward> rewards;
     private GameState state;
     private int score;
+    private int coinsCollected;
     private int hearts;
     private int maxHearts;
     private int MovingEnemyDamage;
@@ -53,9 +55,11 @@ public class Game{
         this.hearts = maxHearts; // players current heart value
         this.MovingEnemyDamage = 1;
         this.score = 0;
+        this.coinsCollected = 0;
         this.shieldSpawnCooldown = 20;
         this.ticksSinceLastShieldSpawn = 0;
         this.onStaticEntity = false;
+        this.chest = new Chest(new Position(24, 2), 10, 3);
     }
 
     /**
@@ -74,6 +78,10 @@ public class Game{
      */
     public GameMap getMap(){
         return this.gamemap;
+    }
+
+    public Chest getChest() {
+        return chest;
     }
 
     /**
@@ -254,9 +262,25 @@ public class Game{
         }
 
         for (Reward reward : rewards) {
-            if (reward.getPosition().equals(explorerPos) && !reward.isCollected()) {
-                explorer.collectReward(reward);
-                break;
+            if (reward.getPosition().equals(explorerPos)) {
+                if(reward instanceof Chest) {
+                    Chest chest = (Chest) reward;
+                    if(!chest.canChestOpen()) {
+                        if(chest.attemptOpening(this.coinsCollected)) {
+                            this.updateScore(chest.bonusScore());
+                        }      
+                    }
+                    continue;
+                }
+                if (!reward.isCollected()) {
+                    explorer.collectReward(reward);
+                    if(reward instanceof Coin) {
+                        coinsCollected++;
+                    }
+                    break;
+                }
+
+                
             }
         }
 
