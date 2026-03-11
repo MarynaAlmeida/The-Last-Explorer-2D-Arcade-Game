@@ -38,7 +38,7 @@ public class WinningView extends JPanel{
         g.drawImage(chest, getWidth() - chest.getWidth(null), getHeight() - chest.getHeight(null), chest.getWidth(null), chest.getHeight(null), null);
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 35));
-        g.drawString(". ALL COINS COLLECTED", (getWidth()/2) -200 ,250);
+        g.drawString("ALL COINS COLLECTED", (getWidth()/2) -200 ,250);
         g.drawString("THE TREASURE IS YOURS!", (getWidth()/2) -200 ,290); //this text comes lower than the first
     }
 }

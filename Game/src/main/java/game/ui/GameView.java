@@ -372,7 +372,7 @@ public class GameView extends JPanel implements ActionListener{
         Position explorerPos = game.getExplorer().getPosition();
 
         return Math.max(0, Math.min(explorerPos.getX() - zoomedInTotalTilesForWidth / 2,
-        map.getHeight() - zoomedInTotalTilesForHeight));
+        map.getWidth() - zoomedInTotalTilesForWidth));
     }
 
     /**
@@ -530,9 +530,21 @@ public class GameView extends JPanel implements ActionListener{
             int rewardX = rPos.getX() - getStartingXCell();
             int rewardY = rPos.getY() - getStartingYCell();
 
+            
+
             if (rewardX < zoomedInTotalTilesForWidth && rewardY < zoomedInTotalTilesForHeight) {
                 int rewardXCell = rewardX * zoomedInTileSize;
                 int rewardYCell = rewardY * zoomedInTileSize;
+
+                if (r instanceof Chest) {
+                    Chest chest = (Chest) r;
+                    if(chest.canChestOpen()){
+                        g.drawImage(openChestImage,rewardXCell, rewardYCell, zoomedInTileSize, zoomedInTileSize, null);
+                    }
+                    else {
+                        g.drawImage(closedChestImage, rewardXCell, rewardYCell, zoomedInTileSize, zoomedInTileSize, null);
+                    }
+                }
 
                 if(!r.isCollected()){
                     if(r instanceof Coin) {
@@ -547,6 +559,17 @@ public class GameView extends JPanel implements ActionListener{
 
     }
 
+    /**
+     * Stops the GameView from running.
+     * 
+     * <p>This method will be called once a player loses the game, as it allows them
+     * to restart without any previous GameView panels staying on the screen.</p>
+     */
+    public void stopLoop() {
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

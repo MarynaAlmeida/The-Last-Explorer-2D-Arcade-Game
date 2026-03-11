@@ -5,8 +5,14 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import game.enums.GameState;
 import game.main.*;
 import game.ui.GameView;
+
+import game.enums.GameState;
+import game.main.Game;
+import game.entities.enemies.rewards.Reward;
+
 /**
  * Handles visuals for the losing screen by hearts including background,
  * heart images and game over text
@@ -14,6 +20,7 @@ import game.ui.GameView;
  */
 public class LosingbyHearts extends JPanel{
     //check for the button IMPORTANT
+    private Game g;
     private GameView gv;
     private Image backbutton;
     private Image gameover;
@@ -26,7 +33,9 @@ public class LosingbyHearts extends JPanel{
      * @param cardLayout the layout used to manage the views
      * @param container the container to store all the views 
      */
-    public LosingbyHearts(GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
+    
+    public LosingbyHearts(Game g, GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
+        this.g = g;
         this.gv = gv;
         this.backbutton = new ImageIcon("../Assets/Icons/buttonHeart.png").getImage();
         this.heart = new ImageIcon("../Assets/Icons/EmptyHeart.png").getImage();
@@ -47,7 +56,8 @@ public class LosingbyHearts extends JPanel{
             public void mouseClicked(MouseEvent e){
                 if(e.getX() >= buttonX && e.getX() <= buttonX + buttonW
                 && e.getY() >= buttonY && e.getY() <= buttonY+buttonH){
-                    cardLayout.show(container, "START");
+                    gv.stopLoop();
+                    Main.remakeGame(container, cardLayout);
                 }
             }
         });

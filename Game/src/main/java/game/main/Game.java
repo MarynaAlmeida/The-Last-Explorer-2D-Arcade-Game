@@ -292,19 +292,27 @@ public class Game{
      * Checks to see if the game's winning conditions is satisfied, and sets the game's state to 'WON' if so.
      */
     public void checkWinCondition(){
+        boolean allCoinsAreCollected = true;
         //collected all the coins ; walk over treasure map
 
         //check from the rewards array list
-        if(rewards.isEmpty()){
+        for (Reward r : rewards) {
+            if (r instanceof Coin && !r.isCollected()) {
+                allCoinsAreCollected = false;
+                break;
+            }
+        }
+
+        if (!allCoinsAreCollected) {
             return;
         }
 
-        for(Reward r: this.rewards){
-            if(!r.isCollected()){
+        for (Reward r : rewards) {
+            if (r instanceof Chest && r.getPosition().equals(explorer.getPosition())) {
+                state = GameState.WON;
                 return;
             }
         }
-        state = GameState.WON;
     }
 
     /**
@@ -324,6 +332,15 @@ public class Game{
      */
     public GameState getState() {
         return state;
+    }
+
+    /**
+     * Acts as a setter for the state enumerator.
+     * 
+     * @param state the state to set the enumerator.
+     */
+    public void setState(GameState state) {
+        this.state = state;
     }
     
     /**
