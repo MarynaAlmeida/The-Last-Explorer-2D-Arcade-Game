@@ -70,6 +70,7 @@ public class Chest extends Reward {
      *
      * @return coin count needed
      */
+    @SuppressWarnings("unused")
     public int sufficientCoins(){
         return coinRequirement;
     }
