@@ -9,6 +9,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 
+/**
+ * Handles visuals for the losing screen by coins including background,
+ * coin images and game over text
+ * @author Komal Kaur
+ */
 import game.ui.GameView;
 public class LosingByCoins extends JPanel{
     //NO BUTTON YET CHECK!!
@@ -17,6 +22,14 @@ public class LosingByCoins extends JPanel{
     private Image backButton;
     private Image gameover;
     private int buttonX, buttonY, buttonW, buttonH;
+
+    /**
+     * creates the losingcoins panel with back button, background and game over text
+     *
+     * @param gv the game view used to set the dimensions
+     * @param cardLayout the layout used to manage the views
+     * @param container the container to store all the views 
+     */
     public LosingByCoins(GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
         this.gv = gv;
         this.backButton = new ImageIcon("../Assets/Icons/backbuttonCOINS.png").getImage();
@@ -40,6 +53,10 @@ public class LosingByCoins extends JPanel{
             }
         });
     }
+     /**
+     * Draws the background the title and the back button
+     * @param g the graphics context for drawing
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         gv.paintComponent(g); //the game bg first
