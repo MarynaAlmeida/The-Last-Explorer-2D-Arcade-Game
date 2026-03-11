@@ -2,13 +2,21 @@ package game.entities;
 
 import game.main.Position;
 
+/**
+ * Represents an abstract entity.
+ * 
+ * <p>This class is a superclass for the {@link Character}, {@link StaticEnemy} and {@link Reward} classes.</p>
+ * 
+ * @author Jayden Pai
+ * @version 1.0
+ */
 public abstract class Entity{
     protected Position position;
 
     /**
-     * Constructs an Entity at the specified position.
+     * Constructs an entity at the specified position.
      *
-     * @param position the intial position of the entity
+     * @param position the intial position of the entity.
      */
     public Entity(Position position){
         this.position = position;
@@ -17,7 +25,7 @@ public abstract class Entity{
     /**
      * Returns the current position of the entity.
      *
-     * @return the entity's position
+     * @return the entity's position.
      */
     public Position getPosition(){
         return position;
@@ -26,7 +34,7 @@ public abstract class Entity{
     /**
      * Sets the position of the entity.
      *
-     * @param position the new position to assign to the entity
+     * @param position the new position to assign to the entity.
      */
     public void setPosition(Position position){
         this.position = position;

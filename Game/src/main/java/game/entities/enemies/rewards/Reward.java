@@ -49,4 +49,11 @@ public abstract class Reward extends Entity {
     public void collect() {
         this.collected = true;
     }
+
+    /**
+     * Sets the collected attribute to false, indicating that the shield is active again.
+     */
+    public void setUncollected() {
+        this.collected = false;
+    }
 }

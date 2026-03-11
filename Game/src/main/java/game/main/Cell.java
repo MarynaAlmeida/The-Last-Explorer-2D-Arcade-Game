@@ -4,8 +4,12 @@ import game.enums.CellType;
 import game.entities.Entity;
 
 /**
- * Demonstrating a single cell in the game map's grid.
- * It contains the position, cell type (e.g. hedge/tree/ etc...), and a maximum one entity.
+ * Demonstrates a single cell in the game map's grid.
+ * 
+ * <p>This class contains the position, cell type (e.g. hedge/tree/ etc...), and a maximum one entity.</p>
+ * 
+ * @author Harman Bains
+ * @version 1.0
  */
 public class Cell {
     private Position position;
@@ -15,8 +19,8 @@ public class Cell {
     /**
      * Generates a cell on a particular position with a certain cell type.
      *
-     * @param position the coordinated cell
-     * @param type     initializing cell type
+     * @param position the coordinated cell.
+     * @param type     initializing cell type.
      */
     public Cell(Position position, CellType type) {
         this.position = position;
@@ -26,7 +30,7 @@ public class Cell {
     /**
      * Checks if the cell can traverse through entities.
      *
-     * @return true if the cell is can traverse, false if it encounters a wall/obstacle
+     * @return true if the cell is can traverse, false if it encounters a wall/obstacle.
      */
     public boolean isTraversable() {
         return type != CellType.HEDGE && type != CellType.TREE;
@@ -36,7 +40,7 @@ public class Cell {
      * Removes entity and returns it into state of this cell.
      * After removing entity, the cell is empty.
      *
-     * @return the removed entity, or null if the case cell is empty prior
+     * @return the removed entity, or null if the case cell is empty prior.
      */
     public Entity removeEntity() {
         Entity removedEntity = this.entity;
@@ -48,16 +52,16 @@ public class Cell {
      * Applies an entity into this cell.
      * Overwrites possible entities available without verifying.
      *
-     * @param entity the entity to put into this cell (e.g may note to be null)
+     * @param entity the entity to put into this cell (e.g may note to be null).
      */
     public void setEntity(Entity entity) {
         this.entity = entity;
     }
 
     /**
-     * Provides a return on present entity in cell or can be empty implying null
+     * Provides a return on present entity in cell or can be empty implying null.
      *
-     * @return the present or null entity
+     * @return the present or null entity.
      */
     public Entity getEntity() {
         return entity;
@@ -66,7 +70,7 @@ public class Cell {
     /**
      * Ensures to finding if cell contains no entity.
      *
-     * @return true for the cell becoming empty, false if the entity available
+     * @return true for the cell becoming empty, false if the entity available.
      */
     public boolean isEmpty() {
         return entity == null;
@@ -75,7 +79,7 @@ public class Cell {
     /**
      * Returns the current cell of a type.
      *
-     * @return the specific type of cell
+     * @return the specific type of cell.
      */
     public CellType getType() {
         return type;

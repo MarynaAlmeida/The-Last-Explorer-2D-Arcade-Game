@@ -27,7 +27,8 @@ public abstract class MovingEnemy extends Character {
     Random random = new Random();
     
     /**
-     * Initializes moving enemy position with a default speed
+     * Initializes moving enemy at a certain position with a default speed
+     * 
      * @param pos starting position of enemy on the game map
      * */
 
@@ -112,10 +113,12 @@ public abstract class MovingEnemy extends Character {
     }
 
     /**
-     * Executes a basic path finding algorithm to move one step closer to the explorer
-     * The enemy first tries horizontal movements, then vertical movements,
-     * then attempts perpendicular deviations if blocked
-     * @param explorerPos the current position of the explorer for enemy to track
+     * Executes a basic path finding algorithm to move one step closer to the explorer.
+     * 
+     * <p>The enemy first tries horizontal movements, then vertical movements,
+     * then attempts perpendicular deviations if blocked.</p>
+     * 
+     * @param explorerPos the current position of the explorer for the enemy to track.
      * */
     public void updateMovement(Position explorerPos) {
         this.move();

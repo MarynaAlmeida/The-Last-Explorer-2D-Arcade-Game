@@ -8,12 +8,18 @@ import game.ui.GameView;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.event.*;
+import game.ui.GameView;
 
+/**
+ * Creates the maze game and updates the maze.
+ * 
+ * @author Komal Kaur
+ * @version 1.0
+ */
 public class Game{
     private GameMap gamemap;
     private Explorer explorer;
     private List<MovingEnemy> movingEnemies;
-    //added
     private List<StaticEnemy> staticEnemies;
     private List<Reward> rewards;
     private GameState state;
@@ -26,11 +32,19 @@ public class Game{
     private GameView view;
     public boolean invincible = false;
     public int invincibleCounter = 0;
+    private boolean onStaticEntity;
 
+
+    /**
+     * Constructor for the game class.
+     * 
+     * <p>This constructor initializes the values, hearts, score, cooldowns, and arrays for all entities.</p>
+     */
     public Game(){
         //constructor
         this.gamemap = new GameMap();
         this.explorer = new Explorer(new Position(0,14), gamemap);
+        this.explorer.setGame(this);
         this.movingEnemies = new ArrayList<>();
         this.rewards = new ArrayList<>();
         this.state = GameState.MENU;
@@ -40,58 +54,108 @@ public class Game{
         this.hearts = maxHearts; // players current heart value
         this.MovingEnemyDamage = 1;
         this.score = 0;
-        this.shieldSpawnCooldown = 10;
+        this.shieldSpawnCooldown = 20;
         this.ticksSinceLastShieldSpawn = 0;
+        this.onStaticEntity = false;
     }
-    //start the game put the explorer in the game
+
+    /**
+     * Sets the game state to 'Playing' and loads the map.
+     */
     public void startGame(){
         this.state = GameState.PLAYING;
         gamemap.loadMap("../Assets/map.txt", rewards, movingEnemies, staticEnemies);
         //explorer.setPosition(gamemap.getStart());
     }
+
+    /**
+     * Acts as a getter for the current game's map.
+     * 
+     * @return the current game's map.
+     */
     public GameMap getMap(){
         return this.gamemap;
     }
 
-    //added 
+    /**
+     * Acts as a getter for the explorer.
+     * 
+     * @return the current game's explorer object.
+     */
     public Explorer getExplorer() {
         return explorer;
     }
 
-    //added
+    /**
+     * Acts as the getter for moving enemies.
+     * 
+     * @return the array list of all moving enemies in the game.
+     */
     public List<MovingEnemy> getMovingEnemies() {
         return movingEnemies;
     }
 
-    //added
+    /**
+     * Acts as the getter for all rewards.
+     * 
+     * @return the array list of all rewards in the game.
+     */
     public List<Reward> getRewards(){
         return rewards;
     }
 
-    //added
+    /**
+     * Acts as the getter for all static enemies.
+     * 
+     * @return the array list of all static enemies in the game.
+     */
     public List<StaticEnemy> getStaticEnemies() {
         return staticEnemies;
     }
 
+    /**
+     * Acts as the getter for the game score.
+     * 
+     * @return the current game's score.
+     */
     public int getScore(){
         return this.score;
     }
 
+    /**
+     * Acts as the getter for the explorer's current total hearts.
+     * 
+     * @return an int of the total hearts the explorer has.
+     */
     public int getHearts(){
         return this.hearts;
     }
 
+    /**
+     * Acts as the getter for the explorer's maximum number of hearts.
+     * 
+     * @return an int of the total hearts the explorer is set to have at the start of the game.
+     */
     public int getMaxHearts(){
         return this.maxHearts;
     }
 
-    //update the hearts int
+    /**
+     * Acts as the setter for updating the explorer's total hearts.
+     * 
+     * @param hearts the amount to increment or decrement the explorer's hearts.
+     */
     public void updateHearts(int hearts){
         this.hearts = hearts;
     }
 
-    public void updateScore(int score){
-        this.score = score;
+    /**
+     * Acts as the setter for updating the explorer's total score.
+     * 
+     * @param amountToIncrease the amount to increment or decrement the explorer's score.
+     */
+    public void updateScore(int amountToIncrease){
+        this.score += amountToIncrease;
     }
 
     public int getPixelX(Entity e) {
@@ -124,16 +188,22 @@ public class Game{
                aY + size > bY;
     }
 
-
+    /**
+     * Represents a single tick in the game.
+     * 
+     * <p>This method will be called every tick, which will then perform various operations to update the game state.</p>
+     */
     public void tick(){
+        Position explorerPos = this.explorer.getPosition();
         if(invincible) {
             invincibleCounter++;
             if(invincibleCounter > 20) {
                 invincible = false;
                 invincibleCounter = 0;
             }
-
         }
+
+        //moving the enemies to the explorer's position
         for(MovingEnemy m: movingEnemies){
             m.updateMovement(explorer.getPosition());
         }
@@ -144,17 +214,60 @@ public class Game{
                     updateHearts(hearts);
                     invincible = true;
                     invincibleCounter = 0;
+                }    
+            }
+        }
+
+        boolean standingOnHazard = false;
+
+        for (StaticEnemy s : staticEnemies) {
+            Position staticPos = s.getPosition();
+
+            if (staticPos.equals(explorerPos)) {
+                standingOnHazard = true;
+                
+                if (!onStaticEntity) {
+                    if (!explorer.isShieldActive()) {
+                        if (s instanceof Thorns) {
+                            this.updateScore(-1);
+                        } else if (s instanceof BearTrap) {
+                            this.updateScore(-3);
+                        }
+                    } else {
+                        explorer.deactivateShield();
+                    }
                 }
             }
         }
+
+        onStaticEntity = standingOnHazard;
+        explorer.updateShield();
+
         ticksSinceLastShieldSpawn++;
         if(ticksSinceLastShieldSpawn >= shieldSpawnCooldown){
             ticksSinceLastShieldSpawn = 0;
+
+            for (Reward shield : rewards) {
+                if (!shield.isCollected() && shield.getValue() == 0) {
+                    shield.setUncollected();
+                }
+            }
         }
+
+        for (Reward reward : rewards) {
+            if (reward.getPosition().equals(explorerPos) && !reward.isCollected()) {
+                explorer.collectReward(reward);
+                break;
+            }
+        }
+
         checkLoseCondition();
         checkWinCondition();
     }
 
+    /**
+     * Checks to see if the game's winning conditions is satisfied, and sets the game's state to 'WON' if so.
+     */
     public void checkWinCondition(){
         //collected all the coins ; walk over treasure map
 
@@ -171,6 +284,9 @@ public class Game{
         state = GameState.WON;
     }
 
+    /**
+     * Checks to see if the game's losing conditions are satisfied, and sets the game's state to 'LOST' if so.     * 
+     */
     public void checkLoseCondition(){
         //either lost all their coins or all their hearts
 
@@ -178,15 +294,12 @@ public class Game{
             state = GameState.LOST;
         }
     }
-
-    public void endGame(boolean hasWon){
-        if(hasWon==true){
-            state = GameState.WON;
-        }
-        else{
-            state = GameState.LOST;
-        }
-    }
+    
+    /**
+     * Updates the users position, and performs relevant logic after the player moves, based on the user's input.
+     * 
+     * @param e the key that the user pressed.
+     */
     public void input(KeyEvent e){
         //this is the one that actually implements it
         Position current = explorer.getPosition();
@@ -197,12 +310,14 @@ public class Game{
                 break;
             case KeyEvent.VK_A:
                 next = new Position(current.getX()-1, current.getY());//moving leftwards
+                explorer.setFacing(Direction.LEFT);
                 break;
             case KeyEvent.VK_S:
                 next = new Position(current.getX(), current.getY()+1); //moving downwards
                 break;
             case KeyEvent.VK_D:
                 next = new Position(current.getX()+1, current.getY()); //moving rightwards
+                explorer.setFacing(Direction.RIGHT);
                 break;
         }
 

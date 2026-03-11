@@ -3,10 +3,18 @@ import game.ui.*;
 import javax.swing.JFrame;
 
 /**
- * The entry point of the game. Responsible for initializing the game logic,
- * setting up the GUI window and starting the game
+ * Initalizes the game logic and sets up the GUI window and starts the game.
+ * 
+ * @author Maryna Almeida
+ * @version 1.0
  * */
 public class Main {
+    /**
+     * Initializes necessary variables, and calls {@link Game} to start the game.
+     * 
+     * @param args parameters given when main is called from the terminal.
+     * @throws Exception throws any potential errors that may arise.
+     */
     public static void main(String[] args) throws Exception {
         Game explorerGame = new Game();
 
