@@ -307,7 +307,12 @@ public class Game{
             return;
         }
 
-        state = GameState.WON;
+        for (Reward r : rewards) {
+            if (r instanceof Chest && r.getPosition().equals(explorer.getPosition())) {
+                state = GameState.WON;
+                return;
+            }
+        }
     }
 
     /**

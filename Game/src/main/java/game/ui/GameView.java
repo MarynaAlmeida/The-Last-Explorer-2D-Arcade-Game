@@ -372,7 +372,7 @@ public class GameView extends JPanel implements ActionListener{
         Position explorerPos = game.getExplorer().getPosition();
 
         return Math.max(0, Math.min(explorerPos.getX() - zoomedInTotalTilesForWidth / 2,
-        map.getHeight() - zoomedInTotalTilesForHeight));
+        map.getWidth() - zoomedInTotalTilesForWidth));
     }
 
     /**

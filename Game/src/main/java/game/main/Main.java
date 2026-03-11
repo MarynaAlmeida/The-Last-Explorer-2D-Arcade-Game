@@ -55,6 +55,12 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Resets the game components and starts a new game.
+     * 
+     * @param container contains game screens.
+     * @param cardLayout manages game screens.
+     */
     public static void remakeGame(JPanel container, CardLayout cardLayout) {
         Game explorerGame = new Game();
         explorerGame.startGame();
