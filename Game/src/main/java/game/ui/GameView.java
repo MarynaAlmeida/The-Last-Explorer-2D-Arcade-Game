@@ -534,6 +534,17 @@ public class GameView extends JPanel implements ActionListener{
 
     }
 
+    /**
+     * Stops the GameView from running.
+     * 
+     * <p>This method will be called once a player loses the game, as it allows them
+     * to restart without any previous GameView panels staying on the screen.</p>
+     */
+    public void stopLoop() {
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -9,6 +9,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 
+import game.main.Game;
+import game.main.Main;
+import game.entities.enemies.rewards.Reward;
+import game.enums.GameState;
+
 import game.ui.GameView;
 public class LosingByCoins extends JPanel{
     //NO BUTTON YET CHECK!!
@@ -17,7 +22,10 @@ public class LosingByCoins extends JPanel{
     private Image backButton;
     private Image gameover;
     private int buttonX, buttonY, buttonW, buttonH;
-    public LosingByCoins(GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
+    private Game g;
+
+    public LosingByCoins(Game g, GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
+        this.g = g;
         this.gv = gv;
         this.backButton = new ImageIcon("../Assets/Icons/backbuttonCOINS.png").getImage();
         this.coins = new ImageIcon("../Assets/Icons/Coin.png").getImage();
@@ -35,7 +43,8 @@ public class LosingByCoins extends JPanel{
             public void mouseClicked(MouseEvent e){
                 if(e.getX() >= buttonX && e.getX() <= buttonX + buttonW
                 && e.getY() >= buttonY && e.getY() <= buttonY+buttonH){
-                    cardLayout.show(container, "START");
+                    gv.stopLoop();
+                    Main.remakeGame(container, cardLayout);
                 }
             }
         });
