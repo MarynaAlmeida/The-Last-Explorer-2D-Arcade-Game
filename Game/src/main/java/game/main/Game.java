@@ -8,7 +8,6 @@ import game.ui.GameView;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.event.*;
-import game.ui.GameView;
 
 /**
  * Creates the maze game and updates the maze.
@@ -313,10 +312,18 @@ public class Game{
      */
     public void checkLoseCondition(){
         //either lost all their coins or all their hearts
-
-        if(this.hearts <= 0 || rewards.isEmpty()){
+        if(this.hearts <= 0 || this.score < 0) {
             state = GameState.LOST;
         }
+    }
+
+    /**
+     * Acts as a getter for the state enumerator.
+     * 
+     * @return an enumerator value indicating the state of the game.
+     */
+    public GameState getState() {
+        return state;
     }
     
     /**

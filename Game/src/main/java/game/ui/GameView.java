@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import game.enums.GameState;
 
 /**
  * Handles the visuals of the game world, including entities,
@@ -44,6 +45,8 @@ public class GameView extends JPanel implements ActionListener{
     private Image emptyHeartImage;
     private Image tutorialPage;
     private boolean isTutorialActive = true;
+    private CardLayout cardLayout;
+    private JPanel container;
 
     private boolean isMapToggled = false;
     private int zoomedInTileSize;
@@ -56,8 +59,10 @@ public class GameView extends JPanel implements ActionListener{
  * 
  * @param game the game state to be visualized
  * */
-    public GameView(Game game) {
+    public GameView(Game game, JPanel container, CardLayout cardLayout) {
         this.game = game;
+        this.container = container;
+        this.cardLayout = cardLayout;
         this.explorerImage = new ImageIcon("../Assets/Icons/Explorer.png").getImage();
         this.treeImage = new ImageIcon("../Assets/Icons/Tree.png").getImage();
         this.hedgeImage = new ImageIcon("../Assets/Icons/Hedge.png").getImage();
@@ -85,8 +90,8 @@ public class GameView extends JPanel implements ActionListener{
 
         zoomedInTileSize = 48;
 
-        zoomedInTotalTilesForWidth = 12;
-        zoomedInTotalTilesForHeight = 10;
+        zoomedInTotalTilesForWidth = 16;
+        zoomedInTotalTilesForHeight = 12;
 
         // Tells the JFrame how big the panel is going to be
         this.setPreferredSize(new Dimension(width, height));
@@ -549,6 +554,19 @@ public class GameView extends JPanel implements ActionListener{
         if (!isTutorialActive && !isMapToggled) {
             game.tick();
         }
+
+        if (game.getState() == GameState.WON) {
+            cardLayout.show(container, "WIN");
+        }
+
+        if (game.getState() == GameState.LOST) {
+            if (game.getScore() < 0) {
+                cardLayout.show(container, "COINSLOSING");
+            } else {
+                cardLayout.show(container, "HEARTSLOSING");
+            }
+        }
+
         repaint();
     }
 
@@ -575,18 +593,18 @@ public class GameView extends JPanel implements ActionListener{
         if (game.getExplorer().isShieldActive()) {
             int secondsRemaining = game.getExplorer().getShieldTicksRemaining() / 20;
 
-            g.drawImage(shieldImage, 100, 0, 30, 30, null);
+            g.drawImage(shieldImage, 125, 3, 30, 30, null);
             
             String shieldSecondsRemaining = Integer.toString(secondsRemaining);
 
             g.setColor(Color.BLACK);
-            g.drawString(shieldSecondsRemaining, 135, 26); 
-            g.drawString(shieldSecondsRemaining, 141, 26); 
-            g.drawString(shieldSecondsRemaining, 138, 24); 
-            g.drawString(shieldSecondsRemaining, 138, 28); 
+            g.drawString(shieldSecondsRemaining, 162, 27); 
+            g.drawString(shieldSecondsRemaining, 158, 27); 
+            g.drawString(shieldSecondsRemaining, 160, 25); 
+            g.drawString(shieldSecondsRemaining, 160, 29); 
 
             g.setColor(Color.WHITE);
-            g.drawString(shieldSecondsRemaining, 138, 26); 
+            g.drawString(shieldSecondsRemaining, 160, 27); 
         }
 
     }
