@@ -10,12 +10,23 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import game.ui.GameView;
+/**
+ * Handles visuals for the homepage including background, title and start button
+ * @author Komal Kaur
+ */
 public class HomePage extends JPanel{
     private Image background;
     private Image text;
     private Image start;
     private int buttonX, buttonY, buttonW, buttonH;
     //need a start button too
+    /**
+     * constructor creates the homepage panel with start button, background and title
+     * @param game the game used to set the dimensions
+     * @param container the container to store all the views 
+     * @param cardLayout the layout used to manage the views
+     * @param view the game view start button leads to
+     */
     public HomePage(Game game, JPanel container, CardLayout cardLayout, GameView view){
         this.background = new ImageIcon("../Assets/Icons/HomePage.png").getImage();
         this.start = new ImageIcon("../Assets/Icons/HomeButton.png").getImage();
@@ -28,6 +39,8 @@ public class HomePage extends JPanel{
         buttonH = 100;
         buttonX = (width - buttonW) /2;
         buttonY = (height-buttonH) /2 + 150;
+
+        //listens to the mouse clicks and switches to game view when the start button is clicked
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e){
@@ -41,6 +54,10 @@ public class HomePage extends JPanel{
 
     }
 
+    /**
+     * Draws the background the title and the start button
+     * @param g the graphics context for drawing
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         int textX = (getWidth() - 700)/2;

@@ -68,6 +68,12 @@ public class GameMap{
                 else if (symbol == 't') {
                     type = CellType.TREE;
                 }
+                else if(symbol == 'o') {
+                    Chest chest = new Chest(pos, 10, 3);
+                    rewards.add(chest);
+                    this.placeEntity(chest, pos);
+                    type = CellType.CHEST;
+                }
                 // char c on map.txt means a coin was placed at that tile
                 else if(symbol == 'c') {
                     Coin coin = new Coin(pos, 1);
@@ -211,7 +217,7 @@ public class GameMap{
         Cell pos = grid[y][x]; 
         // Enemies only care if the tile is a physical wall (Hedge/Tree)
         // They ignore whether an entity (like the Explorer) is there.
-        return pos.isTraversable();
+        return pos.isTraversable() && pos.getType() != CellType.CHEST;
 
     }
 

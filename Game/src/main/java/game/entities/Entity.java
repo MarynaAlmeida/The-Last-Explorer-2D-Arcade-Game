@@ -1,5 +1,7 @@
 package game.entities;
 
+import game.entities.enemies.StaticEnemy;
+import game.entities.enemies.rewards.Reward;
 import game.main.Position;
 
 /**

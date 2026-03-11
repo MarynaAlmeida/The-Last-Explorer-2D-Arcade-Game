@@ -1,6 +1,7 @@
 package game.ui;
 import java.util.List;
 import game.entities.enemies.*;
+import game.entities.enemies.rewards.Chest;
 import game.entities.enemies.rewards.Coin;
 import game.entities.enemies.rewards.Reward;
 import game.entities.enemies.rewards.Shield;
@@ -35,7 +36,8 @@ public class GameView extends JPanel implements ActionListener{
     private Image foxImage;
     private Image grassImage;
     private Image coinImage;
-    private Image chestImage;
+    private Image closedChestImage;
+    private Image openChestImage;
     private Image bearTrapImage;
     private Image shieldImage;
     private Image fullHeartImage;
@@ -72,7 +74,8 @@ public class GameView extends JPanel implements ActionListener{
         this.grassImage = new ImageIcon("../Assets/Icons/GrassTile4copy.png").getImage();
         this.thornImage = new ImageIcon("../Assets/Icons/Thorn.png").getImage();
         this.coinImage = new ImageIcon("../Assets/Icons/Coin.png").getImage();
-        this.chestImage = new ImageIcon("../Assets/Icons/ClosedChest.png").getImage();
+        this.closedChestImage = new ImageIcon("../Assets/Icons/ClosedChest.png").getImage();
+        this.openChestImage = new ImageIcon("../Assets/Icons/OpenChest.png").getImage();
         this.bearTrapImage = new ImageIcon("../Assets/Icons/Beartrap.png").getImage();
         this.shieldImage = new ImageIcon("../Assets/Icons/Shield.png").getImage();
         this.fullHeartImage = new ImageIcon("../Assets/Icons/Heart.png").getImage();
@@ -174,9 +177,9 @@ public class GameView extends JPanel implements ActionListener{
     public void drawWholeMap(Graphics g) {
         int tileSize = 32;
         drawBarriers(g, tileSize);
+        drawRewards(g, tileSize);
         drawMovingEntities(g, tileSize);
         drawStaticEntities(g, tileSize);
-        drawRewards(g, tileSize);
         drawHearts(g, tileSize);
     }
 
@@ -189,9 +192,9 @@ public class GameView extends JPanel implements ActionListener{
      */
     public void drawPartialMap(Graphics g) {
         drawVisibleBarriers(g);
+        drawVisibleRewards(g);
         drawVisibleMovingEntities(g);
         drawVisibleStaticEntities(g);
-        drawVisibleRewards(g);
         paintRewardHUDs(g);
         drawHearts(g, tileSize);
     }
@@ -285,8 +288,17 @@ public class GameView extends JPanel implements ActionListener{
     private void drawRewards(Graphics g, int tileSize) {
         List<Reward> rewards = game.getRewards();
         for(Reward r : rewards) {
+            Position rPos = r.getPosition();
+            if (r instanceof Chest) {
+                Chest chest = (Chest) r;
+                if(chest.canChestOpen()){
+                    g.drawImage(openChestImage, rPos.getX() * tileSize, rPos.getY() * tileSize, tileSize, tileSize, null);
+                }
+                else {
+                    g.drawImage(closedChestImage, rPos.getX() * tileSize, rPos.getY() * tileSize, tileSize, tileSize, null);
+                }
+            }
             if(!r.isCollected()){
-                Position rPos = r.getPosition();
                 if(r instanceof Coin) {
                     g.drawImage(coinImage,rPos.getX() * tileSize + 8, rPos.getY() * tileSize + 8, (int) (tileSize * 0.5), (int) (tileSize * 0.5),null );
                 }
@@ -295,6 +307,7 @@ public class GameView extends JPanel implements ActionListener{
                 }
             }
         }
+        
     }
 
     /**

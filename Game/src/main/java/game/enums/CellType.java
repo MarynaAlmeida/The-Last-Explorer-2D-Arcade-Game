@@ -7,5 +7,5 @@ package game.enums;
  * @version 1.0
  */
 public enum CellType{
-    HEDGE, TREE, START, END, EMPTY
+    HEDGE, TREE, START, END, EMPTY, CHEST
 }
