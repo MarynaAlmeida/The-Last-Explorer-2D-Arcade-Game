@@ -8,7 +8,6 @@ import game.ui.GameView;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.event.*;
-import game.ui.GameView;
 
 /**
  * Creates the maze game and updates the maze.
