@@ -30,7 +30,7 @@ public class Main {
         CardLayout cardLayout = new CardLayout(); //the one that manages all the views by " "
         JPanel container = new JPanel(cardLayout); //has all the views
 
-        GameView view = new GameView(explorerGame);
+        GameView view = new GameView(explorerGame, container, cardLayout);
         WinningView win = new WinningView(explorerGame);
         LosingByCoins loseC = new LosingByCoins(view, cardLayout, container);
         LosingbyHearts loseH = new LosingbyHearts(view, cardLayout, container);
