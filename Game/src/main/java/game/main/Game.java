@@ -38,7 +38,7 @@ public class Game{
 
     /**
      * Constructor for the game class.
-     * 
+     *
      * <p>This constructor initializes the values, hearts, score, cooldowns, and arrays for all entities.</p>
      */
     public Game(){
@@ -71,7 +71,7 @@ public class Game{
 
     /**
      * Acts as a getter for the current game's map.
-     * 
+     *
      * @return the current game's map.
      */
     public GameMap getMap(){
@@ -80,7 +80,7 @@ public class Game{
 
     /**
      * Acts as a getter for the chest.
-     * 
+     *
      * @return the game chest.
      */
     public Chest getChest() {
@@ -89,7 +89,7 @@ public class Game{
 
     /**
      * Acts as a getter for the explorer.
-     * 
+     *
      * @return the current game's explorer object.
      */
     public Explorer getExplorer() {
@@ -98,7 +98,7 @@ public class Game{
 
     /**
      * Acts as the getter for moving enemies.
-     * 
+     *
      * @return the array list of all moving enemies in the game.
      */
     public List<MovingEnemy> getMovingEnemies() {
@@ -107,7 +107,7 @@ public class Game{
 
     /**
      * Acts as the getter for all rewards.
-     * 
+     *
      * @return the array list of all rewards in the game.
      */
     public List<Reward> getRewards(){
@@ -116,7 +116,7 @@ public class Game{
 
     /**
      * Acts as the getter for all static enemies.
-     * 
+     *
      * @return the array list of all static enemies in the game.
      */
     public List<StaticEnemy> getStaticEnemies() {
@@ -125,7 +125,7 @@ public class Game{
 
     /**
      * Acts as the getter for the game score.
-     * 
+     *
      * @return the current game's score.
      */
     public int getScore(){
@@ -134,7 +134,7 @@ public class Game{
 
     /**
      * Acts as the getter for the explorer's current total hearts.
-     * 
+     *
      * @return an int of the total hearts the explorer has.
      */
     public int getHearts(){
@@ -143,7 +143,7 @@ public class Game{
 
     /**
      * Acts as the getter for the explorer's maximum number of hearts.
-     * 
+     *
      * @return an int of the total hearts the explorer is set to have at the start of the game.
      */
     public int getMaxHearts(){
@@ -152,16 +152,16 @@ public class Game{
 
     /**
      * Acts as the setter for updating the explorer's total hearts.
-     * 
+     *
      * @param hearts the amount to increment or decrement the explorer's hearts.
      */
     public void updateHearts(int hearts){
-        this.hearts = hearts;
+        this.hearts += hearts;
     }
 
     /**
      * Acts as the setter for updating the explorer's total score.
-     * 
+     *
      * @param amountToIncrease the amount to increment or decrement the explorer's score.
      */
     public void updateScore(int amountToIncrease){
@@ -169,34 +169,34 @@ public class Game{
     }
 
     /** Returns the horizontal pixel coordinate of the given entity.
-     * <p>If the entity is a {@link MovingEnemy}, it returns a sliding 
-     * pixel position. Otherwise, it calculates the pixel position based on the 
+     * <p>If the entity is a {@link MovingEnemy}, it returns a sliding
+     * pixel position. Otherwise, it calculates the pixel position based on the
      * entity's grid coordinates multiplied by the tile size.</p>
      * @param e the entity that the x-coordinate is being asked.
      * @retun x-coordinate in pixel.
      */
     public int getPixelX(Entity e) {
         if( e instanceof MovingEnemy) {
-            return ((MovingEnemy) e).getPixelX(); 
+            return ((MovingEnemy) e).getPixelX();
         }
         return e.getPosition().getX() * 32;
     }
 
     /** Returns the vertical pixel coordinate of the given entity.
-     * <p>If the entity is a {@link MovingEnemy}, it returns a sliding 
-     * pixel position. Otherwise, it calculates the pixel position based on the 
+     * <p>If the entity is a {@link MovingEnemy}, it returns a sliding
+     * pixel position. Otherwise, it calculates the pixel position based on the
      * entity's grid coordinates multiplied by the tile size.</p>
      * @param e the entity that the y-coordinate is being asked.
      * @retun y-coordinate in pixel.
      */
     public int getPixelY(Entity e) {
         if( e instanceof MovingEnemy) {
-            return ((MovingEnemy) e).getPixelY(); 
+            return ((MovingEnemy) e).getPixelY();
         }
-        return e.getPosition().getY() * 32; 
+        return e.getPosition().getY() * 32;
     }
 
-    
+
     /** Detects the collision between the moving enemy and the explorer.
      * Since explorer is tyle-based and moving enemy is pixel-based, it will get
      * the pixel coordinates for both.
@@ -218,7 +218,7 @@ public class Game{
 
     /**
      * Represents a single tick in the game.
-     * 
+     *
      * <p>This method will be called every tick, which will then perform various operations to update the game state.</p>
      */
     public void tick(){
@@ -241,7 +241,7 @@ public class Game{
                     updateHearts(hearts);
                     invincible = true;
                     invincibleCounter = 0;
-                }    
+                }
             }
         }
 
@@ -252,7 +252,7 @@ public class Game{
 
             if (staticPos.equals(explorerPos)) {
                 standingOnHazard = true;
-                
+
                 if (!onStaticEntity) {
                     if (!explorer.isShieldActive()) {
                         if (s instanceof Thorns) {
@@ -288,7 +288,7 @@ public class Game{
                     if(!chest.canChestOpen()) {
                         if(chest.attemptOpening(this.coinsCollected)) {
                             this.updateScore(chest.bonusScore());
-                        }      
+                        }
                     }
                     continue;
                 }
@@ -300,7 +300,7 @@ public class Game{
                     break;
                 }
 
-                
+
             }
         }
 
@@ -336,7 +336,7 @@ public class Game{
     }
 
     /**
-     * Checks to see if the game's losing conditions are satisfied, and sets the game's state to 'LOST' if so.     * 
+     * Checks to see if the game's losing conditions are satisfied, and sets the game's state to 'LOST' if so.     *
      */
     public void checkLoseCondition(){
         //either lost all their coins or all their hearts
@@ -347,7 +347,7 @@ public class Game{
 
     /**
      * Acts as a getter for the state enumerator.
-     * 
+     *
      * @return an enumerator value indicating the state of the game.
      */
     public GameState getState() {
@@ -356,16 +356,16 @@ public class Game{
 
     /**
      * Acts as a setter for the state enumerator.
-     * 
+     *
      * @param state the state to set the enumerator.
      */
     public void setState(GameState state) {
         this.state = state;
     }
-    
+
     /**
      * Updates the users position, and performs relevant logic after the player moves, based on the user's input.
-     * 
+     *
      * @param e the key that the user pressed.
      */
     public void input(KeyEvent e){
@@ -393,11 +393,11 @@ public class Game{
             Position oldPos = explorer.getPosition();
             Cell cell = gamemap.getCell(next);
             Entity en = cell.getEntity();
-            
+
             // if(en !=null){
             //     //en.onCollision(explorer);
             // }
-    
+
             gamemap.removeEntity(oldPos);
             explorer.setPosition(next);
             gamemap.placeEntity(explorer, next);
