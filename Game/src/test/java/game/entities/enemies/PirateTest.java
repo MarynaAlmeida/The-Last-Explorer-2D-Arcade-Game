@@ -7,6 +7,13 @@ import game.enums.PirateType;
 import game.main.GameMap;
 import game.main.Position;
 
+/**
+ * Unit tests for Pirate class.
+ *
+ * @author Maryna Almeida
+ * @version 1.0
+ */
+
 public class PirateTest {
     
     @Test

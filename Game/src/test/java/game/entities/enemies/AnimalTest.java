@@ -6,6 +6,12 @@ import java.util.ArrayList;
 import game.enums.AnimalType;
 import game.main.GameMap;
 import game.main.Position;
+/**
+ * Unit tests for Animal class.
+ *
+ * @author Maryna Almeida
+ * @version 1.0
+ */
 
 public class AnimalTest {
     

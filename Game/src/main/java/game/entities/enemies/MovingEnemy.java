@@ -107,7 +107,7 @@ public class MovingEnemy extends Character {
             case RIGHT:
                 this.velocityX = tileSize/4;
                 this.velocityY = 0;
-                break;     
+                break;    
         }
     }
 

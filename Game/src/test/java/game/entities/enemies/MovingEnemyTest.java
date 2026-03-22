@@ -8,6 +8,13 @@ import game.main.GameMap;
 import game.main.Position;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Unit tests for MovingEnemy class.
+ *
+ * @author Maryna Almeida
+ * @version 1.0
+ */
+
 public class MovingEnemyTest {
     
     @Test
@@ -80,6 +87,7 @@ public class MovingEnemyTest {
         assertEquals(0, enemy.getVelocityY());
     }
 
+
     @Test
     void testUpdateDirection_RIGHT() {
         GameMap testMap = new GameMap();
@@ -91,6 +99,8 @@ public class MovingEnemyTest {
         assertEquals(0, enemy.getVelocityY());
     }
 
+
+
     @Test
     void testUpdateMovement() {
         GameMap testMap = new GameMap();
@@ -101,8 +111,26 @@ public class MovingEnemyTest {
         enemy.updateMovement(new Position(14, 0));
         enemy.updateMovement(new Position(14, 0));
         enemy.updateMovement(new Position(14, 0));
-        assertFalse(enemy.getVelocityX() == 0 && enemy.getVelocityY()== 0);
+        assertFalse(enemy.getVelocityX() == 0 && enemy.getVelocityY() == 0);
     }
+
+    @Test
+    void testUpdateMovement_alreadyMoving() {
+        GameMap testMap = new GameMap();
+        testMap.loadMap("../Assets/map.txt", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Position defaultPos = new Position(7, 9); 
+        boolean nonZeroVelocity = false;
+        MovingEnemy enemy = new MovingEnemy(defaultPos, testMap);
+        for (int i = 0; i < 100; i++) {
+            enemy.updateMovement(new Position(14, 0));
+            if (enemy.getVelocityX() != 0 || enemy.getVelocityY() != 0) {
+                nonZeroVelocity = true;
+                break; 
+            }
+        }
+       assertTrue(nonZeroVelocity, "Enemy should have had moved to an open area");
+    }
+
 
     @Test
     void testOppositeDirection_UP() {
