@@ -27,6 +27,14 @@ public class WinningView extends JPanel{
         
         this.setPreferredSize(new Dimension(width, height));
     }
+    
+    public int getHeight(){
+        return this.height;
+    }
+
+    public int getWidth(){
+        return this.width;
+    }
     /**
      * Draws the winning background, chest images and winning text
      * @param g the graphics context for drawing
