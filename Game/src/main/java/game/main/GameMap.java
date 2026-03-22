@@ -83,7 +83,7 @@ public class GameMap{
                 }
                 // char s on map.txt means a shield was placed at that tile
                 else if(symbol == 's') {
-                    Shield shield = new Shield(pos, 200, 10);
+                    Shield shield = new Shield(pos, 200);
                     rewards.add(shield);
                     this.placeEntity(shield, pos);
                 }
