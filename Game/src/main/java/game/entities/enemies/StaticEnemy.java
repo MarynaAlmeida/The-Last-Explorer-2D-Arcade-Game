@@ -48,4 +48,13 @@ public abstract class StaticEnemy extends Entity {
             game.updateHearts(-damageValue);
         }
     }
+
+    /**
+     * Setter for the game variable.
+     *
+     * @param game the variable which will set up the game.
+     */
+    public void setGame(Game game) {
+        this.game = game;
+    }
 }

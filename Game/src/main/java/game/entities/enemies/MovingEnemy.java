@@ -11,7 +11,7 @@ import game.main.GameMap;
 import game.main.Position;
 
 /**
- * Abstract base class for all enemies that navigate the map to the explorer
+ * Abstract base class for all enemies that navigate the map to the explorer.
  * */
 
 public abstract class MovingEnemy extends Character {
@@ -23,13 +23,14 @@ public abstract class MovingEnemy extends Character {
     private int velocityY = 0;
     protected Direction currentDir;
     private int tileSize = 32;
-    Direction[] directions = Direction.values(); // up, down, left, right
+    Direction[] directions = Direction.values();
     Random random = new Random();
     
     /**
-     * Initializes moving enemy at a certain position with a default speed
-     * 
-     * @param pos starting position of enemy on the game map
+     * Initializes a moving enemy at a specific grid position, converting it to
+     * pixel coordinates with a default movement speed.
+     * @param pos starting position of enemy on the game map.
+     * @param map game map that the enemies exist on.
      * */
 
     public MovingEnemy(Position pos, GameMap map) {
@@ -41,56 +42,51 @@ public abstract class MovingEnemy extends Character {
         this.defaulPosition = new Position(pos.getX(), pos.getY());
         
     }
-
-    public void resetPosition() {
-        this.setPosition(new Position(defaulPosition.getX(), defaulPosition.getY()));
-        // IMPORTANT: Also reset your sliding pixel coordinates!
-        // If your pixels aren't reset, the enemy will "teleport" back on the grid 
-        // but visually stay where they were.
-        this.pixelX = defaulPosition.getX() * 32;
-        this.pixelY = defaulPosition.getY() * 32;
-
-    }
-
-
+    /**
+     * Converts pixel movements back into pixel coordinates to check for collision/traversability.
+     */
 
     private void move() {
        this.pixelX += velocityX;
        this.pixelY += velocityY;
-       //Convert pixels back to Grid coordinates for your Cell logic
+       /** Converts pixels back to grid coordinates. */
        int gridX = this.pixelX / tileSize;
        int gridY = this.pixelY / tileSize;
        Position newGridPos = new Position(gridX, gridY);
 
-       // check if the cell at that position is tranversable
+       /** Checks if the cell at that position is tranversable. */
        if(map.isValidEnemyMove(newGridPos)) {
            this.setPosition(newGridPos);
        }
        else{
-           // hit an hedge or tree, step back
+        /** If enemy hits a hedge or tree, step back. */
            this.pixelX -= velocityX;
            this.pixelY -= velocityY;
 
-
-           // IMPORTANT: Stop them so updateMovement knows to pick a new path!
+           /** Resets the velocity, so a new path can be chosen. */
            this.velocityX = 0;
            this.velocityY = 0;
        }
    }
 
+   /** @return current x-coordinate in pixels.
+   */
     public int getPixelX() {
         return this.pixelX;
     }
 
+    /** @return current y-coordinate in pixels.
+    */
     public int getPixelY() {
         return this.pixelY;
     }
 
-
+    /** Updates the enemy's current direction and sets the 
+     * velocity vectors to enable smooth sliding animation.
+     * @param newDir the new {@link Direction} for the enemy to face.
+     */
     private void updateDirection(Direction newDir) {
-       // Direction prevDir = this.currentDir;
         this.currentDir = newDir;
-        // setting velocity so it can slide 
         switch (newDir) {
             case UP:
                 this.velocityX = 0;
@@ -113,16 +109,15 @@ public abstract class MovingEnemy extends Character {
     }
 
     /**
-     * Executes a basic path finding algorithm to move one step closer to the explorer.
+     * Executes a basic pathfinding algorithm to move through the map.
      * 
-     * <p>The enemy first tries horizontal movements, then vertical movements,
-     * then attempts perpendicular deviations if blocked.</p>
+     * <p>If the enemy hits a hedge or tree, it selects a new random direction 
+     * (excluding the one it just came from) to ensure continuous movement.</p>
      * 
      * @param explorerPos the current position of the explorer for the enemy to track.
      * */
     public void updateMovement(Position explorerPos) {
         this.move();
-       // if move() set velocity to 0, it means we hit a hedge or tree
        if(this.velocityX == 0 && this.velocityY == 0) {  
            Direction nextDir;
         do {
@@ -132,7 +127,11 @@ public abstract class MovingEnemy extends Character {
        }
    }     
 
-   // prevent from going back and forth all the time
+   /** Calculates and returns the opposite of the given direction.
+    * This is used to prevent the enemy from immediately reversing its path.
+    * @param dir current direction to be inverted.
+    * @return the {@link Direction} opposite to the current direction.
+    */
    private Direction getOpposite(Direction dir) {
         switch(dir) {
             case UP: return Direction.DOWN;

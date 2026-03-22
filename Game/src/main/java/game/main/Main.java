@@ -32,8 +32,8 @@ public class Main {
 
         GameView view = new GameView(explorerGame, container, cardLayout);
         WinningView win = new WinningView(explorerGame);
-        LosingByCoins loseC = new LosingByCoins(view, cardLayout, container);
-        LosingbyHearts loseH = new LosingbyHearts(view, cardLayout, container);
+        LosingByCoins loseC = new LosingByCoins(explorerGame, view, cardLayout, container);
+        LosingbyHearts loseH = new LosingbyHearts(explorerGame, view, cardLayout, container);
         HomePage home = new HomePage(explorerGame, container, cardLayout, view);
 
         container.add(home, "START");
@@ -53,5 +53,35 @@ public class Main {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    /**
+     * Resets the game components and starts a new game.
+     * 
+     * @param container contains game screens.
+     * @param cardLayout manages game screens.
+     */
+    public static void remakeGame(JPanel container, CardLayout cardLayout) {
+        Game explorerGame = new Game();
+        explorerGame.startGame();
+
+        GameView view = new GameView(explorerGame, container, cardLayout);
+        WinningView win = new WinningView(explorerGame);
+        LosingByCoins loseC = new LosingByCoins(explorerGame, view, cardLayout, container);
+        LosingbyHearts loseH = new LosingbyHearts(explorerGame, view, cardLayout, container);
+        HomePage home = new HomePage(explorerGame, container, cardLayout, view);
+
+        container.removeAll();
+
+        container.add(home, "START");
+        container.add(view, "GAME");
+        container.add(loseC ,"COINSLOSING");
+        container.add(loseH, "HEARTSLOSING");
+        container.add(win, "WIN");
+        
+        container.revalidate();
+        container.repaint();
+
+        cardLayout.show(container, "START");
     }
 }

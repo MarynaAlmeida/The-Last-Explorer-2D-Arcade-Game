@@ -21,9 +21,9 @@ public class Explorer extends Character{
      * Initializes explorer in specific position with no active shield.
      * 
      * @param pos position of explorer on the game map.
+     * @param map game map that the explorer exists on.
      * */
     public Explorer(Position pos, GameMap map) {
-        // should Character constructor have GameMap or Game as parameter.
         super(pos, map);
         this.hasShield = false;
         this.shieldTicksRemaining = 0;

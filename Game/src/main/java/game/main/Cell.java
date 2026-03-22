@@ -1,5 +1,4 @@
 package game.main;
-
 import game.enums.CellType;
 import game.entities.Entity;
 
@@ -52,7 +51,7 @@ public class Cell {
      * Applies an entity into this cell.
      * Overwrites possible entities available without verifying.
      *
-     * @param entity the entity to put into this cell (e.g may note to be null).
+     * @param entity the entity to put into this cell (e.g. may note to be null).
      */
     public void setEntity(Entity entity) {
         this.entity = entity;
@@ -84,4 +83,24 @@ public class Cell {
     public CellType getType() {
         return type;
     }
+
+    /**
+     * Applying a position to a cell.
+     *
+     * @param position the position of this cell.
+     */
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    /**
+     * Returns the current position of cell.
+     *
+     * @return position.
+     */
+    public Position getPosition() {
+        return position;
+    }
+
 }

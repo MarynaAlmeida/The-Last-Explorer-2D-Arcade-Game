@@ -68,6 +68,7 @@ public class GameMap{
                 else if (symbol == 't') {
                     type = CellType.TREE;
                 }
+                // char o on map.txt means a chest was placed at that tile
                 else if(symbol == 'o') {
                     Chest chest = new Chest(pos, 10, 3);
                     rewards.add(chest);
@@ -207,6 +208,13 @@ public class GameMap{
             return false;
     }
 
+    /**
+     * Checks to see if specified position is a valid cell that the enemy can move to,
+     *  <p>Enemies can move through the explorer's position but are blocked by the
+     * chest and barries (trees and hedges).</p>
+     * @param c the position of the cell that the enemy will enter.
+     * @return a boolean that's true if the cell is a valid move, and false if it is not.
+     */
     public boolean isValidEnemyMove(Position c) {
         int x = c.getX();
         int y = c.getY();

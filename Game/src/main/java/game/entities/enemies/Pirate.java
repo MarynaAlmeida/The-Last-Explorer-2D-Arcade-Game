@@ -13,16 +13,18 @@ import game.main.*;
  * @version 1.0
  * */
 public class Pirate extends MovingEnemy{
-    private PirateType pirateType;
+    private PirateType type;
     
     /**
      * Constructs a pirate object on the map at a designated location.
      * 
      * @param pos position on the map where the Animal will be placed.
+     * @param map game map that the animal exists on.
+     * @param type the type of pirate (pirate1, pirate2).
      * */
-    public Pirate(Position pos,  GameMap map, PirateType pirateType) {
+    public Pirate(Position pos,  GameMap map, PirateType type) {
         super(pos, map);
-        this.pirateType = pirateType;
+        this.type = type;
     }
 
     /**
@@ -41,6 +43,6 @@ public class Pirate extends MovingEnemy{
      * @return the pirate type.
      */
     public PirateType getPirateType() {
-        return pirateType;
+        return type;
     }
 }

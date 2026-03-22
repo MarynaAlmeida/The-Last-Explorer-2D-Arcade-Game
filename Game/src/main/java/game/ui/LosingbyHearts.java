@@ -5,8 +5,13 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import game.enums.GameState;
 import game.main.*;
 import game.ui.GameView;
+
+import game.enums.GameState;
+import game.entities.enemies.rewards.Reward;
+
 /**
  * Handles visuals for the losing screen by hearts including background,
  * heart images and game over text
@@ -14,11 +19,12 @@ import game.ui.GameView;
  */
 public class LosingbyHearts extends JPanel{
     //check for the button IMPORTANT
+    private Game g;
     private GameView gv;
     private Image backbutton;
     private Image gameover;
     private Image heart;
-    private int buttonX, buttonY, buttonW, buttonH;
+    private int buttonX, buttonY, buttonW, buttonH, boxH, boxW;
     /**
      * creates the losinghearts panel with back button, background and game over text
      *
@@ -26,7 +32,9 @@ public class LosingbyHearts extends JPanel{
      * @param cardLayout the layout used to manage the views
      * @param container the container to store all the views 
      */
-    public LosingbyHearts(GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
+    
+    public LosingbyHearts(Game g, GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
+        this.g = g;
         this.gv = gv;
         this.backbutton = new ImageIcon("../Assets/Icons/buttonHeart.png").getImage();
         this.heart = new ImageIcon("../Assets/Icons/EmptyHeart.png").getImage();
@@ -34,10 +42,12 @@ public class LosingbyHearts extends JPanel{
         this.setPreferredSize(gv.getPreferredSize());
         this.setLayout(null);
 
-        buttonW = 80;
-        buttonH = 40;
-        buttonX = (gv.getPreferredSize().width - buttonW) /2 ;
-        buttonY = ((gv.getPreferredSize().height-buttonH) /2) + 100;
+        this.boxW = 300; //need test run
+        this.boxH = 250;
+        this.buttonW = 80;
+        this.buttonH = 40;
+        this.buttonX = (gv.getPreferredSize().width - buttonW) /2 ;
+        this.buttonY = ((gv.getPreferredSize().height-buttonH) /2) + 100;
         //adding image instead of a button
         //using mouse event
 
@@ -45,14 +55,52 @@ public class LosingbyHearts extends JPanel{
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e){
-                if(e.getX() >= buttonX && e.getX() <= buttonX + buttonW
-                && e.getY() >= buttonY && e.getY() <= buttonY+buttonH){
-                    cardLayout.show(container, "START");
-                }
+                handleMouse(e.getX(), e.getY(), cardLayout, container);
             }
         });
     }
+    
+    //mouse clicked function
+    public void handleMouse(int x, int y, CardLayout cardLayout, JPanel container){
+        if(isClickInsideButton(x,y)){
+            gv.stopLoop();
+            Main.remakeGame(container, cardLayout);
+        }
+    }
 
+    //getters for button height and width first
+    public int getBWidth(){
+        return this.buttonW;
+    }
+
+    public int getBHeight(){
+        return this.buttonH;
+    }
+
+    //getters for Button x and y
+    public int getBX(){
+        return this.buttonX;
+    }
+
+    public int getBY(){
+        return this.buttonY;
+    }
+
+
+    //box getters
+    public int getBoxHeight(){
+        return this.boxH;
+    }
+    
+    public int getBoxWidth(){
+        return this.boxW;
+    }
+
+    //mouse event boundary
+
+    public boolean isClickInsideButton(int x, int y) {
+        return x >= getBX() && x <= getBX() + getBWidth() && y >= getBY() && y <= getBY() + getBHeight();
+    }
     /**
      * Draws the background the title and the back button
      * @param g the graphics context for drawing
@@ -60,22 +108,21 @@ public class LosingbyHearts extends JPanel{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         gv.paintComponent(g); //the game bg first
-        int boxW = 300; //need test run
-        int boxH = 250;
-        int boxX = (getWidth() - boxW)/2; //centering starting coordinates
-        int boxY = (getHeight() - boxH)/2;
+        
+        int boxX = (getWidth() - getBoxWidth())/2; //centering starting coordinates
+        int boxY = (getHeight() - getBoxHeight())/2;
 
         g.setColor(Color.WHITE);
         g.fillRect(boxX, boxY, boxW, boxH);
-        g.drawImage(gameover, boxH + 10, boxY+10, boxX, boxY, null);
+        g.drawImage(gameover, boxH + 10, boxY+10, getBoxWidth(), getBoxHeight(), null);
         
         int size = 32;
-        int startX = boxX + 70;
-        int startY = boxY + 100;
+        int startX = getBoxWidth() + 70;
+        int startY = getBoxHeight() + 100;
         for(int i=0; i<4; i++){
             g.drawImage(heart, startX + (i*(size+10)), startY, size, size, null);
         }
-        g.drawImage(backbutton,buttonX, buttonY, buttonW, buttonH, null);
+        g.drawImage(backbutton,getBX(), getBY(), getBWidth(), getBHeight(), null);
     }
 
     //the button takes you back to the home page 
