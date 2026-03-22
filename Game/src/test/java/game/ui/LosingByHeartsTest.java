@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import java.awt.CardLayout;
 import game.enums.GameState;
 import game.main.Game;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class LosingByHeartsTest {
     private Game game;
