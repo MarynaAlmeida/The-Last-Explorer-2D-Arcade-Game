@@ -3,7 +3,6 @@ package game.entities.enemies.rewards;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.beans.Transient;
 import game.main.Position;
 
 public class CoinTest {
@@ -32,6 +31,6 @@ public class CoinTest {
         coin.collect();
         assertTrue(coin.isCollected());
         coin.setUncollected();
-        assertFalse(coin.isCollected());E
+        assertFalse(coin.isCollected());
     }
 }

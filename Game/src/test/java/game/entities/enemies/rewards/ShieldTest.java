@@ -1,9 +1,14 @@
 package game.entities.enemies.rewards;
 
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import game.main.Position;
+
 public class ShieldTest {
     @Test
     public void testInitializedShield() {
-        Shield shield = new Shield(new Position(1, 2), 10, 20);
+        Shield shield = new Shield(new Position(1, 2), 10);
 
         assertEquals(0, shield.getValue());
         assertEquals(10, shield.getEffectDuration());
@@ -14,7 +19,7 @@ public class ShieldTest {
 
     @Test
     public void testSpawn() {
-        Shield shield = new Shield(new Position(1, 2), 10, 20);
+        Shield shield = new Shield(new Position(1, 2), 10);
 
         shield.spawn();
 
@@ -26,7 +31,7 @@ public class ShieldTest {
 
     @Test
     public void testDespawn() {
-        Shield shield = new Shield(new Position(1, 2), 10, 20);
+        Shield shield = new Shield(new Position(1, 2), 10);
 
         shield.spawn();
         shield.despawn();
@@ -38,25 +43,26 @@ public class ShieldTest {
 
     @Test
     public void testCollect() {
-        Shield shield = new Shield(new Position(1, 2), 10, 20);
+        Shield shield = new Shield(new Position(1, 2), 10);
 
         shield.spawn();
         shield.collect();
 
-        assertTrue(shield.isSpawned());
+        assertFalse(shield.isSpawned());
         assertTrue(shield.isCollected());
     }
 
     @Test
     public void testUpdateOnBoardWhenSpawned() {
-        Shield shield = new Shield(new Position(1, 2), 10, 20);
+        Shield shield = new Shield(new Position(1, 2), 10);
 
+        
+        shield.spawn();
         int previousTime = shield.getTimeRemaining();
 
-        shield.spawn();
         shield.updateOnBoard();
-
-        assertEquals(previousTime, shield.getTimeRemaining() - 1);
+        
+        assertEquals(previousTime, shield.getTimeRemaining() + 1);
 
         for (;;) {
             if (shield.getTimeRemaining() <= 0) {
@@ -72,7 +78,7 @@ public class ShieldTest {
 
     @Test
     public void testUpdateOnBoardWhenDespawned() {
-        Shield shield = new Shield(new Position(1, 2), 10, 20);
+        Shield shield = new Shield(new Position(1, 2), 10);
 
         int previousTime = shield.getTimeTillNextSpawn();
 

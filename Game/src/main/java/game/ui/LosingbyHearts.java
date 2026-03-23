@@ -44,10 +44,10 @@ public class LosingbyHearts extends JPanel{
 
         this.boxW = 300; //need test run
         this.boxH = 250;
-        this.buttonW = 80;
-        this.buttonH = 40;
-        this.buttonX = (gv.getPreferredSize().width - buttonW) /2 ;
-        this.buttonY = ((gv.getPreferredSize().height-buttonH) /2) + 100;
+        buttonW = 80;
+        buttonH = 40;
+        buttonX = (gv.getPreferredSize().width - buttonW) /2 ;
+        buttonY = ((gv.getPreferredSize().height-buttonH) /2) + 100;
         //adding image instead of a button
         //using mouse event
 

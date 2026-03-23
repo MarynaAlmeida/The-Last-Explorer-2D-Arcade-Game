@@ -5,15 +5,11 @@ import javax.swing.JPanel;
 
 import java.awt.event.MouseEvent;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 
 import game.main.Game;
 import game.main.Main;
-import game.entities.enemies.rewards.Reward;
-import game.enums.GameState;
-import game.ui.GameView;
 
 /**
  * Handles visuals for the losing screen by coins including background,
@@ -23,13 +19,12 @@ import game.ui.GameView;
  */
 public class LosingByCoins extends JPanel{
     //NO BUTTON YET CHECK!!
+    private Game g;
     private GameView gv;
     private Image coins;
     private Image backButton;
     private Image gameover;
-    private int buttonX, buttonY, buttonW, buttonH;
-    private Game g;
-
+    private int buttonX, buttonY, buttonW, buttonH, boxH, boxW;
 
     /**
      * creates the losingcoins panel with back button, background and game over text
@@ -46,6 +41,8 @@ public class LosingByCoins extends JPanel{
         this.gameover = new ImageIcon("../Assets/Icons/gameoverCoins.png").getImage();
         this.setPreferredSize(gv.getPreferredSize());
         this.setLayout(null);
+        this.boxW = 300; //need test run
+        this.boxH = 250;
 
         buttonW = 80;
         buttonH = 40;
@@ -63,6 +60,39 @@ public class LosingByCoins extends JPanel{
             }
         });
     }
+
+    //getters for button height and width first
+    public int getBWidth(){
+        return this.buttonW;
+    }
+
+    public int getBHeight(){
+        return this.buttonH;
+    }
+
+    //getters for Button x and y
+    public int getBX(){
+        return this.buttonX;
+    }
+
+    public int getBY(){
+        return this.buttonY;
+    }
+
+
+    //box getters
+    public int getBoxHeight(){
+        return this.boxH;
+    }
+    
+    public int getBoxWidth(){
+        return this.boxW;
+    }
+
+    public boolean isClickInsideButton(int x, int y) {
+        return x >= getBX() && x <= getBX() + getBWidth() && y >= getBY() && y <= getBY() + getBHeight();
+    }
+
      /**
      * Draws the background the title and the back button
      * @param g the graphics context for drawing
