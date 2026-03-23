@@ -156,7 +156,7 @@ public class Game{
      * @param hearts the amount to increment or decrement the explorer's hearts.
      */
     public void updateHearts(int hearts){
-        this.hearts += hearts;
+        this.hearts = hearts;
     }
 
     /**
