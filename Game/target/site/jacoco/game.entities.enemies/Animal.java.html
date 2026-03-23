@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Animal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">2D-Game-Project</a> &gt; <a href="index.source.html" class="el_package">game.entities.enemies</a> &gt; <span class="el_source">Animal.java</span></div><h1>Animal.java</h1><pre class="source lang-java linenums">package game.entities.enemies;
+import game.enums.AnimalType;
+import game.main.GameMap;
+import game.main.Position;
+
+/**
+ * Represents animal moving enemy
+ * 
+ * @author Maryna Almeida
+ * @version 1.0
+ * */
+public class Animal extends MovingEnemy {
+    private AnimalType type;
+
+    /**
+     * Act as the constructor for the animal class.
+     * 
+     * @param pos position of the Animal.
+     * @param map game map that the animal exists on.
+     * @param type the type of animal (hare, fox, boar).
+     * */
+    public Animal(Position pos,  GameMap map, AnimalType type) {
+<span class="fc" id="L23">        super(pos, map);</span>
+<span class="fc" id="L24">        this.type = type;</span>
+<span class="fc" id="L25">    }</span>
+
+    /**
+     * Updates the animals intended movement for a tick.
+     * 
+     * @param explorerPos explorer's position on the map.
+     * */
+    public void updateMovement(Position explorerPos) {
+<span class="nc" id="L33">        super.updateMovement(explorerPos);</span>
+<span class="nc" id="L34">    }</span>
+
+    /**
+     * Acts as a getter for the animal object type.
+     * 
+     * @return the type of animal object.
+     */
+    public AnimalType getAnimalType() {
+<span class="nc" id="L42">        return type;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

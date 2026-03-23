@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LosingbyHearts.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">2D-Game-Project</a> &gt; <a href="index.source.html" class="el_package">game.ui</a> &gt; <span class="el_source">LosingbyHearts.java</span></div><h1>LosingbyHearts.java</h1><pre class="source lang-java linenums">package game.ui;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import game.enums.GameState;
+import game.main.*;
+import game.ui.GameView;
+
+import game.enums.GameState;
+import game.entities.enemies.rewards.Reward;
+
+/**
+ * Handles visuals for the losing screen by hearts including background,
+ * heart images and game over text
+ * @author Komal Kaur
+ */
+public class LosingbyHearts extends JPanel{
+    //check for the button IMPORTANT
+    private Game g;
+    private GameView gv;
+    private Image backbutton;
+    private Image gameover;
+    private Image heart;
+    private int buttonX, buttonY, buttonW, buttonH, boxH, boxW;
+    /**
+     * creates the losinghearts panel with back button, background and game over text
+     *
+     * @param gv the game view used to set the dimensions
+     * @param cardLayout the layout used to manage the views
+     * @param container the container to store all the views 
+     */
+    
+<span class="fc" id="L36">    public LosingbyHearts(Game g, GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview</span>
+<span class="fc" id="L37">        this.g = g;</span>
+<span class="fc" id="L38">        this.gv = gv;</span>
+<span class="fc" id="L39">        this.backbutton = new ImageIcon(&quot;../Assets/Icons/buttonHeart.png&quot;).getImage();</span>
+<span class="fc" id="L40">        this.heart = new ImageIcon(&quot;../Assets/Icons/EmptyHeart.png&quot;).getImage();</span>
+<span class="fc" id="L41">        this.gameover = new ImageIcon(&quot;../Assets/Icons/gameoverHearts.png&quot;).getImage();</span>
+<span class="fc" id="L42">        this.setPreferredSize(gv.getPreferredSize());</span>
+<span class="fc" id="L43">        this.setLayout(null);</span>
+
+<span class="fc" id="L45">        this.boxW = 300; //need test run</span>
+<span class="fc" id="L46">        this.boxH = 250;</span>
+<span class="fc" id="L47">        this.buttonW = 80;</span>
+<span class="fc" id="L48">        this.buttonH = 40;</span>
+<span class="fc" id="L49">        this.buttonX = (gv.getPreferredSize().width - buttonW) /2 ;</span>
+<span class="fc" id="L50">        this.buttonY = ((gv.getPreferredSize().height-buttonH) /2) + 100;</span>
+        //adding image instead of a button
+        //using mouse event
+
+        //mouseadapter has mousepressed
+<span class="fc" id="L55">        addMouseListener(new MouseAdapter() {</span>
+            @Override
+            public void mouseClicked(MouseEvent e){
+<span class="nc" id="L58">                handleMouse(e.getX(), e.getY(), cardLayout, container);</span>
+<span class="nc" id="L59">            }</span>
+        });
+<span class="fc" id="L61">    }</span>
+    
+    //mouse clicked function
+    public void handleMouse(int x, int y, CardLayout cardLayout, JPanel container){
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        if(isClickInsideButton(x,y)){</span>
+<span class="fc" id="L66">            gv.stopLoop();</span>
+<span class="fc" id="L67">            Main.remakeGame(container, cardLayout);</span>
+        }
+<span class="fc" id="L69">    }</span>
+
+    //getters for button height and width first
+    public int getBWidth(){
+<span class="fc" id="L73">        return this.buttonW;</span>
+    }
+
+    public int getBHeight(){
+<span class="fc" id="L77">        return this.buttonH;</span>
+    }
+
+    //getters for Button x and y
+    public int getBX(){
+<span class="fc" id="L82">        return this.buttonX;</span>
+    }
+
+    public int getBY(){
+<span class="fc" id="L86">        return this.buttonY;</span>
+    }
+
+
+    //box getters
+    public int getBoxHeight(){
+<span class="fc" id="L92">        return this.boxH;</span>
+    }
+    
+    public int getBoxWidth(){
+<span class="fc" id="L96">        return this.boxW;</span>
+    }
+
+    //mouse event boundary
+
+    public boolean isClickInsideButton(int x, int y) {
+<span class="pc bpc" id="L102" title="3 of 8 branches missed.">        return x &gt;= getBX() &amp;&amp; x &lt;= getBX() + getBWidth() &amp;&amp; y &gt;= getBY() &amp;&amp; y &lt;= getBY() + getBHeight();</span>
+    }
+    /**
+     * Draws the background the title and the back button
+     * @param g the graphics context for drawing
+     */
+    public void paintComponent(Graphics g){
+<span class="nc" id="L109">        super.paintComponent(g);</span>
+<span class="nc" id="L110">        gv.paintComponent(g); //the game bg first</span>
+        
+<span class="nc" id="L112">        int boxX = (getWidth() - getBoxWidth())/2; //centering starting coordinates</span>
+<span class="nc" id="L113">        int boxY = (getHeight() - getBoxHeight())/2;</span>
+
+<span class="nc" id="L115">        g.setColor(Color.WHITE);</span>
+<span class="nc" id="L116">        g.fillRect(boxX, boxY, boxW, boxH);</span>
+<span class="nc" id="L117">        g.drawImage(gameover, boxH + 10, boxY+10, getBoxWidth(), getBoxHeight(), null);</span>
+        
+<span class="nc" id="L119">        int size = 32;</span>
+<span class="nc" id="L120">        int startX = getBoxWidth() + 70;</span>
+<span class="nc" id="L121">        int startY = getBoxHeight() + 100;</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        for(int i=0; i&lt;4; i++){</span>
+<span class="nc" id="L123">            g.drawImage(heart, startX + (i*(size+10)), startY, size, size, null);</span>
+        }
+<span class="nc" id="L125">        g.drawImage(backbutton,getBX(), getBY(), getBWidth(), getBHeight(), null);</span>
+<span class="nc" id="L126">    }</span>
+
+    //the button takes you back to the home page 
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

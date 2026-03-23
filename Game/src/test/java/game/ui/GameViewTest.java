@@ -1,14 +1,16 @@
 package game.ui;
-
+import java.awt.CardLayout;
 import javax.swing.JPanel;
-
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import game.main.Game;
+import org.junit.jupiter.api.BeforeEach;
 
 public class GameViewTest {
     private GameView gameV;
     private Game game;
 
-    @Test 
+    @BeforeEach 
     public void setUp(){
         game = new Game();
         JPanel container = new JPanel();
@@ -18,7 +20,7 @@ public class GameViewTest {
 
     @Test 
     public void checkgetTutorial(){
-        assertTrue(gameV.tutorialPage);
+        assertTrue(gameV.getTutorialStatus());
     }   
 
     @Test 
@@ -29,8 +31,8 @@ public class GameViewTest {
 
     @Test 
     public void checksetToggled(){
-        game.toggleMap(); //sets it to true
-        assertTrue(gameV.toggleMap());
+        gameV.toggleMap(); //sets it to true
+        assertTrue(gameV.mapToggled());
     }
 
     @Test 
@@ -40,8 +42,8 @@ public class GameViewTest {
 
     @Test 
     public void doubleToggled(){
-        game.toggleMap(); //true
-        game.toggleMap(); //false now
+        gameV.toggleMap(); //true
+        gameV.toggleMap(); //false now
         assertFalse(gameV.mapToggled());
     }
 

@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">2D-Game-Project</a> &gt; <a href="index.source.html" class="el_package">game.ui</a> &gt; <span class="el_source">GameView.java</span></div><h1>GameView.java</h1><pre class="source lang-java linenums">package game.ui;
+import java.util.List;
+import game.entities.enemies.*;
+import game.entities.enemies.rewards.Chest;
+import game.entities.enemies.rewards.Coin;
+import game.entities.enemies.rewards.Reward;
+import game.entities.enemies.rewards.Shield;
+import game.enums.Direction;
+import game.main.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import game.enums.GameState;
+
+/**
+ * Handles the visuals of the game world, including entities,
+ * barriers and rewards on JPanel.
+ * 
+ * @author Maryna Almeida
+ * @version 2.0
+ * */
+public class GameView extends JPanel implements ActionListener{
+    private Game game;
+    Timer gameLoop;
+<span class="fc" id="L26">    int tileSize = 32;</span>
+    private Image hedgeImage;
+    private Image thornImage;
+    private Image treeImage;
+    private Image explorerImage;
+    private Image explorerTurnImage;
+    private Image pirate1Image;
+    private Image pirate2Image;
+    private Image boarImage;
+    private Image hareImage;
+    private Image foxImage;
+    private Image grassImage;
+    private Image coinImage;
+    private Image closedChestImage;
+    private Image openChestImage;
+    private Image bearTrapImage;
+    private Image shieldImage;
+    private Image fullHeartImage;
+    private Image halfHeartImage;
+    private Image emptyHeartImage;
+    private Image tutorialPage;
+<span class="fc" id="L47">    private boolean isTutorialActive = true;</span>
+    private CardLayout cardLayout;
+    private JPanel container;
+
+<span class="fc" id="L51">    private boolean isMapToggled = false;</span>
+    private int zoomedInTileSize;
+
+    private int zoomedInTotalTilesForWidth;
+    private int zoomedInTotalTilesForHeight;
+
+/**
+ * Creates and stores all icon images in the game.
+ * 
+ * @param game the game state to be visualized
+ * */
+<span class="fc" id="L62">    public GameView(Game game, JPanel container, CardLayout cardLayout) {</span>
+<span class="fc" id="L63">        this.game = game;</span>
+<span class="fc" id="L64">        this.container = container;</span>
+<span class="fc" id="L65">        this.cardLayout = cardLayout;</span>
+<span class="fc" id="L66">        this.explorerImage = new ImageIcon(&quot;../Assets/Icons/Explorer.png&quot;).getImage();</span>
+<span class="fc" id="L67">        this.treeImage = new ImageIcon(&quot;../Assets/Icons/Tree.png&quot;).getImage();</span>
+<span class="fc" id="L68">        this.hedgeImage = new ImageIcon(&quot;../Assets/Icons/Hedge.png&quot;).getImage();</span>
+<span class="fc" id="L69">        this.pirate1Image = new ImageIcon(&quot;../Assets/Icons/Pirate1.png&quot;).getImage();</span>
+<span class="fc" id="L70">        this.pirate2Image = new ImageIcon(&quot;../Assets/Icons/Pirate2.png&quot;).getImage();</span>
+<span class="fc" id="L71">        this.boarImage = new ImageIcon(&quot;../Assets/Icons/BoarWalk.png&quot;).getImage();</span>
+<span class="fc" id="L72">        this.hareImage = new ImageIcon(&quot;../Assets/Icons/Hare.png&quot;).getImage();</span>
+<span class="fc" id="L73">        this.foxImage = new ImageIcon(&quot;../Assets/Icons/Fox.png&quot;).getImage();</span>
+<span class="fc" id="L74">        this.grassImage = new ImageIcon(&quot;../Assets/Icons/GrassTile4copy.png&quot;).getImage();</span>
+<span class="fc" id="L75">        this.thornImage = new ImageIcon(&quot;../Assets/Icons/Thorn.png&quot;).getImage();</span>
+<span class="fc" id="L76">        this.coinImage = new ImageIcon(&quot;../Assets/Icons/Coin.png&quot;).getImage();</span>
+<span class="fc" id="L77">        this.closedChestImage = new ImageIcon(&quot;../Assets/Icons/ClosedChest.png&quot;).getImage();</span>
+<span class="fc" id="L78">        this.openChestImage = new ImageIcon(&quot;../Assets/Icons/OpenChest.png&quot;).getImage();</span>
+<span class="fc" id="L79">        this.bearTrapImage = new ImageIcon(&quot;../Assets/Icons/Beartrap.png&quot;).getImage();</span>
+<span class="fc" id="L80">        this.shieldImage = new ImageIcon(&quot;../Assets/Icons/Shield.png&quot;).getImage();</span>
+<span class="fc" id="L81">        this.fullHeartImage = new ImageIcon(&quot;../Assets/Icons/Heart.png&quot;).getImage();</span>
+<span class="fc" id="L82">        this.halfHeartImage = new ImageIcon(&quot;../Assets/Icons/HalfHeart.png&quot;).getImage();</span>
+<span class="fc" id="L83">        this.emptyHeartImage = new ImageIcon(&quot;../Assets/Icons/EmptyHeart.png&quot;).getImage();</span>
+<span class="fc" id="L84">        this.tutorialPage = new ImageIcon(&quot;../Assets/Icons/Tutorial.png&quot;).getImage();</span>
+<span class="fc" id="L85">        this.explorerTurnImage = new ImageIcon(&quot;../Assets/Icons/ExplorerTurn.png&quot;).getImage();</span>
+
+        // Gets the width and height of the game map and calculates its dimension with the tile size
+<span class="fc" id="L88">        int width = game.getMap().getWidth() * tileSize;</span>
+<span class="fc" id="L89">        int height = game.getMap().getHeight() * tileSize;</span>
+
+<span class="fc" id="L91">        zoomedInTileSize = 48;</span>
+
+<span class="fc" id="L93">        zoomedInTotalTilesForWidth = 16;</span>
+<span class="fc" id="L94">        zoomedInTotalTilesForHeight = 12;</span>
+
+        // Tells the JFrame how big the panel is going to be
+<span class="fc" id="L97">        this.setPreferredSize(new Dimension(width, height));</span>
+
+<span class="fc" id="L99">        gameLoop = new Timer(50, this); // every 50 miliseconds we are going to repaint (20 frames/sec)</span>
+<span class="fc" id="L100">        gameLoop.start();</span>
+<span class="fc" id="L101">        GameInput input = new GameInput(game, this);</span>
+<span class="fc" id="L102">        addKeyListener(input);</span>
+<span class="fc" id="L103">        setFocusable(true);</span>
+<span class="fc" id="L104">    }</span>
+
+    /**
+     * Acts as a getter method for the isTutorialActive variable.
+     * 
+     * @return a boolean indicating if the tutorial is still active or not.
+     */
+    public boolean getTutorialStatus() {
+<span class="fc" id="L112">        return isTutorialActive;</span>
+    }
+
+    /**
+     * Acts as a setter method for the isTutorialActive variable.
+     * 
+     * @param status the status of the tutorial variable.
+     */
+    public void setTutorialState(boolean status) {
+<span class="fc" id="L121">        this.isTutorialActive = status;</span>
+<span class="fc" id="L122">    }</span>
+
+    /**
+     * Acts as the setter to toggle the map feature.
+     */
+    public void toggleMap() {
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        isMapToggled = !isMapToggled;</span>
+<span class="fc" id="L129">    }</span>
+
+    /**
+     * Acts as a getter for the status of whether the map is toggled or not.
+     * 
+     * @return a boolean that is true if the map is toggled, and false if not.
+     */
+    public boolean mapToggled() {
+<span class="fc" id="L137">        return isMapToggled;</span>
+    }
+
+    /**
+     * Paints the tutorial window.
+     * 
+     * @param g the graphics context for drawing.
+     */
+    private void paintTutorial(Graphics g) {
+<span class="nc" id="L146">        g.drawImage(tutorialPage, 0, 0, getWidth(), getHeight(), null);</span>
+<span class="nc" id="L147">    }</span>
+
+    /**
+     * Paints all the enemies, barriers and rewards on the game panel.
+     * 
+     * @param g the graphics context for drawing.
+     * */
+    public void paintComponent(Graphics g) {
+<span class="nc" id="L155">        super.paintComponent(g);</span>
+
+<span class="nc" id="L157">        g.fillRect(0, 0, getWidth(), getHeight());</span>
+
+<span class="nc bnc" id="L159" title="All 4 branches missed.">        if (mapToggled() &amp;&amp; !isTutorialActive) {</span>
+<span class="nc" id="L160">            drawWholeMap(g);</span>
+<span class="nc" id="L161">        } else {</span>
+<span class="nc" id="L162">            drawPartialMap(g);</span>
+        }
+
+<span class="nc bnc" id="L165" title="All 2 branches missed.">        if (isTutorialActive) {</span>
+<span class="nc" id="L166">            paintTutorial(g);</span>
+        }
+<span class="nc" id="L168">    }</span>
+
+    /**
+     * Draws the entire map.
+     * 
+     * &lt;p&gt;This method is called when the map is toggled.&lt;/p&gt;
+     * 
+     * @param g the graphics context for drawing.
+     */
+    public void drawWholeMap(Graphics g) {
+<span class="nc" id="L178">        int tileSize = 32;</span>
+<span class="nc" id="L179">        drawBarriers(g, tileSize);</span>
+<span class="nc" id="L180">        drawRewards(g, tileSize);</span>
+<span class="nc" id="L181">        drawMovingEntities(g, tileSize);</span>
+<span class="nc" id="L182">        drawStaticEntities(g, tileSize);</span>
+<span class="nc" id="L183">        drawHearts(g, tileSize);</span>
+<span class="nc" id="L184">    }</span>
+
+    /**
+     * Draws a part of the map around the explorer.
+     * 
+     * &lt;p&gt;This method is called when the map is toggled off.&lt;/p&gt;
+     * 
+     * @param g the graphics context for drawing.
+     */
+    public void drawPartialMap(Graphics g) {
+<span class="nc" id="L194">        drawVisibleBarriers(g);</span>
+<span class="nc" id="L195">        drawVisibleRewards(g);</span>
+<span class="nc" id="L196">        drawVisibleMovingEntities(g);</span>
+<span class="nc" id="L197">        drawVisibleStaticEntities(g);</span>
+<span class="nc" id="L198">        paintRewardHUDs(g);</span>
+<span class="nc" id="L199">        drawHearts(g, tileSize);</span>
+<span class="nc" id="L200">    }</span>
+
+    /**
+     * Draws base grass tile for every cell and barries at a specific position.
+     * 
+     * @param g the graphics context for drawing.
+     * @param tileSize tile size of the game map.
+     * */
+    private void drawBarriers(Graphics g, int tileSize) {
+<span class="nc" id="L209">        GameMap map = game.getMap();</span>
+        /**
+         * Loops through the rows and columns of the grid and draws
+         * the cell type and entities at the calculated pixel position
+         * */
+<span class="nc bnc" id="L214" title="All 2 branches missed.">        for (int r = 0; r &lt; map.getHeight(); r++) {</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">            for (int c = 0; c &lt; map.getWidth(); c++) {</span>
+<span class="nc" id="L216">                Cell cell = map.getCell(c, r); /* Gets the cell at this grid position */</span>
+<span class="nc" id="L217">                int x = c * tileSize; /* Translate grid to pixels */</span>
+<span class="nc" id="L218">                int y = r * tileSize; /* Translate grid to pixels */</span>
+<span class="nc" id="L219">                g.drawImage(grassImage, x, y, tileSize, tileSize, null); /* Sets each tile of the panel to be a grass */</span>
+<span class="nc bnc" id="L220" title="All 3 branches missed.">                switch (cell.getType()) {</span>
+                    case HEDGE:
+<span class="nc" id="L222">                        g.drawImage(hedgeImage, x, y, tileSize , tileSize, null);</span>
+<span class="nc" id="L223">                        break;</span>
+                    case TREE:
+                        // tileSize * 1.09 lets you modify the size of the object
+<span class="nc" id="L226">                        g.drawImage(treeImage, x, y, (int) (tileSize * 1.09) ,(int) (tileSize * 1.09) , null);</span>
+<span class="nc" id="L227">                        break;</span>
+                    case EMPTY:
+                        break;
+                }
+            }
+        }
+<span class="nc" id="L233">    }</span>
+
+    /**
+     * Draws the moving entities (explorer, enemies).
+     * 
+     * @param g the graphics context for drawing.
+     * @param tileSize tile size of the game map.
+     * */
+    private void drawMovingEntities(Graphics g, int tileSize) {
+        // draw explorer
+<span class="nc" id="L243">        Position pPos = game.getExplorer().getPosition();</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">        if(game.getExplorer().getFacing() == Direction.LEFT) {</span>
+<span class="nc" id="L245">            g.drawImage(explorerTurnImage, pPos.getX() * tileSize, pPos.getY() * tileSize, tileSize, tileSize, null);</span>
+<span class="nc" id="L246">        }</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">        else if(game.getExplorer().getFacing() == Direction.RIGHT){ </span>
+<span class="nc" id="L248">            g.drawImage(explorerImage, pPos.getX() * tileSize, pPos.getY() * tileSize, tileSize, tileSize, null);</span>
+        }
+        // Draw Enemies
+<span class="nc bnc" id="L251" title="All 2 branches missed.">        for (MovingEnemy enemy : game.getMovingEnemies()) {</span>
+<span class="nc" id="L252">            Position ePos = enemy.getPosition();</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">            if(enemy instanceof Animal) {</span>
+<span class="nc" id="L254">                Animal animal = (Animal) enemy;</span>
+<span class="nc bnc" id="L255" title="All 4 branches missed.">                switch(animal.getAnimalType()) {</span>
+                    case HARE:
+<span class="nc" id="L257">                        g.drawImage(hareImage, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);</span>
+<span class="nc" id="L258">                        break;</span>
+                    case BOAR:
+<span class="nc" id="L260">                        g.drawImage(boarImage, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);</span>
+<span class="nc" id="L261">                        break;</span>
+                    case FOX:
+<span class="nc" id="L263">                        g.drawImage(foxImage, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);</span>
+                        break;
+                }
+            }
+<span class="nc bnc" id="L267" title="All 2 branches missed.">            if(enemy instanceof Pirate) {</span>
+<span class="nc" id="L268">                Pirate pirate = (Pirate) enemy;</span>
+<span class="nc bnc" id="L269" title="All 3 branches missed.">                switch(pirate.getPirateType()) {</span>
+                    case PIRATE1:
+<span class="nc" id="L271">                        g.drawImage(pirate1Image, ePos.getX() * tileSize, ePos.getY() * tileSize, (int) (tileSize * 1.1), (int) (tileSize * 1.1), null);</span>
+<span class="nc" id="L272">                        break;</span>
+                    case PIRATE2:
+<span class="nc" id="L274">                        g.drawImage(pirate2Image, ePos.getX() * tileSize, ePos.getY() * tileSize, (int) (tileSize * 1.1), (int) (tileSize * 1.1), null);</span>
+                        break;
+                }
+            }
+
+        }
+<span class="nc" id="L280">    }</span>
+
+    /**
+     * Draws the rewards (shield, coin).
+     * 
+     * @param g the graphics context for drawing.
+     * @param tileSize tile size of the game map.
+     * */
+    private void drawRewards(Graphics g, int tileSize) {
+<span class="nc" id="L289">        List&lt;Reward&gt; rewards = game.getRewards();</span>
+<span class="nc bnc" id="L290" title="All 2 branches missed.">        for(Reward r : rewards) {</span>
+<span class="nc" id="L291">            Position rPos = r.getPosition();</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">            if (r instanceof Chest) {</span>
+<span class="nc" id="L293">                Chest chest = (Chest) r;</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">                if(chest.canChestOpen()){</span>
+<span class="nc" id="L295">                    g.drawImage(openChestImage, rPos.getX() * tileSize, rPos.getY() * tileSize, tileSize, tileSize, null);</span>
+<span class="nc" id="L296">                }</span>
+                else {
+<span class="nc" id="L298">                    g.drawImage(closedChestImage, rPos.getX() * tileSize, rPos.getY() * tileSize, tileSize, tileSize, null);</span>
+                }
+            }
+<span class="nc bnc" id="L301" title="All 2 branches missed.">            if(!r.isCollected()){</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">                if(r instanceof Coin) {</span>
+<span class="nc" id="L303">                    g.drawImage(coinImage,rPos.getX() * tileSize + 8, rPos.getY() * tileSize + 8, (int) (tileSize * 0.5), (int) (tileSize * 0.5),null );</span>
+<span class="nc" id="L304">                }</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">                else if(r instanceof Shield) {</span>
+<span class="nc" id="L306">                    g.drawImage(shieldImage,rPos.getX() * tileSize + 10, rPos.getY() * tileSize + 10, (int) (tileSize * 0.6), (int) (tileSize * 0.6),null );</span>
+                }
+            }
+        }
+        
+<span class="nc" id="L311">    }</span>
+
+    /**
+     * Draws the static entities (bear trap, thorns).
+     * 
+     * @param g the graphics context for drawing.
+     * @param tileSize tile size of the game map.
+     * */
+    private void drawStaticEntities(Graphics g, int tileSize) {
+<span class="nc bnc" id="L320" title="All 2 branches missed.">        for(StaticEnemy sE : game.getStaticEnemies() ) {</span>
+<span class="nc" id="L321">            Position ePos = sE.getPosition();</span>
+<span class="nc bnc" id="L322" title="All 2 branches missed.">            if(sE instanceof Thorns) {</span>
+<span class="nc" id="L323">                g.drawImage(thornImage, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize , null);</span>
+            }
+<span class="nc bnc" id="L325" title="All 2 branches missed.">            if(sE instanceof BearTrap) {</span>
+<span class="nc" id="L326">                g.drawImage(bearTrapImage, ePos.getX() * tileSize, ePos.getY() * tileSize, tileSize, tileSize, null);</span>
+            }
+        }
+<span class="nc" id="L329">    }</span>
+
+    /**
+     * Draw hearts and updates heart count based on enemy collision damage.
+     * @param g the graphics context for drawing.
+     * @param tileSize tile size of the game map.
+     */
+
+    public void drawHearts(Graphics g, int tileSize) {
+        /** Configures the panel coordinates and padding for the heart icons. */
+<span class="nc" id="L339">        int x = tileSize/2;</span>
+<span class="nc" id="L340">        int y = tileSize/9;</span>
+<span class="nc" id="L341">        int space = tileSize + 3;</span>
+<span class="nc" id="L342">        int i = 0;</span>
+        /** Draw empty hearts for the total heart capacity. */
+<span class="nc bnc" id="L344" title="All 2 branches missed.">        while(i &lt; game.getMaxHearts()/2) {</span>
+<span class="nc" id="L345">            g.drawImage(emptyHeartImage, x, y, tileSize, tileSize, null);</span>
+<span class="nc" id="L346">            i++;</span>
+<span class="nc" id="L347">            x += space;</span>
+        }
+        /** Resets layout variables to overlay current heart status. */
+<span class="nc" id="L350">        x = tileSize/2;</span>
+<span class="nc" id="L351">        y = tileSize/9;</span>
+<span class="nc" id="L352">        i = 0;</span>
+        /** Draw half or full hearts based on current heart status. */
+<span class="nc bnc" id="L354" title="All 2 branches missed.">        while(i &lt; game.getHearts()) {</span>
+<span class="nc" id="L355">            g.drawImage(halfHeartImage, x, y, tileSize, tileSize, null);</span>
+<span class="nc" id="L356">            i++;</span>
+<span class="nc bnc" id="L357" title="All 2 branches missed.">            if(i &lt; game.getHearts()) {</span>
+<span class="nc" id="L358">                g.drawImage(fullHeartImage, x, y, tileSize , tileSize, null);</span>
+            }
+<span class="nc" id="L360">            i++;</span>
+<span class="nc" id="L361">            x += space;</span>
+        }
+<span class="nc" id="L363">    }</span>
+
+    /**
+    * Gets the starting cell column that should be painted when the map is toggled off.
+    * 
+    * @return an integer indicating the starting cell column that should be painted.
+    */
+    public int getStartingXCell() {
+<span class="fc" id="L371">        GameMap map = game.getMap();</span>
+<span class="fc" id="L372">        Position explorerPos = game.getExplorer().getPosition();</span>
+
+<span class="fc" id="L374">        return Math.max(0, Math.min(explorerPos.getX() - zoomedInTotalTilesForWidth / 2,</span>
+<span class="fc" id="L375">        map.getWidth() - zoomedInTotalTilesForWidth));</span>
+    }
+
+    /**
+     * Gets the starting cell row that should be painted when the map is toggled off.
+     * 
+     * @return an integer indicating the starting cell row that should be painted.
+     */
+    public int getStartingYCell() {
+<span class="fc" id="L384">        GameMap map = game.getMap();</span>
+<span class="fc" id="L385">        Position explorerPos = game.getExplorer().getPosition();</span>
+
+<span class="fc" id="L387">        return Math.max(0, Math.min(explorerPos.getY() - zoomedInTotalTilesForHeight / 2,</span>
+<span class="fc" id="L388">        map.getHeight() - zoomedInTotalTilesForHeight));</span>
+    }
+
+    /**
+     * Draws game barriers within a specified range of the explorer.
+     * 
+     * &lt;p&gt;This method is only called when the map is toggled off, and the map that
+     * the user can see is limited.&lt;/p&gt;
+     * 
+     * @param g the graphics context for drawing.
+     */
+    public void drawVisibleBarriers(Graphics g) {
+<span class="nc" id="L400">        GameMap map = game.getMap();</span>
+
+        /**
+         * Loops through the rows and columns of the grid and draws
+         * the cell type and entities at the calculated pixel position
+         * */
+<span class="nc bnc" id="L406" title="All 2 branches missed.">        for (int r = 0; r &lt; zoomedInTotalTilesForHeight; r++) {</span>
+<span class="nc bnc" id="L407" title="All 2 branches missed.">            for (int c = 0; c &lt; zoomedInTotalTilesForWidth; c++) {</span>
+<span class="nc" id="L408">                int xOfCell = getStartingXCell() + c;</span>
+<span class="nc" id="L409">                int yOfCell = getStartingYCell() + r;</span>
+
+<span class="nc" id="L411">                Cell cell = map.getCell(xOfCell, yOfCell); /* Gets the cell at this grid position */</span>
+<span class="nc" id="L412">                int x = c * zoomedInTileSize; /* Translate grid to pixels */</span>
+<span class="nc" id="L413">                int y = r * zoomedInTileSize; /* Translate grid to pixels */</span>
+
+<span class="nc" id="L415">                g.drawImage(grassImage, x, y, zoomedInTileSize, zoomedInTileSize, null); /* Sets each tile of the panel to be a grass */</span>
+<span class="nc bnc" id="L416" title="All 3 branches missed.">                switch (cell.getType()) {</span>
+                    case HEDGE:
+<span class="nc" id="L418">                        g.drawImage(hedgeImage, x, y, zoomedInTileSize, zoomedInTileSize, null);</span>
+<span class="nc" id="L419">                        break;</span>
+                    case TREE:
+                        // tileSize * 1.09 lets you modify the size of the object
+<span class="nc" id="L422">                        g.drawImage(treeImage, x, y, (int) (zoomedInTileSize * 1.09) ,(int) (zoomedInTileSize * 1.09) , null);</span>
+<span class="nc" id="L423">                        break;</span>
+                    case EMPTY:
+                        break;
+                }
+            }
+        }
+<span class="nc" id="L429">    }</span>
+    /**
+     * Draws moving entities within a specified range of the explorer.
+     * 
+     * &lt;p&gt;This method is only called when the map is toggled off, and the map that
+     * the user can see is limited.&lt;/p&gt;
+     * 
+     * @param g the graphics context for drawing.
+     */
+    public void drawVisibleMovingEntities(Graphics g) {
+         // draw explorer
+<span class="nc" id="L440">        Position pPos = game.getExplorer().getPosition();</span>
+
+<span class="nc" id="L442">        int x = (pPos.getX() - getStartingXCell()) * zoomedInTileSize;</span>
+<span class="nc" id="L443">        int y = (pPos.getY() - getStartingYCell()) * zoomedInTileSize;</span>
+
+<span class="nc bnc" id="L445" title="All 2 branches missed.">        if(game.getExplorer().getFacing() == Direction.LEFT) {</span>
+<span class="nc" id="L446">            g.drawImage(explorerTurnImage, x, y, zoomedInTileSize, zoomedInTileSize, null);</span>
+<span class="nc" id="L447">        }</span>
+<span class="nc bnc" id="L448" title="All 2 branches missed.">        else if(game.getExplorer().getFacing() == Direction.RIGHT){ </span>
+<span class="nc" id="L449">            g.drawImage(explorerImage, x, y, zoomedInTileSize, zoomedInTileSize, null);</span>
+        }
+        // Draw Enemies
+<span class="nc bnc" id="L452" title="All 2 branches missed.">        for (MovingEnemy enemy : game.getMovingEnemies()) {</span>
+<span class="nc" id="L453">            Position ePos = enemy.getPosition();</span>
+
+<span class="nc" id="L455">            int enemyX = ePos.getX() - getStartingXCell();</span>
+<span class="nc" id="L456">            int enemyY = ePos.getY() - getStartingYCell();</span>
+<span class="nc bnc" id="L457" title="All 4 branches missed.">            if (enemyX &lt; zoomedInTotalTilesForWidth &amp;&amp; enemyY &lt; zoomedInTotalTilesForHeight) {</span>
+<span class="nc" id="L458">                int enemyXCell = enemyX * zoomedInTileSize;</span>
+<span class="nc" id="L459">                int enemyYCell = enemyY * zoomedInTileSize;</span>
+<span class="nc bnc" id="L460" title="All 2 branches missed.">                if(enemy instanceof Animal) {</span>
+<span class="nc" id="L461">                    Animal animal = (Animal) enemy;</span>
+<span class="nc bnc" id="L462" title="All 4 branches missed.">                    switch(animal.getAnimalType()) {</span>
+                        case HARE:
+<span class="nc" id="L464">                            g.drawImage(hareImage, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize, null);</span>
+<span class="nc" id="L465">                            break;</span>
+                        case BOAR:
+<span class="nc" id="L467">                            g.drawImage(boarImage, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize, null);</span>
+<span class="nc" id="L468">                            break;</span>
+                        case FOX:
+<span class="nc" id="L470">                            g.drawImage(foxImage, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize, null);</span>
+                            break;
+                    }
+                }
+<span class="nc bnc" id="L474" title="All 2 branches missed.">                if(enemy instanceof Pirate) {</span>
+<span class="nc" id="L475">                    Pirate pirate = (Pirate) enemy;</span>
+<span class="nc bnc" id="L476" title="All 3 branches missed.">                    switch(pirate.getPirateType()) {</span>
+                        case PIRATE1:
+<span class="nc" id="L478">                            g.drawImage(pirate1Image, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize, null);</span>
+<span class="nc" id="L479">                            break;</span>
+                        case PIRATE2:
+<span class="nc" id="L481">                            g.drawImage(pirate2Image, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize, null);</span>
+                            break;
+                    }
+                }
+            }
+        }
+<span class="nc" id="L487">    }</span>
+    
+    /**
+     * Draws static enemies within a specific range of the explorer.
+     * 
+     * &lt;p&gt;This method is only called when the map is toggled off, and the map that
+     * the user can see is limited.&lt;/p&gt;
+     * 
+     * @param g the graphics context for drawing.
+     */
+    public void drawVisibleStaticEntities(Graphics g) {
+<span class="nc bnc" id="L498" title="All 2 branches missed.">        for(StaticEnemy sE : game.getStaticEnemies() ) {</span>
+<span class="nc" id="L499">            Position ePos = sE.getPosition();</span>
+            
+<span class="nc" id="L501">            int enemyX = ePos.getX() - getStartingXCell();</span>
+<span class="nc" id="L502">            int enemyY = ePos.getY() - getStartingYCell();</span>
+
+<span class="nc bnc" id="L504" title="All 4 branches missed.">            if (enemyX &lt; zoomedInTotalTilesForWidth &amp;&amp; enemyY &lt; zoomedInTotalTilesForHeight) {</span>
+<span class="nc" id="L505">                int enemyXCell = enemyX * zoomedInTileSize;</span>
+<span class="nc" id="L506">                int enemyYCell = enemyY * zoomedInTileSize;</span>
+
+<span class="nc bnc" id="L508" title="All 2 branches missed.">                if(sE instanceof Thorns) {</span>
+<span class="nc" id="L509">                    g.drawImage(thornImage, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize , null);</span>
+                }
+<span class="nc bnc" id="L511" title="All 2 branches missed.">                if(sE instanceof BearTrap) {</span>
+<span class="nc" id="L512">                    g.drawImage(bearTrapImage, enemyXCell, enemyYCell, zoomedInTileSize, zoomedInTileSize, null);</span>
+                }
+            }
+        }
+<span class="nc" id="L516">    }</span>
+
+    /**
+     * Paints rewards within a specified range of the explorer.
+     * 
+     * &lt;p&gt;This method is only called when the map is toggled off, and the map that
+     * the user can see is limited.&lt;/p&gt;
+     * 
+     * @param g the graphics context for drawing.
+     */
+    public void drawVisibleRewards(Graphics g) {
+<span class="nc bnc" id="L527" title="All 2 branches missed.">        for(Reward r : game.getRewards()) {</span>
+<span class="nc" id="L528">            Position rPos = r.getPosition();</span>
+            
+<span class="nc" id="L530">            int rewardX = rPos.getX() - getStartingXCell();</span>
+<span class="nc" id="L531">            int rewardY = rPos.getY() - getStartingYCell();</span>
+
+            
+
+<span class="nc bnc" id="L535" title="All 4 branches missed.">            if (rewardX &lt; zoomedInTotalTilesForWidth &amp;&amp; rewardY &lt; zoomedInTotalTilesForHeight) {</span>
+<span class="nc" id="L536">                int rewardXCell = rewardX * zoomedInTileSize;</span>
+<span class="nc" id="L537">                int rewardYCell = rewardY * zoomedInTileSize;</span>
+
+<span class="nc bnc" id="L539" title="All 2 branches missed.">                if (r instanceof Chest) {</span>
+<span class="nc" id="L540">                    Chest chest = (Chest) r;</span>
+<span class="nc bnc" id="L541" title="All 2 branches missed.">                    if(chest.canChestOpen()){</span>
+<span class="nc" id="L542">                        g.drawImage(openChestImage,rewardXCell, rewardYCell, zoomedInTileSize, zoomedInTileSize, null);</span>
+<span class="nc" id="L543">                    }</span>
+                    else {
+<span class="nc" id="L545">                        g.drawImage(closedChestImage, rewardXCell, rewardYCell, zoomedInTileSize, zoomedInTileSize, null);</span>
+                    }
+                }
+
+<span class="nc bnc" id="L549" title="All 2 branches missed.">                if(!r.isCollected()){</span>
+<span class="nc bnc" id="L550" title="All 2 branches missed.">                    if(r instanceof Coin) {</span>
+<span class="nc" id="L551">                        g.drawImage(coinImage, rewardXCell + 12, rewardYCell +12, (int) (zoomedInTileSize * 0.5), (int) (zoomedInTileSize * 0.5),null );</span>
+<span class="nc" id="L552">                    }</span>
+<span class="nc bnc" id="L553" title="All 2 branches missed.">                    else if(r instanceof Shield) {</span>
+<span class="nc" id="L554">                        g.drawImage(shieldImage, rewardXCell + 17, rewardYCell + 17, (int) (zoomedInTileSize * 0.6), (int) (zoomedInTileSize * 0.6),null );</span>
+                    }
+                }
+            }
+        }
+
+<span class="nc" id="L560">    }</span>
+
+    /**
+     * Stops the GameView from running.
+     * 
+     * &lt;p&gt;This method will be called once a player loses the game, as it allows them
+     * to restart without any previous GameView panels staying on the screen.&lt;/p&gt;
+     */
+    public void stopLoop() {
+<span class="pc bpc" id="L569" title="1 of 2 branches missed.">        if (gameLoop != null) {</span>
+<span class="fc" id="L570">            gameLoop.stop();</span>
+        }
+<span class="fc" id="L572">    }</span>
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        //throw new UnsupportedOperationException(&quot;Unimplemented method 'actionPerformed'&quot;);
+<span class="pc bpc" id="L577" title="1 of 4 branches missed.">        if (!isTutorialActive &amp;&amp; !isMapToggled) {</span>
+<span class="fc" id="L578">            game.tick();</span>
+        }
+
+<span class="pc bpc" id="L581" title="1 of 2 branches missed.">        if (game.getState() == GameState.WON) {</span>
+<span class="nc" id="L582">            cardLayout.show(container, &quot;WIN&quot;);</span>
+        }
+
+<span class="fc bfc" id="L585" title="All 2 branches covered.">        if (game.getState() == GameState.LOST) {</span>
+<span class="nc bnc" id="L586" title="All 2 branches missed.">            if (game.getScore() &lt; 0) {</span>
+<span class="nc" id="L587">                cardLayout.show(container, &quot;COINSLOSING&quot;);</span>
+<span class="nc" id="L588">            } else {</span>
+<span class="nc" id="L589">                cardLayout.show(container, &quot;HEARTSLOSING&quot;);</span>
+            }
+        }
+
+<span class="fc" id="L593">        repaint();</span>
+<span class="fc" id="L594">    }</span>
+
+    /**
+     * Paints both the coin and shield HUDs.
+     * 
+     * @param g the graphics context for the drawing.
+     */
+    public void paintRewardHUDs(Graphics g) {
+        
+<span class="nc" id="L603">        String score = &quot;Coins: &quot; + game.getScore();</span>
+
+<span class="nc" id="L605">        g.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 27));</span>
+
+<span class="nc" id="L607">        g.setColor(Color.BLACK);</span>
+<span class="nc" id="L608">        g.drawString(score, getWidth() - 135, getHeight() - (getHeight() - 25));</span>
+<span class="nc" id="L609">        g.drawString(score, getWidth() - 141, getHeight() - (getHeight() - 25));</span>
+<span class="nc" id="L610">        g.drawString(score, getWidth() - 138, getHeight() - (getHeight() - 22));</span>
+<span class="nc" id="L611">        g.drawString(score, getWidth() - 138, getHeight() - (getHeight() - 28));</span>
+        
+<span class="nc" id="L613">        g.setColor(Color.WHITE);</span>
+<span class="nc" id="L614">        g.drawString(score, getWidth() - 138, getHeight() - (getHeight() - 25));</span>
+
+<span class="nc bnc" id="L616" title="All 2 branches missed.">        if (game.getExplorer().isShieldActive()) {</span>
+<span class="nc" id="L617">            int secondsRemaining = game.getExplorer().getShieldTicksRemaining() / 20;</span>
+
+<span class="nc" id="L619">            g.drawImage(shieldImage, 125, 3, 30, 30, null);</span>
+            
+<span class="nc" id="L621">            String shieldSecondsRemaining = Integer.toString(secondsRemaining);</span>
+
+<span class="nc" id="L623">            g.setColor(Color.BLACK);</span>
+<span class="nc" id="L624">            g.drawString(shieldSecondsRemaining, 162, 27); </span>
+<span class="nc" id="L625">            g.drawString(shieldSecondsRemaining, 158, 27); </span>
+<span class="nc" id="L626">            g.drawString(shieldSecondsRemaining, 160, 25); </span>
+<span class="nc" id="L627">            g.drawString(shieldSecondsRemaining, 160, 29); </span>
+
+<span class="nc" id="L629">            g.setColor(Color.WHITE);</span>
+<span class="nc" id="L630">            g.drawString(shieldSecondsRemaining, 160, 27); </span>
+        }
+
+<span class="nc" id="L633">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

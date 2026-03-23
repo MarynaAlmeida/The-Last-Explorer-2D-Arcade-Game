@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Entity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">2D-Game-Project</a> &gt; <a href="index.source.html" class="el_package">game.entities</a> &gt; <span class="el_source">Entity.java</span></div><h1>Entity.java</h1><pre class="source lang-java linenums">package game.entities;
+
+import game.entities.enemies.StaticEnemy;
+import game.entities.enemies.rewards.Reward;
+import game.main.Position;
+
+/**
+ * Represents an abstract entity.
+ * 
+ * &lt;p&gt;This class is a superclass for the {@link Character}, {@link StaticEnemy} and {@link Reward} classes.&lt;/p&gt;
+ * 
+ * @author Jayden Pai
+ * @version 1.0
+ */
+public abstract class Entity{
+    protected Position position;
+
+    /**
+     * Constructs an entity at the specified position.
+     *
+     * @param position the intial position of the entity.
+     */
+<span class="fc" id="L23">    public Entity(Position position){</span>
+<span class="fc" id="L24">        this.position = position;</span>
+<span class="fc" id="L25">    }</span>
+
+    /**
+     * Returns the current position of the entity.
+     *
+     * @return the entity's position.
+     */
+    public Position getPosition(){
+<span class="fc" id="L33">        return position;</span>
+    }
+
+    /**
+     * Sets the position of the entity.
+     *
+     * @param position the new position to assign to the entity.
+     */
+    public void setPosition(Position position){
+<span class="nc" id="L42">        this.position = position;</span>
+<span class="nc" id="L43">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
