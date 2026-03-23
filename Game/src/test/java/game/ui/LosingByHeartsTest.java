@@ -1,19 +1,27 @@
 package game.ui;
 
 import javax.swing.JPanel;
-
+import java.awt.CardLayout;
+import game.enums.GameState;
 import game.main.Game;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class LosingByHeartsTest {
     private Game game;
     private GameView gv;
     private LosingbyHearts lh;
+    private JPanel container;    
+    private CardLayout cardLayout;
     //setup 
     @Test 
     public void setUp(){
         game = new Game();
+        container = new JPanel();
+        cardLayout = new CardLayout();
         gv = new GameView(game, gv, null);
         lh = new LosingbyHearts(game, gv, null, gv);
+
     }
     //check if getters are the same
 
@@ -64,6 +72,8 @@ public class LosingByHeartsTest {
         assertFalse(lh.isClickInsideButton(lh.getBX(), lh.getBY())); //this will be inside the box and should trigger the homepage view
     }
     //edge cases
+
+
     //integration tests
     //is the game being remade 
     
@@ -74,11 +84,29 @@ public class LosingByHeartsTest {
 
     //did it loop stop?
     public void checkLoop(){
+        assertTrue(gv.gameLoop.isRunning()); //should be running
+        //button pressed
+        lh.isClickInsideButton(lh.getBX()+10, lh.getBY()+10);
+        assertFalse(gv.gameLoop.isRunning()); //should stop
         
     }
     //did the view pop when heart are 0
-    //did the button clicking trigger homepage view
+    public void checkViewPopping(){
+        container.add(lh, "HEARTSLOSING"); 
+        cardLayout.show(container, "HEARTSLOSING");
+        game.updateHearts(-6); //this makes the heart zero
+        game.tick(); //checks losing condition
+        gv.actionPerformed(null); //did it trigger the state being LOST nad showing heartslosing view
+        assertEquals(GameState.LOST, game.getState()); //has the game state changed?
+        assertTrue(lh.isVisible());
+    }
 
+    //did the button clicking trigger homepage view
+    public void checkHomepage(){
+        
+        lh.handleMouse(lh.getBX()+10, lh.getBY()+10, cardLayout, container);
+        assertFalse(lh.isVisible()); //shouldnt be visible because its built again in remake
+    }
 
 
 }

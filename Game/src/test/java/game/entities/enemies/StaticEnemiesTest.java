@@ -40,7 +40,7 @@ public class StaticEnemiesTest {
 
         // Ensure starting hearts are consistent
         while (game.getHearts() < game.getMaxHearts()) {
-            game.updateHearts(1);
+            game.updateHearts(game.getHearts() + 1);
         }
 
         explorer.deactivateShield(); // ensure shield starts OFF
