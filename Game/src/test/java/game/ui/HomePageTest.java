@@ -11,7 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import game.enums.GameState;
 import game.main.Game;
 import org.junit.jupiter.api.BeforeEach;
-
+/**
+ * Unit and integration tests for HomePage class
+ * @author Komal
+ * @version 1.0
+ */
 public class HomePageTest {
     private GameView gameV;
     private Game game;

@@ -8,7 +8,11 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import org.junit.jupiter.api.BeforeEach;
-
+/**
+ * Unit and integration tests for WinningView class
+ * @author Komal
+ * @version 1.0
+ */
 public class WinningViewTest {
    
     private WinningView wv;

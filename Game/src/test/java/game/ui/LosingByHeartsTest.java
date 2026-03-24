@@ -11,7 +11,11 @@ import game.main.Game;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
-
+/**
+ * Unit and integration tests for LosingByHearts class
+ * @author Komal
+ * @version 1.0
+ */
 public class LosingByHeartsTest {
     private Game game;
     private GameView gv;
