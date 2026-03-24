@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the abstract Cell class.
+ * Unit tests for the Cell class.
  *
  * @author Harman Bains
  * @version 1.0
@@ -19,7 +19,7 @@ public class CellTest {
 
         Position setterPosition = new Position(3, 4);
         cell.setPosition(setterPosition);
-        assertEquals(setterPosition, cell.getPosition(), "Position should match constructor argument");
+        assertEquals(setterPosition, cell.getPosition(), "Position must match the arguments");
     }
 
     @Test
@@ -30,24 +30,24 @@ public class CellTest {
     }
 
     @Test
-    void testIsTraversableReturnsTrueForWalkableCells() {
+    void testIsTraversableIsTrueForTraversableCells() {
         Cell cell = new Cell(new Position(0, 0), CellType.EMPTY);
-        assertTrue(cell.isTraversable(), "EMPTY cell should be traversable");
+        assertTrue(cell.isTraversable(), "EMPTY cell is traversable");
 
         cell = new Cell(new Position(0, 0), CellType.START);
-        assertTrue(cell.isTraversable(), "START cell should be traversable");
+        assertTrue(cell.isTraversable(), "START cell is traversable");
 
         cell = new Cell(new Position(0, 0), CellType.END);
-        assertTrue(cell.isTraversable(), "END cell should be traversable");
+        assertTrue(cell.isTraversable(), "END cell is traversable");
     }
 
     @Test
-    void testIsTraversableReturnsFalseForNonWalkableCells() {
+    void testIsTraversableIsFalseForNonTraversableCells() {
         Cell cell = new Cell(new Position(0, 0), CellType.HEDGE);
-        assertFalse(cell.isTraversable(), "HEDGE cell should not be traversable");
+        assertFalse(cell.isTraversable(), "HEDGE cell is not traversable");
 
         cell = new Cell(new Position(0, 0), CellType.TREE);
-        assertFalse(cell.isTraversable(), "TREE cell should not be traversable");
+        assertFalse(cell.isTraversable(), "TREE cell is not traversable");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class CellTest {
         assertTrue(cell.isEmpty(), "New cell should be empty");
 
         cell.setEntity(null);
-        assertTrue(cell.isEmpty(), "After setEntity(null) should still be empty");
+        assertTrue(cell.isEmpty(), "After set entity null case it results in empty");
     }
 
     @Test
@@ -100,8 +100,8 @@ public class CellTest {
 
         Entity removed = cell.removeEntity();
 
-        assertNull(removed, "removeEntity on empty cell should return null");
-        assertTrue(cell.isEmpty(), "Cell should remain empty");
+        assertNull(removed, "remove Entity being on an empty cell should result null");
+        assertTrue(cell.isEmpty(), "Cell still empty");
     }
 
     @Test

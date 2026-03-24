@@ -27,7 +27,6 @@ public class Shield extends Reward {
      * 
      * @param pos the position on the board that the shield will spawn on.
      * @param effectDuration the time of how long the shield will stay active once picked up.
-     * @param timeRemainingOnBoard the time of how long the shield will last on the board before expiring.
      */
     public Shield(Position pos, int effectDuration) {
         super(pos, 0);

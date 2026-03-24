@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the Explorer class.
+ * Unit and integration tests for the Explorer class.
  *
  * @author Harman Bains
  * @version 1.0
@@ -59,7 +59,7 @@ public class ExplorerTest {
     }
 
     @Test
-    void testTheShieldisUpdatingToZero(){
+    void testTheShieldIsUpdatingToZero(){
         explorer.activateShield(1);
         explorer.updateShield();
 
@@ -68,7 +68,7 @@ public class ExplorerTest {
     }
 
     @Test
-    void testTheShieldisUpdatingConstant(){
+    void testTheShieldIsUpdatingConstant(){
         explorer.activateShield(0);
         explorer.updateShield();
 
@@ -77,7 +77,7 @@ public class ExplorerTest {
     }
 
     @Test
-    void testTheShieldisUpdatingAboveZero(){
+    void testTheShieldIsUpdatingAboveZero(){
         explorer.activateShield(2);
         explorer.updateShield();
 
@@ -110,7 +110,7 @@ public class ExplorerTest {
 
     @Test
     void testEarningShieldResultsInUpdatesScore() {
-        Reward shield = new Shield(new Position(0,0),0, 0);
+        Reward shield = new Shield(new Position(0,0), 0);
         explorer.collectReward(shield);
         assertEquals(0, demoGame.score);
     }
