@@ -1,5 +1,7 @@
 package game.ui;
 
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import game.main.Game;
 
 public class WinningViewTest {
@@ -22,12 +24,12 @@ public class WinningViewTest {
     //is it the same calculation
     @Test 
     public void checkHeight(){
-        assertEqual(g.getMap().getHeight()*32, wv.getHeight());
+        assertEquals(g.getMap().getHeight()*32, wv.getHeight());
     }
 
     @Test 
     public void checkWidth(){
-        assertEqual(g.getMap().getWidth()*3, wv.getWidth());
+        assertEquals(g.getMap().getWidth()*3, wv.getWidth());
     }
 
     //is it out of bounds?

@@ -291,7 +291,7 @@ public class GameView extends JPanel implements ActionListener{
             Position rPos = r.getPosition();
             if (r instanceof Chest) {
                 Chest chest = (Chest) r;
-                if(chest.canChestOpen()){
+                if(chest.isCollected()){
                     g.drawImage(openChestImage, rPos.getX() * tileSize, rPos.getY() * tileSize, tileSize, tileSize, null);
                 }
                 else {
@@ -539,7 +539,7 @@ public class GameView extends JPanel implements ActionListener{
 
                 if (r instanceof Chest) {
                     Chest chest = (Chest) r;
-                    if(chest.canChestOpen()){
+                    if(chest.isCollected()){
                         g.drawImage(openChestImage,rewardXCell, rewardYCell, zoomedInTileSize, zoomedInTileSize, null);
                     }
                     else {

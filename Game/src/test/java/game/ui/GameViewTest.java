@@ -1,6 +1,8 @@
 package game.ui;
 
 import javax.swing.JPanel;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import game.main.Game;
 

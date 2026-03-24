@@ -27,31 +27,31 @@ public class LosingByHeartsTest {
 
     @Test 
     public void checkBWidth(){
-        assertEqual(80, lh.getBWidth());
+        assertEquals(80, lh.getBWidth());
     }
     @Test 
     public void checkBHeight(){
-        assertEqual(40, lh.getBHeight());
+        assertEquals(40, lh.getBHeight());
     }
 
     @Test 
     public void checkBX(){
-        assertEqual(gv.getPreferredSize().width - lh.getBWidth(), lh.getBX());
+        assertEquals(gv.getPreferredSize().width - lh.getBWidth(), lh.getBX());
     }
 
     @Test 
     public void checkBY(){
-        assertEqual(gv.getPreferredSize().height - lh.getBHeight(), lh.getBY());
+        assertEquals(gv.getPreferredSize().height - lh.getBHeight(), lh.getBY());
     }
 
     @Test
     public void checkBoxH(){
-        assertEqual(250, lh.getBoxHeight());
+        assertEquals(250, lh.getBoxHeight());
     }
 
     @Test 
     public void checkBoxW(){
-        assertEqual(300, lh.getBoxWidth());
+        assertEquals(300, lh.getBoxWidth());
     }
 
     //if the click is in boundaries 
@@ -62,13 +62,13 @@ public class LosingByHeartsTest {
     }
     //outside the box
     @Test 
-    public void checkClickOutside(){
+    public void checkClickOutside() {
         assertFalse(lh.isClickInsideButton(10, 10)); //this will be inside the box and should trigger the homepage view
     }
    
     //right on the edge
     @Test 
-    public void checkClickOutside(){
+    public void checkClickOnEdge(){
         assertFalse(lh.isClickInsideButton(lh.getBX(), lh.getBY())); //this will be inside the box and should trigger the homepage view
     }
     //edge cases
