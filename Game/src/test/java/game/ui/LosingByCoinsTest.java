@@ -79,6 +79,8 @@ public class LosingByCoinsTest {
     public void testPaintComponent() {
         Game game = new Game();
 
+        // Creates a new gameview and overrides the paintComponent method inside of it to do nothing.
+        // This allows for a component to be painted in this method without it appearing on a screen.
         GameView gv = new GameView(game, null, null) {
             @Override
             public void paintComponent(Graphics g) {}
@@ -91,6 +93,7 @@ public class LosingByCoinsTest {
 
         lc.setSize(300, 300);
 
+        // Calls the LosingByCoins' paintComponent method and checks to see if any errors are thrown.
         assertDoesNotThrow(() -> lc.paintComponent(g2));
     }
 }
