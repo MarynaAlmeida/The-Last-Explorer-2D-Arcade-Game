@@ -1,10 +1,14 @@
 package game.entities;
+import game.entities.enemies.MovingEnemy;
+import game.entities.enemies.StaticEnemy;
+import game.entities.enemies.rewards.Reward;
 import game.enums.Direction;
 import game.main.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import game.main.GameMap;
 import java.util.ArrayList;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -24,16 +28,19 @@ public class CharacterTest {
     }
 
     private Character theCharacter;
+    List<Reward> rewards;
+    List<MovingEnemy> movingEnemies;
+    List<StaticEnemy> staticEnemies;
 
     @BeforeEach
-    void setUp() {
+    void mapGameSetUp() {
 
         GameMap map = new GameMap();
         map.loadMap(
-                "src/test/java/game/entities/map.txt",
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>()
+                "src/test/resources/map.txt",
+               rewards = new ArrayList<>(),
+                movingEnemies = new ArrayList<>(),
+                staticEnemies = new ArrayList<>()
         );
         theCharacter = new TestCharacter(new Position(4, 4), map);
     }
@@ -86,7 +93,6 @@ public class CharacterTest {
 
         assertFalse(theCharacter.canMoveTo(new Position(4, -1)),
                 "negative y means canMoveTo is false");
-
     }
 
     }

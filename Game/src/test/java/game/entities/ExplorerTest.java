@@ -1,4 +1,6 @@
 package game.entities;
+import game.entities.enemies.MovingEnemy;
+import game.entities.enemies.StaticEnemy;
 import game.entities.enemies.rewards.Coin;
 import game.entities.enemies.rewards.Reward;
 import game.entities.enemies.rewards.Shield;
@@ -7,8 +9,15 @@ import game.main.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the Explorer class.
+ *
+ * @author Harman Bains
+ * @version 1.0
+ */
 public class ExplorerTest {
     private Explorer explorer;
 
@@ -22,15 +31,18 @@ public class ExplorerTest {
     }
 
     private DemoGame demoGame;
+    List<Reward> rewards;
+    List<MovingEnemy> movingEnemies;
+    List<StaticEnemy> staticEnemies;
 
     @BeforeEach
-    void setUp() {
+    void mapGameSetUp() {
         GameMap map = new GameMap();
         map.loadMap(
-                "src/test/java/game/entities/map.txt",
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>()
+                "src/test/resources/map.txt",
+                rewards = new ArrayList<>(),
+                movingEnemies = new ArrayList<>(),
+                staticEnemies = new ArrayList<>()
         );
 
         Position currentPosition = new Position(0, 0);
