@@ -45,7 +45,16 @@ public abstract class StaticEnemy extends Entity {
      */
     public void onCollision(Explorer explorer) {
         if (!explorer.isShieldActive()) {
-            game.updateHearts(-damageValue);
+            game.updateHearts(game.getHearts()-damageValue);
         }
+    }
+
+    /**
+     * Setter for the game variable.
+     *
+     * @param game the variable which will set up the game.
+     */
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

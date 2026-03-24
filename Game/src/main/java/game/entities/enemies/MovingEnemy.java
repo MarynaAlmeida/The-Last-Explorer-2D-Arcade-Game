@@ -1,12 +1,8 @@
 package game.entities.enemies;
 
 import java.util.Random;
-
 import game.entities.Character;
-import game.entities.Entity;
-import game.enums.CellType;
 import game.enums.Direction;
-import game.main.Cell;
 import game.main.GameMap;
 import game.main.Position;
 
@@ -14,7 +10,7 @@ import game.main.Position;
  * Abstract base class for all enemies that navigate the map to the explorer.
  * */
 
-public abstract class MovingEnemy extends Character {
+public class MovingEnemy extends Character {
     protected int moveSpeed;
     Position defaulPosition;
     protected int pixelX;
@@ -46,7 +42,7 @@ public abstract class MovingEnemy extends Character {
      * Converts pixel movements back into pixel coordinates to check for collision/traversability.
      */
 
-    private void move() {
+    void move() {
        this.pixelX += velocityX;
        this.pixelY += velocityY;
        /** Converts pixels back to grid coordinates. */
@@ -81,11 +77,19 @@ public abstract class MovingEnemy extends Character {
         return this.pixelY;
     }
 
+    public int getVelocityX() {
+        return this.velocityX;
+    }
+
+    public int getVelocityY() {
+        return this.velocityY;
+    }
+
     /** Updates the enemy's current direction and sets the 
      * velocity vectors to enable smooth sliding animation.
      * @param newDir the new {@link Direction} for the enemy to face.
      */
-    private void updateDirection(Direction newDir) {
+    void updateDirection(Direction newDir) {
         this.currentDir = newDir;
         switch (newDir) {
             case UP:
@@ -103,9 +107,8 @@ public abstract class MovingEnemy extends Character {
             case RIGHT:
                 this.velocityX = tileSize/4;
                 this.velocityY = 0;
-                break;
+                break;    
         }
-        
     }
 
     /**
@@ -132,14 +135,14 @@ public abstract class MovingEnemy extends Character {
     * @param dir current direction to be inverted.
     * @return the {@link Direction} opposite to the current direction.
     */
-   private Direction getOpposite(Direction dir) {
-        switch(dir) {
-            case UP: return Direction.DOWN;
-            case DOWN: return Direction.UP;
-            case LEFT: return Direction.RIGHT;
-            case RIGHT: return Direction.LEFT;
-        }
-        return dir;
+    Direction getOpposite(Direction dir) {
+        return switch(dir) {
+            case UP -> Direction.DOWN;
+            case DOWN -> Direction.UP;
+            case LEFT -> Direction.RIGHT;
+            case RIGHT -> Direction.LEFT;
+        };
+        
     }
 
 }
