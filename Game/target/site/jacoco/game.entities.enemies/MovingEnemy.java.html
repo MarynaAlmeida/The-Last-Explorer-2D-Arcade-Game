@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovingEnemy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">2D-Game-Project</a> &gt; <a href="index.source.html" class="el_package">game.entities.enemies</a> &gt; <span class="el_source">MovingEnemy.java</span></div><h1>MovingEnemy.java</h1><pre class="source lang-java linenums">package game.entities.enemies;
+
+import java.util.Random;
+
+import game.entities.Character;
+import game.entities.Entity;
+import game.enums.CellType;
+import game.enums.Direction;
+import game.main.Cell;
+import game.main.GameMap;
+import game.main.Position;
+
+/**
+ * Abstract base class for all enemies that navigate the map to the explorer.
+ * */
+
+public abstract class MovingEnemy extends Character {
+    protected int moveSpeed;
+    Position defaulPosition;
+    protected int pixelX;
+    protected int pixelY;
+<span class="fc" id="L22">    private int velocityX = 0;</span>
+<span class="fc" id="L23">    private int velocityY = 0;</span>
+    protected Direction currentDir;
+<span class="fc" id="L25">    private int tileSize = 32;</span>
+<span class="fc" id="L26">    Direction[] directions = Direction.values();</span>
+<span class="fc" id="L27">    Random random = new Random();</span>
+    
+    /**
+     * Initializes a moving enemy at a specific grid position, converting it to
+     * pixel coordinates with a default movement speed.
+     * @param pos starting position of enemy on the game map.
+     * @param map game map that the enemies exist on.
+     * */
+
+    public MovingEnemy(Position pos, GameMap map) {
+<span class="fc" id="L37">        super(pos, map);</span>
+<span class="fc" id="L38">        moveSpeed = 7;</span>
+<span class="fc" id="L39">        pixelX = pos.getX() * tileSize;</span>
+<span class="fc" id="L40">        pixelY = pos.getY() * tileSize;</span>
+<span class="fc" id="L41">        updateDirection(Direction.RIGHT);</span>
+<span class="fc" id="L42">        this.defaulPosition = new Position(pos.getX(), pos.getY());</span>
+        
+<span class="fc" id="L44">    }</span>
+    /**
+     * Converts pixel movements back into pixel coordinates to check for collision/traversability.
+     */
+
+    private void move() {
+<span class="fc" id="L50">       this.pixelX += velocityX;</span>
+<span class="fc" id="L51">       this.pixelY += velocityY;</span>
+       /** Converts pixels back to grid coordinates. */
+<span class="fc" id="L53">       int gridX = this.pixelX / tileSize;</span>
+<span class="fc" id="L54">       int gridY = this.pixelY / tileSize;</span>
+<span class="fc" id="L55">       Position newGridPos = new Position(gridX, gridY);</span>
+
+       /** Checks if the cell at that position is tranversable. */
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">       if(map.isValidEnemyMove(newGridPos)) {</span>
+<span class="fc" id="L59">           this.setPosition(newGridPos);</span>
+<span class="fc" id="L60">       }</span>
+       else{
+        /** If enemy hits a hedge or tree, step back. */
+<span class="nc" id="L63">           this.pixelX -= velocityX;</span>
+<span class="nc" id="L64">           this.pixelY -= velocityY;</span>
+
+           /** Resets the velocity, so a new path can be chosen. */
+<span class="nc" id="L67">           this.velocityX = 0;</span>
+<span class="nc" id="L68">           this.velocityY = 0;</span>
+       }
+<span class="fc" id="L70">   }</span>
+
+   /** @return current x-coordinate in pixels.
+   */
+    public int getPixelX() {
+<span class="fc" id="L75">        return this.pixelX;</span>
+    }
+
+    /** @return current y-coordinate in pixels.
+    */
+    public int getPixelY() {
+<span class="fc" id="L81">        return this.pixelY;</span>
+    }
+
+    /** Updates the enemy's current direction and sets the 
+     * velocity vectors to enable smooth sliding animation.
+     * @param newDir the new {@link Direction} for the enemy to face.
+     */
+    private void updateDirection(Direction newDir) {
+<span class="fc" id="L89">        this.currentDir = newDir;</span>
+<span class="pc bpc" id="L90" title="4 of 5 branches missed.">        switch (newDir) {</span>
+            case UP:
+<span class="nc" id="L92">                this.velocityX = 0;</span>
+<span class="nc" id="L93">                this.velocityY = -tileSize/4;</span>
+<span class="nc" id="L94">                break;</span>
+            case DOWN:
+<span class="nc" id="L96">                this.velocityX = 0;</span>
+<span class="nc" id="L97">                this.velocityY = tileSize/4;</span>
+<span class="nc" id="L98">                break;</span>
+            case LEFT:
+<span class="nc" id="L100">                this.velocityX = -tileSize/4;</span>
+<span class="nc" id="L101">                this.velocityY = 0;</span>
+<span class="nc" id="L102">                break;</span>
+            case RIGHT:
+<span class="fc" id="L104">                this.velocityX = tileSize/4;</span>
+<span class="fc" id="L105">                this.velocityY = 0;</span>
+                break;
+        }
+        
+<span class="fc" id="L109">    }</span>
+
+    /**
+     * Executes a basic pathfinding algorithm to move through the map.
+     * 
+     * &lt;p&gt;If the enemy hits a hedge or tree, it selects a new random direction 
+     * (excluding the one it just came from) to ensure continuous movement.&lt;/p&gt;
+     * 
+     * @param explorerPos the current position of the explorer for the enemy to track.
+     * */
+    public void updateMovement(Position explorerPos) {
+<span class="fc" id="L120">        this.move();</span>
+<span class="pc bpc" id="L121" title="3 of 4 branches missed.">       if(this.velocityX == 0 &amp;&amp; this.velocityY == 0) {  </span>
+           Direction nextDir;
+        do {
+<span class="nc" id="L124">            nextDir = directions[random.nextInt(directions.length)];</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        } while(nextDir == getOpposite(currentDir));</span>
+<span class="nc" id="L126">           this.updateDirection(nextDir);</span>
+       }
+<span class="fc" id="L128">   }     </span>
+
+   /** Calculates and returns the opposite of the given direction.
+    * This is used to prevent the enemy from immediately reversing its path.
+    * @param dir current direction to be inverted.
+    * @return the {@link Direction} opposite to the current direction.
+    */
+   private Direction getOpposite(Direction dir) {
+<span class="nc bnc" id="L136" title="All 5 branches missed.">        switch(dir) {</span>
+<span class="nc" id="L137">            case UP: return Direction.DOWN;</span>
+<span class="nc" id="L138">            case DOWN: return Direction.UP;</span>
+<span class="nc" id="L139">            case LEFT: return Direction.RIGHT;</span>
+<span class="nc" id="L140">            case RIGHT: return Direction.LEFT;</span>
+        }
+<span class="nc" id="L142">        return dir;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

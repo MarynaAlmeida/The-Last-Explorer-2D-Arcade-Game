@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+game/ui/GameView$1.class
+game/entities/Character$1.class
+game/entities/enemies/MovingEnemy$1.class
+=======
 game\main\Position.class
 game\ui\LosingByCoins.class
 game\ui\LosingbyHearts.class
@@ -33,3 +38,4 @@ game\enums\Direction.class
 game\ui\WinningView.class
 game\entities\enemies\Thorns.class
 game\entities\Character$1.class
+>>>>>>> main

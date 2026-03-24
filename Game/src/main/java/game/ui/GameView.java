@@ -102,7 +102,7 @@ public class GameView extends JPanel implements ActionListener{
         addKeyListener(input);
         setFocusable(true);
     }
-
+ 
     /**
      * Acts as a getter method for the isTutorialActive variable.
      * 
