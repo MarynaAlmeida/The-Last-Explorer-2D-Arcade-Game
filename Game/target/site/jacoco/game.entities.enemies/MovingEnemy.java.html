@@ -47,17 +47,17 @@ public abstract class MovingEnemy extends Character {
      */
 
     private void move() {
-<span class="nc" id="L50">       this.pixelX += velocityX;</span>
-<span class="nc" id="L51">       this.pixelY += velocityY;</span>
+<span class="fc" id="L50">       this.pixelX += velocityX;</span>
+<span class="fc" id="L51">       this.pixelY += velocityY;</span>
        /** Converts pixels back to grid coordinates. */
-<span class="nc" id="L53">       int gridX = this.pixelX / tileSize;</span>
-<span class="nc" id="L54">       int gridY = this.pixelY / tileSize;</span>
-<span class="nc" id="L55">       Position newGridPos = new Position(gridX, gridY);</span>
+<span class="fc" id="L53">       int gridX = this.pixelX / tileSize;</span>
+<span class="fc" id="L54">       int gridY = this.pixelY / tileSize;</span>
+<span class="fc" id="L55">       Position newGridPos = new Position(gridX, gridY);</span>
 
        /** Checks if the cell at that position is tranversable. */
-<span class="nc bnc" id="L58" title="All 2 branches missed.">       if(map.isValidEnemyMove(newGridPos)) {</span>
-<span class="nc" id="L59">           this.setPosition(newGridPos);</span>
-<span class="nc" id="L60">       }</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">       if(map.isValidEnemyMove(newGridPos)) {</span>
+<span class="fc" id="L59">           this.setPosition(newGridPos);</span>
+<span class="fc" id="L60">       }</span>
        else{
         /** If enemy hits a hedge or tree, step back. */
 <span class="nc" id="L63">           this.pixelX -= velocityX;</span>
@@ -67,18 +67,18 @@ public abstract class MovingEnemy extends Character {
 <span class="nc" id="L67">           this.velocityX = 0;</span>
 <span class="nc" id="L68">           this.velocityY = 0;</span>
        }
-<span class="nc" id="L70">   }</span>
+<span class="fc" id="L70">   }</span>
 
    /** @return current x-coordinate in pixels.
    */
     public int getPixelX() {
-<span class="nc" id="L75">        return this.pixelX;</span>
+<span class="fc" id="L75">        return this.pixelX;</span>
     }
 
     /** @return current y-coordinate in pixels.
     */
     public int getPixelY() {
-<span class="nc" id="L81">        return this.pixelY;</span>
+<span class="fc" id="L81">        return this.pixelY;</span>
     }
 
     /** Updates the enemy's current direction and sets the 
@@ -117,15 +117,15 @@ public abstract class MovingEnemy extends Character {
      * @param explorerPos the current position of the explorer for the enemy to track.
      * */
     public void updateMovement(Position explorerPos) {
-<span class="nc" id="L120">        this.move();</span>
-<span class="nc bnc" id="L121" title="All 4 branches missed.">       if(this.velocityX == 0 &amp;&amp; this.velocityY == 0) {  </span>
+<span class="fc" id="L120">        this.move();</span>
+<span class="pc bpc" id="L121" title="3 of 4 branches missed.">       if(this.velocityX == 0 &amp;&amp; this.velocityY == 0) {  </span>
            Direction nextDir;
         do {
 <span class="nc" id="L124">            nextDir = directions[random.nextInt(directions.length)];</span>
 <span class="nc bnc" id="L125" title="All 2 branches missed.">        } while(nextDir == getOpposite(currentDir));</span>
 <span class="nc" id="L126">           this.updateDirection(nextDir);</span>
        }
-<span class="nc" id="L128">   }     </span>
+<span class="fc" id="L128">   }     </span>
 
    /** Calculates and returns the opposite of the given direction.
     * This is used to prevent the enemy from immediately reversing its path.

@@ -2,6 +2,10 @@ package game.ui;
 
 import javax.swing.JPanel;
 import java.awt.CardLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
 import game.enums.GameState;
 import game.main.Game;
 import org.junit.jupiter.api.Test;
@@ -21,9 +25,29 @@ public class LosingByHeartsTest {
         cardLayout = new CardLayout();
         container = new JPanel(cardLayout);
         
-        gv = new GameView(game, gv, cardLayout);
-        lh = new LosingbyHearts(game, gv, cardLayout, gv);
+        gv = new GameView(game, container, cardLayout);
+        lh = new LosingbyHearts(game, gv, cardLayout, container);
 
+    }
+
+    //check the paintComponent
+    @Test
+    public void checkPaintComponent() {
+        game = new Game();
+
+        gv = new GameView(game, null, null) {
+            @Override
+            public void paintComponent(Graphics g) {}
+        };
+
+        lh = new LosingbyHearts(game, gv, null, null);
+
+        BufferedImage img = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+
+        lh.setSize(300, 300);
+
+        assertDoesNotThrow(() -> lh.paintComponent(g2));
     }
     //check if getters are the same
 
@@ -75,7 +99,6 @@ public class LosingByHeartsTest {
     }
     //edge cases
 
-
     //integration tests
     //is the game being remade 
     
@@ -101,7 +124,5 @@ public class LosingByHeartsTest {
         game.tick();
         assertEquals(GameState.LOST, game.getState()); 
     }
-
-
 
 }

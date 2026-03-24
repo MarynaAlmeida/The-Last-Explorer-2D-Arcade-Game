@@ -1,8 +1,14 @@
 package game.ui;
 import java.awt.CardLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import game.enums.GameState;
 import game.main.Game;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -13,8 +19,9 @@ public class GameViewTest {
     @BeforeEach 
     public void setUp(){
         game = new Game();
-        JPanel container = new JPanel();
         CardLayout cardLayout = new CardLayout();
+        JPanel container = new JPanel(cardLayout);
+        
         gameV= new GameView(game, container, cardLayout);
     }
 
@@ -48,7 +55,6 @@ public class GameViewTest {
     }
 
     //check out of bounds as in negative for starting x cell
-
     @Test 
     public void checkStartingXcell(){
         assertTrue(gameV.getStartingXCell()>=0);
@@ -63,4 +69,107 @@ public class GameViewTest {
     public void checkStopLoop(){
         gameV.stopLoop();
     }
+
+
+    //all painting graphics tests
+    //does it build
+    //draws tutorial page
+     @Test
+    public void checkPaintComponent() {
+        
+
+        game.startGame();
+        BufferedImage img = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+
+        gameV.setSize(300, 300);
+
+        assertDoesNotThrow(() -> gameV.paintComponent(g2));
+    }
+
+    
+    //shouldnt built if map not toggled does it draw partial map
+    @Test
+    public void checkPaintComponentPartial(){
+
+        game.startGame();
+        BufferedImage img = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+
+        gameV.setSize(300, 300);
+        gameV.setTutorialState(false);
+        assertDoesNotThrow(()-> gameV.paintComponent(g2));
+    }
+
+    @Test
+    public void checkPaintComponentWholeMap(){
+        game.startGame();
+        BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        gameV.setSize(500, 500);
+        gameV.setTutorialState(false);
+        gameV.toggleMap();
+        assertDoesNotThrow(() -> gameV.paintComponent(g2));
+    }
+
+    @Test
+    public void checkDrawWholeMap(){
+        BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        gameV.setSize(500, 500);
+        assertDoesNotThrow(() -> gameV.drawWholeMap(g2));
+    }
+
+    @Test 
+    public void checkPartialMap(){
+        game.startGame();
+        BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        gameV.setSize(500, 500);
+        assertDoesNotThrow(() -> gameV.drawPartialMap(g2));
+    }
+
+    @Test 
+    public void checkdrawHearts(){
+        BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        gameV.setSize(500, 500);
+        assertDoesNotThrow(() -> gameV.drawHearts(g2, 2));
+    }
+
+    @Test 
+    public void checkVisibleBarriers(){
+        game.startGame();
+        BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        gameV.setSize(500, 500);
+        assertDoesNotThrow(() -> gameV.drawVisibleBarriers(g2));
+    }
+
+    @Test 
+    public void checkVisibleEntities(){
+        BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        gameV.setSize(500, 500);
+        assertDoesNotThrow(() -> gameV.drawVisibleMovingEntities(g2));
+    }
+
+    @Test 
+    public void checkVisibleStaticEntities(){
+        BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        gameV.setSize(500, 500);
+        assertDoesNotThrow(() -> gameV.drawVisibleStaticEntities(g2));
+    }
+
+    @Test 
+    public void checkVisibleRewards(){
+        BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        gameV.setSize(500, 500);
+        assertDoesNotThrow(() -> gameV.drawVisibleRewards(g2));
+    }
+
+    
 }
+

@@ -102,7 +102,7 @@ public class Game{
      * @return the array list of all moving enemies in the game.
      */
     public List&lt;MovingEnemy&gt; getMovingEnemies() {
-<span class="nc" id="L105">        return movingEnemies;</span>
+<span class="fc" id="L105">        return movingEnemies;</span>
     }
 
     /**
@@ -111,7 +111,7 @@ public class Game{
      * @return the array list of all rewards in the game.
      */
     public List&lt;Reward&gt; getRewards(){
-<span class="nc" id="L114">        return rewards;</span>
+<span class="fc" id="L114">        return rewards;</span>
     }
 
     /**
@@ -120,7 +120,7 @@ public class Game{
      * @return the array list of all static enemies in the game.
      */
     public List&lt;StaticEnemy&gt; getStaticEnemies() {
-<span class="nc" id="L123">        return staticEnemies;</span>
+<span class="fc" id="L123">        return staticEnemies;</span>
     }
 
     /**
@@ -176,10 +176,10 @@ public class Game{
      * @retun x-coordinate in pixel.
      */
     public int getPixelX(Entity e) {
-<span class="nc bnc" id="L179" title="All 2 branches missed.">        if( e instanceof MovingEnemy) {</span>
-<span class="nc" id="L180">            return ((MovingEnemy) e).getPixelX();</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">        if( e instanceof MovingEnemy) {</span>
+<span class="fc" id="L180">            return ((MovingEnemy) e).getPixelX();</span>
         }
-<span class="nc" id="L182">        return e.getPosition().getX() * 32;</span>
+<span class="fc" id="L182">        return e.getPosition().getX() * 32;</span>
     }
 
     /** Returns the vertical pixel coordinate of the given entity.
@@ -190,10 +190,10 @@ public class Game{
      * @retun y-coordinate in pixel.
      */
     public int getPixelY(Entity e) {
-<span class="nc bnc" id="L193" title="All 2 branches missed.">        if( e instanceof MovingEnemy) {</span>
-<span class="nc" id="L194">            return ((MovingEnemy) e).getPixelY();</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">        if( e instanceof MovingEnemy) {</span>
+<span class="fc" id="L194">            return ((MovingEnemy) e).getPixelY();</span>
         }
-<span class="nc" id="L196">        return e.getPosition().getY() * 32;</span>
+<span class="fc" id="L196">        return e.getPosition().getY() * 32;</span>
     }
 
 
@@ -205,12 +205,12 @@ public class Game{
      * @return true if the entities cell overlap, false otherwise.
      */
     public boolean checkCollision(Entity a, Entity b) {
-<span class="nc" id="L208">        int size = 32;</span>
-<span class="nc" id="L209">        int aX = getPixelX(a);</span>
-<span class="nc" id="L210">        int aY = getPixelY(a);</span>
-<span class="nc" id="L211">        int bX = getPixelX(b);</span>
-<span class="nc" id="L212">        int bY = getPixelY(b);</span>
-<span class="nc bnc" id="L213" title="All 4 branches missed.">        return aX &lt; bX + size &amp;&amp;</span>
+<span class="fc" id="L208">        int size = 32;</span>
+<span class="fc" id="L209">        int aX = getPixelX(a);</span>
+<span class="fc" id="L210">        int aY = getPixelY(a);</span>
+<span class="fc" id="L211">        int bX = getPixelX(b);</span>
+<span class="fc" id="L212">        int bY = getPixelY(b);</span>
+<span class="pc bpc" id="L213" title="3 of 4 branches missed.">        return aX &lt; bX + size &amp;&amp;</span>
 <span class="nc bnc" id="L214" title="All 2 branches missed.">               aX + size &gt; bX &amp;&amp;</span>
 <span class="nc bnc" id="L215" title="All 2 branches missed.">               aY &lt; bY + size &amp;&amp;</span>
 <span class="nc" id="L216">               aY + size &gt; bY;</span>
@@ -231,11 +231,11 @@ public class Game{
             }
         }
 
-<span class="pc bpc" id="L234" title="1 of 2 branches missed.">        for(MovingEnemy m: movingEnemies){</span>
-<span class="nc" id="L235">            m.updateMovement(explorer.getPosition());</span>
+<span class="fc bfc" id="L234" title="All 2 branches covered.">        for(MovingEnemy m: movingEnemies){</span>
+<span class="fc" id="L235">            m.updateMovement(explorer.getPosition());</span>
         }
-<span class="pc bpc" id="L237" title="1 of 2 branches missed.">        for(MovingEnemy m: movingEnemies){</span>
-<span class="nc bnc" id="L238" title="All 2 branches missed.">            if(checkCollision(m, explorer )) {</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">        for(MovingEnemy m: movingEnemies){</span>
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">            if(checkCollision(m, explorer )) {</span>
 <span class="nc bnc" id="L239" title="All 4 branches missed.">                if(!explorer.isShieldActive() &amp;&amp; !invincible){</span>
 <span class="nc" id="L240">                    this.hearts -= MovingEnemyDamage;</span>
 <span class="nc" id="L241">                    updateHearts(hearts);</span>
@@ -247,10 +247,10 @@ public class Game{
 
 <span class="fc" id="L248">        boolean standingOnHazard = false;</span>
 
-<span class="pc bpc" id="L250" title="1 of 2 branches missed.">        for (StaticEnemy s : staticEnemies) {</span>
-<span class="nc" id="L251">            Position staticPos = s.getPosition();</span>
+<span class="fc bfc" id="L250" title="All 2 branches covered.">        for (StaticEnemy s : staticEnemies) {</span>
+<span class="fc" id="L251">            Position staticPos = s.getPosition();</span>
 
-<span class="nc bnc" id="L253" title="All 2 branches missed.">            if (staticPos.equals(explorerPos)) {</span>
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">            if (staticPos.equals(explorerPos)) {</span>
 <span class="nc" id="L254">                standingOnHazard = true;</span>
 
 <span class="nc bnc" id="L256" title="All 2 branches missed.">                if (!onStaticEntity) {</span>
@@ -281,8 +281,8 @@ public class Game{
             }
         }
 
-<span class="pc bpc" id="L284" title="1 of 2 branches missed.">        for (Reward reward : rewards) {</span>
-<span class="nc bnc" id="L285" title="All 2 branches missed.">            if (reward.getPosition().equals(explorerPos)) {</span>
+<span class="fc bfc" id="L284" title="All 2 branches covered.">        for (Reward reward : rewards) {</span>
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">            if (reward.getPosition().equals(explorerPos)) {</span>
 <span class="nc bnc" id="L286" title="All 2 branches missed.">                if(reward instanceof Chest) {</span>
 <span class="nc" id="L287">                    Chest chest = (Chest) reward;</span>
 <span class="nc bnc" id="L288" title="All 2 branches missed.">                    if(!chest.canChestOpen()) {</span>
@@ -316,15 +316,15 @@ public class Game{
         //collected all the coins ; walk over treasure map
 
         //check from the rewards array list
-<span class="pc bpc" id="L319" title="1 of 2 branches missed.">        for (Reward r : rewards) {</span>
-<span class="nc bnc" id="L320" title="All 4 branches missed.">            if (r instanceof Coin &amp;&amp; !r.isCollected()) {</span>
-<span class="nc" id="L321">                allCoinsAreCollected = false;</span>
-<span class="nc" id="L322">                break;</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">        for (Reward r : rewards) {</span>
+<span class="pc bpc" id="L320" title="2 of 4 branches missed.">            if (r instanceof Coin &amp;&amp; !r.isCollected()) {</span>
+<span class="fc" id="L321">                allCoinsAreCollected = false;</span>
+<span class="fc" id="L322">                break;</span>
             }
         }
 
-<span class="pc bpc" id="L326" title="1 of 2 branches missed.">        if (!allCoinsAreCollected) {</span>
-<span class="nc" id="L327">            return;</span>
+<span class="fc bfc" id="L326" title="All 2 branches covered.">        if (!allCoinsAreCollected) {</span>
+<span class="fc" id="L327">            return;</span>
         }
 
 <span class="pc bpc" id="L330" title="1 of 2 branches missed.">        for (Reward r : rewards) {</span>

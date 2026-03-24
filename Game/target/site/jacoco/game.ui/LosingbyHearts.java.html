@@ -106,24 +106,24 @@ public class LosingbyHearts extends JPanel{
      * @param g the graphics context for drawing
      */
     public void paintComponent(Graphics g){
-<span class="nc" id="L109">        super.paintComponent(g);</span>
-<span class="nc" id="L110">        gv.paintComponent(g); //the game bg first</span>
+<span class="fc" id="L109">        super.paintComponent(g);</span>
+<span class="fc" id="L110">        gv.paintComponent(g); //the game bg first</span>
         
-<span class="nc" id="L112">        int boxX = (getWidth() - getBoxWidth())/2; //centering starting coordinates</span>
-<span class="nc" id="L113">        int boxY = (getHeight() - getBoxHeight())/2;</span>
+<span class="fc" id="L112">        int boxX = (getWidth() - getBoxWidth())/2; //centering starting coordinates</span>
+<span class="fc" id="L113">        int boxY = (getHeight() - getBoxHeight())/2;</span>
 
-<span class="nc" id="L115">        g.setColor(Color.WHITE);</span>
-<span class="nc" id="L116">        g.fillRect(boxX, boxY, boxW, boxH);</span>
-<span class="nc" id="L117">        g.drawImage(gameover, boxH + 10, boxY+10, getBoxWidth(), getBoxHeight(), null);</span>
+<span class="fc" id="L115">        g.setColor(Color.WHITE);</span>
+<span class="fc" id="L116">        g.fillRect(boxX, boxY, boxW, boxH);</span>
+<span class="fc" id="L117">        g.drawImage(gameover, boxH + 10, boxY+10, getBoxWidth(), getBoxHeight(), null);</span>
         
-<span class="nc" id="L119">        int size = 32;</span>
-<span class="nc" id="L120">        int startX = getBoxWidth() + 70;</span>
-<span class="nc" id="L121">        int startY = getBoxHeight() + 100;</span>
-<span class="nc bnc" id="L122" title="All 2 branches missed.">        for(int i=0; i&lt;4; i++){</span>
-<span class="nc" id="L123">            g.drawImage(heart, startX + (i*(size+10)), startY, size, size, null);</span>
+<span class="fc" id="L119">        int size = 32;</span>
+<span class="fc" id="L120">        int startX = getBoxWidth() + 70;</span>
+<span class="fc" id="L121">        int startY = getBoxHeight() + 100;</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        for(int i=0; i&lt;4; i++){</span>
+<span class="fc" id="L123">            g.drawImage(heart, startX + (i*(size+10)), startY, size, size, null);</span>
         }
-<span class="nc" id="L125">        g.drawImage(backbutton,getBX(), getBY(), getBWidth(), getBHeight(), null);</span>
-<span class="nc" id="L126">    }</span>
+<span class="fc" id="L125">        g.drawImage(backbutton,getBX(), getBY(), getBWidth(), getBHeight(), null);</span>
+<span class="fc" id="L126">    }</span>
 
     //the button takes you back to the home page 
 

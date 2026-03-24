@@ -216,16 +216,16 @@ public class GameMap{
      * @return a boolean that's true if the cell is a valid move, and false if it is not.
      */
     public boolean isValidEnemyMove(Position c) {
-<span class="nc" id="L219">        int x = c.getX();</span>
-<span class="nc" id="L220">        int y = c.getY();</span>
+<span class="fc" id="L219">        int x = c.getX();</span>
+<span class="fc" id="L220">        int y = c.getY();</span>
         // grid boundary check
-<span class="nc bnc" id="L222" title="All 8 branches missed.">        if (x &lt; 0 || x &gt;= grid[0].length || y &lt; 0 || y &gt;= grid.length) {</span>
+<span class="pc bpc" id="L222" title="4 of 8 branches missed.">        if (x &lt; 0 || x &gt;= grid[0].length || y &lt; 0 || y &gt;= grid.length) {</span>
 <span class="nc" id="L223">            return false; // It's outside the map, so it's not a valid move!</span>
         }
-<span class="nc" id="L225">        Cell pos = grid[y][x]; </span>
+<span class="fc" id="L225">        Cell pos = grid[y][x]; </span>
         // Enemies only care if the tile is a physical wall (Hedge/Tree)
         // They ignore whether an entity (like the Explorer) is there.
-<span class="nc bnc" id="L228" title="All 4 branches missed.">        return pos.isTraversable() &amp;&amp; pos.getType() != CellType.CHEST;</span>
+<span class="pc bpc" id="L228" title="2 of 4 branches missed.">        return pos.isTraversable() &amp;&amp; pos.getType() != CellType.CHEST;</span>
 
     }
 
@@ -282,7 +282,7 @@ public class GameMap{
      * @return the cell of the corresponding column and row.
      */
     public Cell getCell (int c, int r){
-<span class="nc" id="L285">        return grid[r][c];</span>
+<span class="fc" id="L285">        return grid[r][c];</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

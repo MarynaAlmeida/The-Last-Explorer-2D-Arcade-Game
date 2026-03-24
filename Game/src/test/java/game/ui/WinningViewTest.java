@@ -3,6 +3,10 @@ package game.ui;
 import game.main.Game;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
 import org.junit.jupiter.api.BeforeEach;
 
 public class WinningViewTest {
@@ -16,6 +20,14 @@ public class WinningViewTest {
         wv = new WinningView(g);
     }
 
+    //check the paintComponent
+    @Test
+    public void checkPaintComponent() {
+        BufferedImage img = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        wv.setSize(20, 20);
+        assertDoesNotThrow(() -> wv.paintComponent(g2));
+    }
     //is the object getting created
     @Test 
     public void isNotNull(){

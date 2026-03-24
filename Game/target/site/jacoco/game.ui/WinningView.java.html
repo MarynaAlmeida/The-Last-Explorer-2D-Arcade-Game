@@ -40,14 +40,14 @@ public class WinningView extends JPanel{
      * @param g the graphics context for drawing
      */
     public void paintComponent(Graphics g){
-<span class="nc" id="L43">        super.paintComponent(g);</span>
-<span class="nc" id="L44">        g.drawImage(winningBg, 0, 0, getWidth(),getHeight(),null);</span>
-<span class="nc" id="L45">        g.drawImage(chest, 10, 10, chest.getWidth(null), chest.getHeight(null), null);</span>
-<span class="nc" id="L46">        g.drawImage(chest, getWidth() - chest.getWidth(null), getHeight() - chest.getHeight(null), chest.getWidth(null), chest.getHeight(null), null);</span>
-<span class="nc" id="L47">        g.setColor(Color.WHITE);</span>
-<span class="nc" id="L48">        g.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 35));</span>
-<span class="nc" id="L49">        g.drawString(&quot;ALL COINS COLLECTED&quot;, (getWidth()/2) -200 ,250);</span>
-<span class="nc" id="L50">        g.drawString(&quot;THE TREASURE IS YOURS!&quot;, (getWidth()/2) -200 ,290); //this text comes lower than the first</span>
-<span class="nc" id="L51">    }</span>
+<span class="fc" id="L43">        super.paintComponent(g);</span>
+<span class="fc" id="L44">        g.drawImage(winningBg, 0, 0, getWidth(),getHeight(),null);</span>
+<span class="fc" id="L45">        g.drawImage(chest, 10, 10, chest.getWidth(null), chest.getHeight(null), null);</span>
+<span class="fc" id="L46">        g.drawImage(chest, getWidth() - chest.getWidth(null), getHeight() - chest.getHeight(null), chest.getWidth(null), chest.getHeight(null), null);</span>
+<span class="fc" id="L47">        g.setColor(Color.WHITE);</span>
+<span class="fc" id="L48">        g.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 35));</span>
+<span class="fc" id="L49">        g.drawString(&quot;ALL COINS COLLECTED&quot;, (getWidth()/2) -200 ,250);</span>
+<span class="fc" id="L50">        g.drawString(&quot;THE TREASURE IS YOURS!&quot;, (getWidth()/2) -200 ,290); //this text comes lower than the first</span>
+<span class="fc" id="L51">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
