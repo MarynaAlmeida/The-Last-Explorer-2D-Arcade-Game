@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Chest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">2D-Game-Project</a> &gt; <a href="index.source.html" class="el_package">game.entities.enemies.rewards</a> &gt; <span class="el_source">Chest.java</span></div><h1>Chest.java</h1><pre class="source lang-java linenums">package game.entities.enemies.rewards;
+import game.main.Position;
+
+/**
+ * This is a chest which player can open through coins.
+ * Only if collecting all the coins on the map, which opening gives a bonus score.
+ *
+ *  @author Harman Bains
+ *  @version 1.0
+ */
+public class Chest extends Reward {
+
+    private int coinRequirement;
+    private boolean isChestOpened;
+    private int bonusValue;
+
+    /**
+     * Generate a chest at a particular position.
+     * The chest needs all the coins collected prior to opening as a hatch.
+     * @param pos           board position of chest coordinates
+     * @param coinRequirement coins needed by player to collect towards the chest
+     * @param bonusValue    the additional score given by opening the chest
+     */
+    public Chest(Position pos, int coinRequirement, int bonusValue) {
+<span class="fc" id="L25">        super(pos, bonusValue);</span>
+<span class="fc" id="L26">        this.coinRequirement = coinRequirement;</span>
+<span class="fc" id="L27">        this.isChestOpened = false;</span>
+<span class="fc" id="L28">        this.bonusValue = bonusValue;</span>
+<span class="fc" id="L29">        this.collected = false;</span>
+<span class="fc" id="L30">    }</span>
+
+    /**
+     * Attempts to open the chest. The chest can only be opened if the player
+     * has collected at least the required number of coins.
+     *
+     * @param playerCollectedCoins the current # of coins within player
+     * @return true when the chest can open along with bonus given, else false
+     */
+    public boolean attemptOpening(int playerCollectedCoins) {
+<span class="nc bnc" id="L40" title="All 4 branches missed.">        if (isChestOpened || collected) {</span>
+<span class="nc" id="L41">            return false;</span>
+        }
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (playerCollectedCoins &gt;= coinRequirement) {</span>
+<span class="nc" id="L44">            isChestOpened = true;</span>
+<span class="nc" id="L45">            collected = true;</span>
+<span class="nc" id="L46">            return true;</span>
+        }
+<span class="nc" id="L48">        return false;</span>
+    }
+
+    /**
+     * Returns if the chest can open.
+     *
+     * @return true for chest opening, else false
+     */
+    public boolean canChestOpen(){
+<span class="fc" id="L57">        return isChestOpened;</span>
+    }
+
+    /**
+     * Retrieve bonus value towards score for the opening of the chest.
+     *
+     * @return the bonus value for score
+     */
+    public int bonusScore(){
+<span class="nc" id="L66">        return bonusValue;</span>
+    }
+
+    /**
+     * Attaining # of coins needed for chest.
+     *
+     * @return coin count needed
+     */
+    @SuppressWarnings(&quot;unused&quot;)
+    public int sufficientCoins(){
+<span class="nc" id="L76">        return coinRequirement;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

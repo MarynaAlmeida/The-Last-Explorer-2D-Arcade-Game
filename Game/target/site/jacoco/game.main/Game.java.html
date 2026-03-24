@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Game.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">2D-Game-Project</a> &gt; <a href="index.source.html" class="el_package">game.main</a> &gt; <span class="el_source">Game.java</span></div><h1>Game.java</h1><pre class="source lang-java linenums">//Game 
+package game.main;
+import game.entities.*;
+import game.entities.enemies.*;
+import game.entities.enemies.rewards.*;
+import game.enums.*;
+import game.ui.GameView;
+import java.util.List;
+import java.util.ArrayList;
+import java.awt.event.*;
+
+/**
+ * Creates the maze game and updates the maze.
+ * 
+ * @author Komal Kaur
+ * @version 1.0
+ */
+public class Game{
+    private GameMap gamemap;
+    private Explorer explorer;
+    private List&lt;MovingEnemy&gt; movingEnemies;
+    private List&lt;StaticEnemy&gt; staticEnemies;
+    private Chest chest;
+    private List&lt;Reward&gt; rewards;
+    private GameState state;
+    private int score;
+    private int coinsCollected;
+    private int hearts;
+    private int maxHearts;
+    private int MovingEnemyDamage;
+    private int shieldSpawnCooldown;
+    private int ticksSinceLastShieldSpawn;
+    private GameView view;
+<span class="fc" id="L34">    public boolean invincible = false;</span>
+<span class="fc" id="L35">    public int invincibleCounter = 0;</span>
+    private boolean onStaticEntity;
+
+
+    /**
+     * Constructor for the game class.
+     *
+     * &lt;p&gt;This constructor initializes the values, hearts, score, cooldowns, and arrays for all entities.&lt;/p&gt;
+     */
+<span class="fc" id="L44">    public Game(){</span>
+<span class="fc" id="L45">        this.gamemap = new GameMap();</span>
+<span class="fc" id="L46">        this.explorer = new Explorer(new Position(0,14), gamemap);</span>
+<span class="fc" id="L47">        this.explorer.setGame(this);</span>
+<span class="fc" id="L48">        this.movingEnemies = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L49">        this.rewards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L50">        this.state = GameState.MENU;</span>
+<span class="fc" id="L51">        this.staticEnemies = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L52">        this.maxHearts = 6; /** 1 heart = half heart, 6 hearts = 3 full hearts */</span>
+<span class="fc" id="L53">        this.hearts = maxHearts;</span>
+<span class="fc" id="L54">        this.MovingEnemyDamage = 1;</span>
+<span class="fc" id="L55">        this.score = 0;</span>
+<span class="fc" id="L56">        this.coinsCollected = 0;</span>
+<span class="fc" id="L57">        this.shieldSpawnCooldown = 20;</span>
+<span class="fc" id="L58">        this.ticksSinceLastShieldSpawn = 0;</span>
+<span class="fc" id="L59">        this.onStaticEntity = false;</span>
+<span class="fc" id="L60">        this.chest = new Chest(new Position(24, 2), 10, 3);</span>
+<span class="fc" id="L61">    }</span>
+
+    /**
+     * Sets the game state to 'Playing' and loads the map.
+     */
+    public void startGame(){
+<span class="fc" id="L67">        this.state = GameState.PLAYING;</span>
+<span class="fc" id="L68">        gamemap.loadMap(&quot;../Assets/map.txt&quot;, rewards, movingEnemies, staticEnemies);</span>
+        //explorer.setPosition(gamemap.getStart());
+<span class="fc" id="L70">    }</span>
+
+    /**
+     * Acts as a getter for the current game's map.
+     *
+     * @return the current game's map.
+     */
+    public GameMap getMap(){
+<span class="fc" id="L78">        return this.gamemap;</span>
+    }
+
+    /**
+     * Acts as a getter for the chest.
+     *
+     * @return the game chest.
+     */
+    public Chest getChest() {
+<span class="nc" id="L87">        return chest;</span>
+    }
+
+    /**
+     * Acts as a getter for the explorer.
+     *
+     * @return the current game's explorer object.
+     */
+    public Explorer getExplorer() {
+<span class="fc" id="L96">        return explorer;</span>
+    }
+
+    /**
+     * Acts as the getter for moving enemies.
+     *
+     * @return the array list of all moving enemies in the game.
+     */
+    public List&lt;MovingEnemy&gt; getMovingEnemies() {
+<span class="fc" id="L105">        return movingEnemies;</span>
+    }
+
+    /**
+     * Acts as the getter for all rewards.
+     *
+     * @return the array list of all rewards in the game.
+     */
+    public List&lt;Reward&gt; getRewards(){
+<span class="fc" id="L114">        return rewards;</span>
+    }
+
+    /**
+     * Acts as the getter for all static enemies.
+     *
+     * @return the array list of all static enemies in the game.
+     */
+    public List&lt;StaticEnemy&gt; getStaticEnemies() {
+<span class="fc" id="L123">        return staticEnemies;</span>
+    }
+
+    /**
+     * Acts as the getter for the game score.
+     *
+     * @return the current game's score.
+     */
+    public int getScore(){
+<span class="fc" id="L132">        return this.score;</span>
+    }
+
+    /**
+     * Acts as the getter for the explorer's current total hearts.
+     *
+     * @return an int of the total hearts the explorer has.
+     */
+    public int getHearts(){
+<span class="fc" id="L141">        return this.hearts;</span>
+    }
+
+    /**
+     * Acts as the getter for the explorer's maximum number of hearts.
+     *
+     * @return an int of the total hearts the explorer is set to have at the start of the game.
+     */
+    public int getMaxHearts(){
+<span class="fc" id="L150">        return this.maxHearts;</span>
+    }
+
+    /**
+     * Acts as the setter for updating the explorer's total hearts.
+     *
+     * @param hearts the amount to increment or decrement the explorer's hearts.
+     */
+    public void updateHearts(int hearts){
+<span class="fc" id="L159">        this.hearts += hearts;</span>
+<span class="fc" id="L160">    }</span>
+
+    /**
+     * Acts as the setter for updating the explorer's total score.
+     *
+     * @param amountToIncrease the amount to increment or decrement the explorer's score.
+     */
+    public void updateScore(int amountToIncrease){
+<span class="nc" id="L168">        this.score += amountToIncrease;</span>
+<span class="nc" id="L169">    }</span>
+
+    /** Returns the horizontal pixel coordinate of the given entity.
+     * &lt;p&gt;If the entity is a {@link MovingEnemy}, it returns a sliding
+     * pixel position. Otherwise, it calculates the pixel position based on the
+     * entity's grid coordinates multiplied by the tile size.&lt;/p&gt;
+     * @param e the entity that the x-coordinate is being asked.
+     * @retun x-coordinate in pixel.
+     */
+    public int getPixelX(Entity e) {
+<span class="fc bfc" id="L179" title="All 2 branches covered.">        if( e instanceof MovingEnemy) {</span>
+<span class="fc" id="L180">            return ((MovingEnemy) e).getPixelX();</span>
+        }
+<span class="fc" id="L182">        return e.getPosition().getX() * 32;</span>
+    }
+
+    /** Returns the vertical pixel coordinate of the given entity.
+     * &lt;p&gt;If the entity is a {@link MovingEnemy}, it returns a sliding
+     * pixel position. Otherwise, it calculates the pixel position based on the
+     * entity's grid coordinates multiplied by the tile size.&lt;/p&gt;
+     * @param e the entity that the y-coordinate is being asked.
+     * @retun y-coordinate in pixel.
+     */
+    public int getPixelY(Entity e) {
+<span class="fc bfc" id="L193" title="All 2 branches covered.">        if( e instanceof MovingEnemy) {</span>
+<span class="fc" id="L194">            return ((MovingEnemy) e).getPixelY();</span>
+        }
+<span class="fc" id="L196">        return e.getPosition().getY() * 32;</span>
+    }
+
+
+    /** Detects the collision between the moving enemy and the explorer.
+     * Since explorer is tyle-based and moving enemy is pixel-based, it will get
+     * the pixel coordinates for both.
+     * @param a the first entity.
+     * @param b the second entity.
+     * @return true if the entities cell overlap, false otherwise.
+     */
+    public boolean checkCollision(Entity a, Entity b) {
+<span class="fc" id="L208">        int size = 32;</span>
+<span class="fc" id="L209">        int aX = getPixelX(a);</span>
+<span class="fc" id="L210">        int aY = getPixelY(a);</span>
+<span class="fc" id="L211">        int bX = getPixelX(b);</span>
+<span class="fc" id="L212">        int bY = getPixelY(b);</span>
+<span class="pc bpc" id="L213" title="3 of 4 branches missed.">        return aX &lt; bX + size &amp;&amp;</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">               aX + size &gt; bX &amp;&amp;</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">               aY &lt; bY + size &amp;&amp;</span>
+<span class="nc" id="L216">               aY + size &gt; bY;</span>
+    }
+
+    /**
+     * Represents a single tick in the game.
+     *
+     * &lt;p&gt;This method will be called every tick, which will then perform various operations to update the game state.&lt;/p&gt;
+     */
+    public void tick(){
+<span class="fc" id="L225">        Position explorerPos = this.explorer.getPosition();</span>
+<span class="pc bpc" id="L226" title="1 of 2 branches missed.">        if(invincible) {</span>
+<span class="nc" id="L227">            invincibleCounter++;</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">            if(invincibleCounter &gt; 20) {</span>
+<span class="nc" id="L229">                invincible = false;</span>
+<span class="nc" id="L230">                invincibleCounter = 0;</span>
+            }
+        }
+
+<span class="fc bfc" id="L234" title="All 2 branches covered.">        for(MovingEnemy m: movingEnemies){</span>
+<span class="fc" id="L235">            m.updateMovement(explorer.getPosition());</span>
+        }
+<span class="fc bfc" id="L237" title="All 2 branches covered.">        for(MovingEnemy m: movingEnemies){</span>
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">            if(checkCollision(m, explorer )) {</span>
+<span class="nc bnc" id="L239" title="All 4 branches missed.">                if(!explorer.isShieldActive() &amp;&amp; !invincible){</span>
+<span class="nc" id="L240">                    this.hearts -= MovingEnemyDamage;</span>
+<span class="nc" id="L241">                    updateHearts(hearts);</span>
+<span class="nc" id="L242">                    invincible = true;</span>
+<span class="nc" id="L243">                    invincibleCounter = 0;</span>
+                }
+            }
+        }
+
+<span class="fc" id="L248">        boolean standingOnHazard = false;</span>
+
+<span class="fc bfc" id="L250" title="All 2 branches covered.">        for (StaticEnemy s : staticEnemies) {</span>
+<span class="fc" id="L251">            Position staticPos = s.getPosition();</span>
+
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">            if (staticPos.equals(explorerPos)) {</span>
+<span class="nc" id="L254">                standingOnHazard = true;</span>
+
+<span class="nc bnc" id="L256" title="All 2 branches missed.">                if (!onStaticEntity) {</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">                    if (!explorer.isShieldActive()) {</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">                        if (s instanceof Thorns) {</span>
+<span class="nc" id="L259">                            this.updateScore(-1);</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">                        } else if (s instanceof BearTrap) {</span>
+<span class="nc" id="L261">                            this.updateScore(-3);</span>
+                        }
+<span class="nc" id="L263">                    } else {</span>
+<span class="nc" id="L264">                        explorer.deactivateShield();</span>
+                    }
+                }
+            }
+        }
+
+<span class="fc" id="L270">        onStaticEntity = standingOnHazard;</span>
+<span class="fc" id="L271">        explorer.updateShield();</span>
+
+<span class="fc" id="L273">        ticksSinceLastShieldSpawn++;</span>
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">        if(ticksSinceLastShieldSpawn &gt;= shieldSpawnCooldown){</span>
+<span class="nc" id="L275">            ticksSinceLastShieldSpawn = 0;</span>
+
+<span class="nc bnc" id="L277" title="All 2 branches missed.">            for (Reward shield : rewards) {</span>
+<span class="nc bnc" id="L278" title="All 4 branches missed.">                if (!shield.isCollected() &amp;&amp; shield.getValue() == 0) {</span>
+<span class="nc" id="L279">                    shield.setUncollected();</span>
+                }
+            }
+        }
+
+<span class="fc bfc" id="L284" title="All 2 branches covered.">        for (Reward reward : rewards) {</span>
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">            if (reward.getPosition().equals(explorerPos)) {</span>
+<span class="nc bnc" id="L286" title="All 2 branches missed.">                if(reward instanceof Chest) {</span>
+<span class="nc" id="L287">                    Chest chest = (Chest) reward;</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">                    if(!chest.canChestOpen()) {</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">                        if(chest.attemptOpening(this.coinsCollected)) {</span>
+<span class="nc" id="L290">                            this.updateScore(chest.bonusScore());</span>
+                        }
+                    }
+<span class="nc" id="L293">                    continue;</span>
+                }
+<span class="nc bnc" id="L295" title="All 2 branches missed.">                if (!reward.isCollected()) {</span>
+<span class="nc" id="L296">                    explorer.collectReward(reward);</span>
+<span class="nc bnc" id="L297" title="All 2 branches missed.">                    if(reward instanceof Coin) {</span>
+<span class="nc" id="L298">                        coinsCollected++;</span>
+                    }
+<span class="nc" id="L300">                    break;</span>
+                }
+
+
+            }
+        }
+
+<span class="fc" id="L307">        checkLoseCondition();</span>
+<span class="fc" id="L308">        checkWinCondition();</span>
+<span class="fc" id="L309">    }</span>
+
+    /**
+     * Checks to see if the game's winning conditions is satisfied, and sets the game's state to 'WON' if so.
+     */
+    public void checkWinCondition(){
+<span class="fc" id="L315">        boolean allCoinsAreCollected = true;</span>
+        //collected all the coins ; walk over treasure map
+
+        //check from the rewards array list
+<span class="fc bfc" id="L319" title="All 2 branches covered.">        for (Reward r : rewards) {</span>
+<span class="pc bpc" id="L320" title="2 of 4 branches missed.">            if (r instanceof Coin &amp;&amp; !r.isCollected()) {</span>
+<span class="fc" id="L321">                allCoinsAreCollected = false;</span>
+<span class="fc" id="L322">                break;</span>
+            }
+        }
+
+<span class="fc bfc" id="L326" title="All 2 branches covered.">        if (!allCoinsAreCollected) {</span>
+<span class="fc" id="L327">            return;</span>
+        }
+
+<span class="pc bpc" id="L330" title="1 of 2 branches missed.">        for (Reward r : rewards) {</span>
+<span class="nc bnc" id="L331" title="All 4 branches missed.">            if (r instanceof Chest &amp;&amp; r.getPosition().equals(explorer.getPosition())) {</span>
+<span class="nc" id="L332">                state = GameState.WON;</span>
+<span class="nc" id="L333">                return;</span>
+            }
+        }
+<span class="fc" id="L336">    }</span>
+
+    /**
+     * Checks to see if the game's losing conditions are satisfied, and sets the game's state to 'LOST' if so.     *
+     */
+    public void checkLoseCondition(){
+        //either lost all their coins or all their hearts
+<span class="pc bpc" id="L343" title="1 of 4 branches missed.">        if(this.hearts &lt;= 0 || this.score &lt; 0) {</span>
+<span class="fc" id="L344">            state = GameState.LOST;</span>
+        }
+<span class="fc" id="L346">    }</span>
+
+    /**
+     * Acts as a getter for the state enumerator.
+     *
+     * @return an enumerator value indicating the state of the game.
+     */
+    public GameState getState() {
+<span class="fc" id="L354">        return state;</span>
+    }
+
+    /**
+     * Acts as a setter for the state enumerator.
+     *
+     * @param state the state to set the enumerator.
+     */
+    public void setState(GameState state) {
+<span class="nc" id="L363">        this.state = state;</span>
+<span class="nc" id="L364">    }</span>
+
+    /**
+     * Updates the users position, and performs relevant logic after the player moves, based on the user's input.
+     *
+     * @param e the key that the user pressed.
+     */
+    public void input(KeyEvent e){
+        //this is the one that actually implements it
+<span class="nc" id="L373">        Position current = explorer.getPosition();</span>
+<span class="nc" id="L374">        Position next = null;</span>
+<span class="nc bnc" id="L375" title="All 5 branches missed.">        switch(e.getKeyCode()){</span>
+            case KeyEvent.VK_W:
+<span class="nc" id="L377">                next = new Position(current.getX(), current.getY()-1); //moving upwards</span>
+<span class="nc" id="L378">                break;</span>
+            case KeyEvent.VK_A:
+<span class="nc" id="L380">                next = new Position(current.getX()-1, current.getY());//moving leftwards</span>
+<span class="nc" id="L381">                explorer.setFacing(Direction.LEFT);</span>
+<span class="nc" id="L382">                break;</span>
+            case KeyEvent.VK_S:
+<span class="nc" id="L384">                next = new Position(current.getX(), current.getY()+1); //moving downwards</span>
+<span class="nc" id="L385">                break;</span>
+            case KeyEvent.VK_D:
+<span class="nc" id="L387">                next = new Position(current.getX()+1, current.getY()); //moving rightwards</span>
+<span class="nc" id="L388">                explorer.setFacing(Direction.RIGHT);</span>
+                break;
+        }
+
+<span class="nc bnc" id="L392" title="All 4 branches missed.">        if(next!=null &amp;&amp; gamemap.isValidMove(next)){</span>
+<span class="nc" id="L393">            Position oldPos = explorer.getPosition();</span>
+<span class="nc" id="L394">            Cell cell = gamemap.getCell(next);</span>
+<span class="nc" id="L395">            Entity en = cell.getEntity();</span>
+
+            // if(en !=null){
+            //     //en.onCollision(explorer);
+            // }
+
+<span class="nc" id="L401">            gamemap.removeEntity(oldPos);</span>
+<span class="nc" id="L402">            explorer.setPosition(next);</span>
+<span class="nc" id="L403">            gamemap.placeEntity(explorer, next);</span>
+<span class="nc" id="L404">            checkWinCondition();</span>
+<span class="nc" id="L405">            checkLoseCondition();</span>
+        }
+
+<span class="nc" id="L408">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

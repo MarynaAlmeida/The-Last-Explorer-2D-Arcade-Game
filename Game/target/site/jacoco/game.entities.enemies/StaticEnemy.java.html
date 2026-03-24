@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StaticEnemy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">2D-Game-Project</a> &gt; <a href="index.source.html" class="el_package">game.entities.enemies</a> &gt; <span class="el_source">StaticEnemy.java</span></div><h1>StaticEnemy.java</h1><pre class="source lang-java linenums">package game.entities.enemies;
+import game.main.*;
+import game.entities.*;
+
+/**
+ * Abstract class for static enemies.
+ * 
+ * &lt;p&gt;These static enemies inflict damage when collided.&lt;/p&gt;
+ * 
+ * &lt;p&gt;The subclasses are {@link Thorns} and {@link BearTrap}, which are for purpose of traps.
+ * 
+ * @author Harman Bains
+ * @version 1.0
+ */
+public abstract class StaticEnemy extends Entity {
+    protected int damageValue;
+    protected Game game;
+
+    /**
+     * Creates a StaticEnemy at a particular position with certain damage values.
+     *
+     * @param position    the enemy grid position on map.
+     * @param damageValue the damage happening when the explorer collides with enemy.
+     */
+    public StaticEnemy(Position position, int damageValue) {
+<span class="fc" id="L26">        super(position);</span>
+<span class="fc" id="L27">        this.damageValue = damageValue;</span>
+<span class="fc" id="L28">    }</span>
+
+    /**
+     * Returns the specific damage happening with this static enemy upon collison.
+     *
+     * @return the damage quantity.
+     */
+    public int getDamageValue() {
+<span class="fc" id="L36">        return damageValue;</span>
+
+    }
+
+    /**
+     * Case of a collision with the explorer.
+     * Damage occurs except when the explorer has a shield active.
+     *
+     * @param explorer the explorer who encounters collison.
+     */
+    public void onCollision(Explorer explorer) {
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (!explorer.isShieldActive()) {</span>
+<span class="fc" id="L48">            game.updateHearts(-damageValue);</span>
+        }
+<span class="fc" id="L50">    }</span>
+
+    /**
+     * Setter for the game variable.
+     *
+     * @param game the variable which will set up the game.
+     */
+    public void setGame(Game game) {
+<span class="fc" id="L58">        this.game = game;</span>
+<span class="fc" id="L59">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
