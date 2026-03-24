@@ -1,5 +1,7 @@
 package game.entities.enemies.rewards;
 
+import java.util.Random;
+
 import game.main.Position;
 
 /**
@@ -11,6 +13,13 @@ import game.main.Position;
 public class Shield extends Reward {
     private int effectDuration;
     private int timeRemainingOnBoard;
+    private int timeTillNextSpawn;
+    private boolean spawned;
+    private Random rn = new Random();
+    private int minTicksTillShieldSpawn;
+    private int maxTicksTillShieldSpawn;
+    private int maxVisibleShieldTime;
+    private int minVisibleShieldTime;
 
     /**
      * Creates a shield object at a specific position on the board with a specific lifetime
@@ -20,22 +29,41 @@ public class Shield extends Reward {
      * @param effectDuration the time of how long the shield will stay active once picked up.
      * @param timeRemainingOnBoard the time of how long the shield will last on the board before expiring.
      */
-    public Shield(Position pos, int effectDuration, int timeRemainingOnBoard) {
+    public Shield(Position pos, int effectDuration) {
         super(pos, 0);
         this.effectDuration = effectDuration;
-        this.timeRemainingOnBoard = timeRemainingOnBoard;
+        this.timeRemainingOnBoard = 0;
+        this.spawned = false;
+        this.minTicksTillShieldSpawn = 60;
+        this.maxTicksTillShieldSpawn = 200;
+        this.minVisibleShieldTime = 100;
+        this.maxVisibleShieldTime = 180;
+        this.timeTillNextSpawn = getRandomTicksTillNextShieldSpawn();
+
     }
 
-    /**
-     * Returns true if the item hasn't been picked up yet and if the shield's remaining time 
-     * on the board is 0 seconds or less.
-     * 
-     * <p>This function is called every tick while the shield is still on the board.</p>
-     * 
-     * @return a boolean value depending on if the item is expired or not.
-     */
-    public boolean isExpired() {
-        return !this.collected && timeRemainingOnBoard >= 0;
+    public int getTimeRemaining() {
+        return timeRemainingOnBoard;
+    }
+
+    public int getTimeTillNextSpawn() {
+        return timeTillNextSpawn;
+    }
+
+    public boolean isSpawned() {
+        return spawned;
+    }
+
+    public void spawn() {
+        this.spawned = true;
+        this.collected = false;
+        this.timeRemainingOnBoard = getRandomVisibleShieldTicks();
+    }
+
+    public void despawn() {
+        this.spawned = false;
+        this.timeRemainingOnBoard = 0;
+        this.timeTillNextSpawn = getRandomTicksTillNextShieldSpawn();
     }
 
     /**
@@ -54,8 +82,32 @@ public class Shield extends Reward {
      * <p>This function is called every tick while the shield is still on the board.</p>
      */
     public void updateOnBoard() {
-        if (!isExpired()) {
+        if (spawned) {
             timeRemainingOnBoard--;
+
+            if (timeRemainingOnBoard <= 0) {
+                despawn();
+            }
+        } else {
+            timeTillNextSpawn--;
+
+            if (timeTillNextSpawn <= 0) {
+                spawn();
+            }
         }
+    }
+
+    private int getRandomTicksTillNextShieldSpawn() {
+        return rn.nextInt(maxTicksTillShieldSpawn - minTicksTillShieldSpawn + 1) + minTicksTillShieldSpawn;
+    }
+
+    private int getRandomVisibleShieldTicks() {
+        return rn.nextInt(maxVisibleShieldTime - minVisibleShieldTime + 1) + minVisibleShieldTime;
+    }
+
+    @Override
+    public void collect() {
+        super.collect();
+        despawn();
     }
 }

@@ -291,7 +291,7 @@ public class GameView extends JPanel implements ActionListener{
             Position rPos = r.getPosition();
             if (r instanceof Chest) {
                 Chest chest = (Chest) r;
-                if(chest.canChestOpen()){
+                if(chest.isCollected()){
                     g.drawImage(openChestImage, rPos.getX() * tileSize, rPos.getY() * tileSize, tileSize, tileSize, null);
                 }
                 else {
@@ -303,11 +303,12 @@ public class GameView extends JPanel implements ActionListener{
                     g.drawImage(coinImage,rPos.getX() * tileSize + 8, rPos.getY() * tileSize + 8, (int) (tileSize * 0.5), (int) (tileSize * 0.5),null );
                 }
                 else if(r instanceof Shield) {
-                    g.drawImage(shieldImage,rPos.getX() * tileSize + 10, rPos.getY() * tileSize + 10, (int) (tileSize * 0.6), (int) (tileSize * 0.6),null );
+                    if (((Shield) r).isSpawned()) {
+                        g.drawImage(shieldImage,rPos.getX() * tileSize + 10, rPos.getY() * tileSize + 10, (int) (tileSize * 0.6), (int) (tileSize * 0.6),null );
+                    }
                 }
             }
         }
-        
     }
 
     /**
@@ -538,7 +539,7 @@ public class GameView extends JPanel implements ActionListener{
 
                 if (r instanceof Chest) {
                     Chest chest = (Chest) r;
-                    if(chest.canChestOpen()){
+                    if(chest.isCollected()){
                         g.drawImage(openChestImage,rewardXCell, rewardYCell, zoomedInTileSize, zoomedInTileSize, null);
                     }
                     else {
@@ -551,7 +552,9 @@ public class GameView extends JPanel implements ActionListener{
                         g.drawImage(coinImage, rewardXCell + 12, rewardYCell +12, (int) (zoomedInTileSize * 0.5), (int) (zoomedInTileSize * 0.5),null );
                     }
                     else if(r instanceof Shield) {
-                        g.drawImage(shieldImage, rewardXCell + 17, rewardYCell + 17, (int) (zoomedInTileSize * 0.6), (int) (zoomedInTileSize * 0.6),null );
+                        if (((Shield) r).isSpawned()) {
+                            g.drawImage(shieldImage, rewardXCell + 17, rewardYCell + 17, (int) (zoomedInTileSize * 0.6), (int) (zoomedInTileSize * 0.6),null );
+                        }
                     }
                 }
             }

@@ -66,12 +66,20 @@ public class LosingByHeartsTest {
 
     @Test 
     public void checkBX(){
+<<<<<<< HEAD
         assertEquals((gv.getPreferredSize().width - lh.getBWidth())/2, lh.getBX());
+=======
+        assertEquals(gv.getPreferredSize().width - lh.getBWidth(), lh.getBX());
+>>>>>>> main
     }
 
     @Test 
     public void checkBY(){
+<<<<<<< HEAD
         assertEquals(((gv.getPreferredSize().height - lh.getBHeight())/2) + 100, lh.getBY());
+=======
+        assertEquals(gv.getPreferredSize().height - lh.getBHeight(), lh.getBY());
+>>>>>>> main
     }
 
     @Test
@@ -92,14 +100,19 @@ public class LosingByHeartsTest {
     }
     //outside the box
     @Test 
-    public void checkClickOutside(){
+    public void checkClickOutside() {
         assertFalse(lh.isClickInsideButton(10, 10)); //this will be inside the box and should trigger the homepage view
     }
    
     //right on the edge
     @Test 
+<<<<<<< HEAD
     public void checkClickOutside1(){
         assertTrue(lh.isClickInsideButton(lh.getBX(), lh.getBY())); //this will be inside the box and should trigger the homepage view
+=======
+    public void checkClickOnEdge(){
+        assertFalse(lh.isClickInsideButton(lh.getBX(), lh.getBY())); //this will be inside the box and should trigger the homepage view
+>>>>>>> main
     }
     //edge cases
 

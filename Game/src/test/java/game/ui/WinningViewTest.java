@@ -1,5 +1,7 @@
 package game.ui;
 
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import game.main.Game;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
