@@ -8,8 +8,14 @@ import javax.swing.JPanel;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import game.entities.enemies.rewards.Chest;
+import game.entities.enemies.rewards.Reward;
+import game.entities.enemies.rewards.Shield;
+import game.enums.Direction;
 import game.enums.GameState;
 import game.main.Game;
+import game.main.Position;
+
 import org.junit.jupiter.api.BeforeEach;
 /**
  * Unit and integration tests for GameView class
@@ -192,5 +198,112 @@ public class GameViewTest {
         assertEquals(GameState.LOST, game.getState());
     }
     
+    @Test
+    public void checkActionPerformedWonState(){
+        game.startGame();
+        for(Reward r : game.getRewards()){
+            if(r instanceof game.entities.enemies.rewards.Coin){
+                r.collect();
+            }
+        }
+        for(Reward r : game.getRewards()){
+        if(r instanceof game.entities.enemies.rewards.Chest){
+            // move explorer to wherever the chest actually is
+            game.getExplorer().setPosition(r.getPosition());
+            break;
+            }
+        }
+    
+        game.tick();
+        assertEquals(GameState.WON, game.getState());
+    }
+
+    @Test
+    public void checkDrawRewardsOpenChest(){
+        game.startGame();
+        for(Reward r : game.getRewards()){
+            if(r instanceof Chest){
+                r.collect();
+                break;
+            }
+        }
+        BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        gameV.setSize(500, 500);
+        assertDoesNotThrow(() -> gameV.drawWholeMap(g2));
+    }
+
+    @Test
+    public void checkDrawRewardsShieldSpawned(){
+        game.startGame();
+        for(Reward r : game.getRewards()){
+            if(r instanceof Shield){
+                ((Shield)r).spawn();
+                break;
+            }
+        }
+        BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        gameV.setSize(500, 500);
+        assertDoesNotThrow(() -> gameV.drawWholeMap(g2));
+    }
+    @Test
+    public void checkDrawMovingEntitiesExplorerLeft(){
+        game.startGame();
+        // set explorer facing LEFT
+        game.getExplorer().setFacing(Direction.LEFT);
+        BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        gameV.setSize(500, 500);
+        assertDoesNotThrow(() -> gameV.drawWholeMap(g2));
+    }
+
+    @Test
+public void checkDrawVisibleRewardsOpenChest(){
+    game.startGame();
+    for(Reward r : game.getRewards()){
+        if(r instanceof Chest){
+            game.getExplorer().setPosition(r.getPosition());
+            r.collect();
+            break;
+        }
+    }
+    BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+    Graphics2D g2 = img.createGraphics();
+    gameV.setSize(500, 500);
+    assertDoesNotThrow(() -> gameV.drawVisibleRewards(g2));
 }
+
+@Test
+public void checkDrawVisibleRewardsClosedChest(){
+    game.startGame();
+    for(Reward r : game.getRewards()){
+        if(r instanceof Chest){
+            game.getExplorer().setPosition(r.getPosition());
+            break;
+        }
+    }
+    BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+    Graphics2D g2 = img.createGraphics();
+    gameV.setSize(500, 500);
+    assertDoesNotThrow(() -> gameV.drawVisibleRewards(g2));
+}
+@Test
+public void checkDrawVisibleRewardsShieldSpawned(){
+    game.startGame();
+    for(Reward r : game.getRewards()){
+        if(r instanceof Shield){
+            game.getExplorer().setPosition(r.getPosition()); 
+            ((Shield) r).spawn();
+            break;
+        }
+    }
+    BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+    Graphics2D g2 = img.createGraphics();
+    gameV.setSize(500, 500);
+    assertDoesNotThrow(() -> gameV.drawVisibleRewards(g2));
+}
+}
+
+
 
