@@ -19,7 +19,7 @@ import java.awt.event.KeyEvent;
  * Integration tests for the Game class.
  *
  * @author Jayden Pai
- * @version 3.0
+ * @version 4.0
  */
 public class GameTest {
     private Game game;
@@ -82,8 +82,8 @@ public class GameTest {
 
     @Test
     void testSetStateChangesState() {
-        game.setState(GameState.MENU);
-        assertEquals(GameState.MENU, game.getState());
+        game.setState(GameState.WON);
+        assertEquals(GameState.WON, game.getState());
     }
 
     @Test
@@ -122,12 +122,6 @@ public class GameTest {
     void testCollisionDetectedWhenEntitiesOverlap() {
         game.getChest().setPosition(new Position(0, 14));
         assertTrue(game.checkCollision(game.getExplorer(), game.getChest()));
-    }
-
-    @Test
-    void testNoCollisionWhenEntitiesAreFarApart() {
-        game.getChest().setPosition(new Position(22, 16));
-        assertFalse(game.checkCollision(game.getExplorer(), game.getChest()));
     }
 
     @Test
@@ -202,17 +196,6 @@ public class GameTest {
     }
 
     @Test
-    void testCheckWinConditionDoesNotTriggerWithUncollectedCoins() {
-        game.checkWinCondition();
-        assertEquals(GameState.PLAYING, game.getState());
-    }
-
-    @Test
-    void testTickDoesNotCrash() {
-        game.tick();
-    }
-
-    @Test
     void testTickRecognizesLoseConditionWhenHeartsAreZero() {
         game.updateHearts(0);
         game.tick();
@@ -221,6 +204,7 @@ public class GameTest {
 
     @Test
     void testTickCollectsCoinWhenExplorerOnCoin() {
+        game.getRewards().clear();
         Position coinPos = new Position(3, 11);
         Coin coin = new Coin(coinPos, 5);
         game.getRewards().add(coin);
@@ -311,7 +295,7 @@ public class GameTest {
         game.getExplorer().setPosition(chestPos);
 
         game.tick();
-        assertFalse(chest.attemptOpening(10));
+        assertTrue(chest.isCollected());
         assertEquals(10, game.getScore());
     }
 
@@ -324,7 +308,7 @@ public class GameTest {
         game.getExplorer().setPosition(chestPos);
 
         game.tick();
-        assertFalse(chest.attemptOpening(0));
+        assertFalse(chest.isCollected());
         assertEquals(0, game.getScore());
     }
 
@@ -374,5 +358,117 @@ public class GameTest {
         int initialHearts = game.getHearts();
         game.tick();
         assertTrue(game.getHearts() < initialHearts);
+    }
+
+    @Test
+    void testCheckWinConditionDoesNotTriggerWhenOnlyAllCoinsCollected() {
+        game.getRewards().clear();
+        Coin coin = new Coin(new Position(3, 11), 1);
+        coin.collect();
+        game.getRewards().add(coin);
+        game.checkWinCondition();
+        assertEquals(GameState.PLAYING, game.getState());
+    }
+
+    @Test
+    void testInputWithInvalidKeyDoesNotMoveExplorer() {
+        Position initial = game.getExplorer().getPosition();
+        game.input(makeKey(KeyEvent.VK_E, 'e'));
+        assertEquals(initial, game.getExplorer().getPosition());
+    }
+
+    @Test
+    void testTickDoesNotDeductScoreWhenAlreadyOnStaticEnemy() {
+        Position thornPos = new Position(3, 11);
+        Thorns thorn = new Thorns(thornPos, 1);
+        game.getStaticEnemies().add(thorn);
+        game.getExplorer().setPosition(thornPos);
+        game.tick(); // first tick score goes to -1
+        game.tick(); // second tick already on thorns so no further deduction
+        assertEquals(-1, game.getScore());
+    }
+
+    @Test
+    void testTickDoesNotReduceHeartsWhenInvincible() {
+        Position pos = new Position(3, 11);
+        game.getExplorer().setPosition(pos);
+        Pirate pirate = new Pirate(pos, game.getMap(), PirateType.PIRATE1);
+        game.getMovingEnemies().add(pirate);
+        game.invincible = true;
+        int initialHearts = game.getHearts();
+        game.tick();
+        assertEquals(initialHearts, game.getHearts());
+    }
+
+    @Test
+    void testTickDoesNotReduceHeartsWhenShieldActiveOnEnemyCollision() {
+        Position pos = new Position(3, 11);
+        game.getExplorer().setPosition(pos);
+        Pirate pirate = new Pirate(pos, game.getMap(), PirateType.PIRATE1);
+        game.getMovingEnemies().add(pirate);
+        game.getExplorer().activateShield(10);
+        int initialHearts = game.getHearts();
+        game.tick();
+        assertEquals(initialHearts, game.getHearts());
+    }
+
+    @Test
+    void testTickDoesNotCollectAlreadyCollectedCoin() {
+        Position coinPos = new Position(3, 11);
+        Coin coin = new Coin(coinPos, 5);
+        coin.collect(); // pre collect coin
+        game.getRewards().add(coin);
+        game.getExplorer().setPosition(coinPos);
+        game.tick();
+        assertEquals(0, game.getScore());
+    }
+
+    @Test
+    void testTickDoesNotReopenAlreadyCollectedChest() {
+        game.getRewards().clear();
+        Position chestPos = new Position(3, 11);
+        Chest chest = new Chest(chestPos, 0, 10);
+        chest.attemptOpening(0); // pre open chest
+        game.getRewards().add(chest);
+        game.getExplorer().setPosition(chestPos);
+        game.tick();
+        assertEquals(0, game.getScore());
+    }
+
+    @Test
+    void testCheckWinConditionDoesNotTriggerWhenNotOnChest() {
+        game.getRewards().clear();
+        Chest chest = new Chest(new Position(3, 11), 0, 10);
+        game.getRewards().add(chest);
+        game.checkWinCondition();
+        assertEquals(GameState.PLAYING, game.getState());
+    }
+
+    @Test
+    void testNoCollisionWhenEntityIsRight() {
+        game.getExplorer().setPosition(new Position(0, 14));
+        game.getChest().setPosition(new Position(2, 14));
+        assertFalse(game.checkCollision(game.getExplorer(), game.getChest()));
+    }
+
+    @Test
+    void testNoCollisionWhenEntityIsLeft() {
+        game.getExplorer().setPosition(new Position(4, 14));
+        game.getChest().setPosition(new Position(2, 14));
+        assertFalse(game.checkCollision(game.getExplorer(), game.getChest()));
+    }
+
+    @Test
+    void testNoCollisionWhenEntityIsBelow() {
+        game.getExplorer().setPosition(new Position(0, 14));
+        game.getChest().setPosition(new Position(0, 16));
+        assertFalse(game.checkCollision(game.getExplorer(), game.getChest()));
+    }
+
+    @Test
+    void testNoCollisionWhenEntityIsAbove() {
+        game.getExplorer().setPosition(new Position(0, 14));
+        game.getChest().setPosition(new Position(0, 12));
+        assertFalse(game.checkCollision(game.getExplorer(), game.getChest()));
     }
 }

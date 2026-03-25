@@ -1,5 +1,6 @@
 package game.main;
 
+import game.entities.enemies.rewards.Coin;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +16,7 @@ import game.enums.CellType;
  * Unit tests for the GameMap class.
  *
  * @author Jayden Pai
- * @version 1.0
+ * @version 2.0
  */
 public class GameMapTest {
     private GameMap map;
@@ -89,8 +90,8 @@ public class GameMapTest {
     }
 
     @Test
-    void testIsValidMoveReturnsFalseForOutOfBounds() {
-        assertFalse(map.isValidMove(new Position(24, 18)));
+    void testIsValidMoveReturnsFalseForOutOfBoundsY() {
+        assertFalse(map.isValidMove(new Position(0, 18)));
     }
 
     @Test
@@ -104,8 +105,13 @@ public class GameMapTest {
     }
 
     @Test
-    void testIsValidEnemyMoveReturnsFalseForOutOfBounds() {
-        assertFalse(map.isValidEnemyMove(new Position(24, 18)));
+    void testIsValidEnemyMoveReturnsFalseForOutOfBoundsX() {
+        assertFalse(map.isValidEnemyMove(new Position(24, 0)));
+    }
+
+    @Test
+    void testIsValidEnemyMoveReturnsFalseForOutOfBoundsY() {
+        assertFalse(map.isValidEnemyMove(new Position(0, 18)));
     }
 
     @Test
@@ -120,9 +126,11 @@ public class GameMapTest {
 
     @Test
     void testRemoveEntityEmptiesCell() {
-        Cell cell = map.getCell(new Position(2, 1));
-        assertTrue(cell.isEmpty());
-        map.removeEntity(new Position(2, 1));
+        Position pos = new Position(2, 1);
+        Cell cell = map.getCell(pos);
+        cell.setEntity(new Coin(pos, 1));
+        assertFalse(cell.isEmpty());
+        map.removeEntity(pos);
         assertTrue(cell.isEmpty());
     }
 
@@ -136,5 +144,33 @@ public class GameMapTest {
     void testEmptyCellHasCorrectType() {
         Cell cell = map.getCell(new Position(2, 1));
         assertEquals(CellType.EMPTY, cell.getType());
+    }
+
+    @Test
+    void testIsValidEnemyMoveReturnsFalseForChestCell() {
+        assertFalse(map.isValidEnemyMove(new Position(23, 1)));
+    }
+
+    @Test
+    void testIsValidMoveReturnsFalseForOutOfBoundsX() {
+        assertFalse(map.isValidMove(new Position(24, 0)));
+    }
+
+    @Test
+    void testIsValidMoveReturnsFalseWhenCellIsNotEmpty() {
+        Position pos = new Position(2, 1);
+        Cell cell = map.getCell(pos);
+        cell.setEntity(new Coin(pos, 1));
+        assertFalse(map.isValidMove(pos));
+    }
+
+    @Test
+    void testIsValidEnemyMoveReturnsFalseForNegativeX() {
+        assertFalse(map.isValidEnemyMove(new Position(-1, 0)));
+    }
+
+    @Test
+    void testIsValidEnemyMoveReturnsFalseForNegativeY() {
+        assertFalse(map.isValidEnemyMove(new Position(0, -1)));
     }
 }
