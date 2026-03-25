@@ -48,7 +48,7 @@ public class WinningViewTest {
 
     @Test 
     public void checkWidth(){
-        assertEquals(g.getMap().getWidth()*3, wv.getWidth());
+        assertEquals(g.getMap().getWidth()*32, wv.getWidth());
     }
 
     //is it out of bounds?
