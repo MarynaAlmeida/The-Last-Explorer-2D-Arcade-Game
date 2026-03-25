@@ -19,7 +19,7 @@ import java.awt.event.KeyEvent;
  * Integration tests for the Game class.
  *
  * @author Jayden Pai
- * @version 2.0
+ * @version 3.0
  */
 public class GameTest {
     private Game game;
@@ -311,7 +311,7 @@ public class GameTest {
         game.getExplorer().setPosition(chestPos);
 
         game.tick();
-        assertTrue(chest.isCollected());
+        assertFalse(chest.attemptOpening(10));
         assertEquals(10, game.getScore());
     }
 
@@ -320,10 +320,11 @@ public class GameTest {
         game.getRewards().clear();
         Position chestPos = new Position(3, 11);
         Chest chest = new Chest(chestPos, 10, 5);
+        game.getRewards().add(chest);
         game.getExplorer().setPosition(chestPos);
 
         game.tick();
-        assertFalse(chest.isCollected());
+        assertFalse(chest.attemptOpening(0));
         assertEquals(0, game.getScore());
     }
 
@@ -339,5 +340,39 @@ public class GameTest {
         Position pos = new Position(3, 11);
         Pirate pirate = new Pirate(pos, game.getMap(), PirateType.PIRATE1);
         assertEquals(11 * 32, game.getPixelY(pirate));
+    }
+
+    @Test
+    void testTickDoesNotCollectUnspawnedShield() {
+        Position shieldPos = new Position(3, 11);
+        Shield shield = new Shield(shieldPos, 10);
+        // Shield not spawned by default
+        game.getRewards().add(shield);
+        game.getExplorer().setPosition(shieldPos);
+        game.tick();
+        assertFalse(shield.isCollected());
+    }
+
+    @Test
+    void testTickCollectsSpawnedShield() {
+        Position shieldPos = new Position(3, 11);
+        Shield shield = new Shield(shieldPos, 10);
+        shield.spawn();
+        game.getRewards().add(shield);
+        game.getExplorer().setPosition(shieldPos);
+        game.tick();
+        assertTrue(shield.isCollected());
+        assertTrue(game.getExplorer().isShieldActive());
+    }
+
+    @Test
+    void testTickReducesHeartsWhenMovingEnemyCollidesWithExplorer() {
+        Position pos = new Position(3, 11);
+        game.getExplorer().setPosition(pos);
+        Pirate pirate = new Pirate(pos, game.getMap(), PirateType.PIRATE1);
+        game.getMovingEnemies().add(pirate);
+        int initialHearts = game.getHearts();
+        game.tick();
+        assertTrue(game.getHearts() < initialHearts);
     }
 }

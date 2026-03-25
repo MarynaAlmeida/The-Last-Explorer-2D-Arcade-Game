@@ -41,16 +41,8 @@
                 <useModulePath>false</useModulePath>
             </configuration>
         </plugin>
-        <!--Javadoc -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.10.1</version>
-                <configuration>
-                <!--<reportOutputDirectory>${project.build.directory}/site/apidocs</reportOutputDirectory>-->
-                </configuration>
-            </plugin>
-        <!-- Code coverage with JaCoCo -->
+
+        <!-- JaCoCo towards coverage -->
         <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
@@ -70,7 +62,16 @@
                 </execution>
             </executions>
         </plugin>
-    </plugins>
-</build>
-</project>
 
+        <!--Javadoc -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.10.1</version>
+            <configuration>
+                <!--                    <reportOutputDirectory>${project.build.directory}/site/apidocs</reportOutputDirectory>-->
+            </configuration>
+        </plugin>
+    </plugins>
+    </build>
+</project>
