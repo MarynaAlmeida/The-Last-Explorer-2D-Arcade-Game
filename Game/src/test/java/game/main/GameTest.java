@@ -311,7 +311,7 @@ public class GameTest {
         game.getExplorer().setPosition(chestPos);
 
         game.tick();
-        assertTrue(chest.canChestOpen());
+        assertTrue(chest.isCollected());
         assertEquals(10, game.getScore());
     }
 
@@ -323,7 +323,7 @@ public class GameTest {
         game.getExplorer().setPosition(chestPos);
 
         game.tick();
-        assertFalse(chest.canChestOpen());
+        assertFalse(chest.isCollected());
         assertEquals(0, game.getScore());
     }
 
