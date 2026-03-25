@@ -23,15 +23,27 @@
 % Body of report:
 
 \section{Unit Testing}
+Unit testing was used for most classes to confirm that each of their respective methods worked between themselves.
+
+For the Shield class, we identified various features that required unit testing. First, we tested the chest when it was initialized, including if it started as uncollected, and if the value, effect duration, spawn status, and the time until it spawns again was all correctly set.
+For the Coin class, we identified that the key features of the class that must be unit tested were if its value and collection status was set properly once initialized, and if the collect and uncollect methods from reward set these values properly.
+For the Chest class, we once again identified and tested the initialized version of the chest to ensure all its values were set properly, and tested the feature where it can only open at a specific value of coins, which is set from the chest's constructor.
+Although we did not test the Reward class directly, we did use all of its methods within each subclass, which allowed us to still test their methods and confirm they work.
+For the LosingByCoins class, we first tested the constructor to ensure the values are properly initialized. We also tested each feature for grabbing dimensions, such as the starting x and y values for the window and the button inside the window, as well as the width and height of the window and box inside the window. Additionally, we tested the feature of whether a click is inside of a button by passing it various X and Y values. Lastly, we tested whether the background, title and back button correctly draw themselves in the paintComponent method.
 
 \section{Integration Testing}
 
 \section{Line and Branch Coverage}
 
+There was 100\% line and branch coverage for each applicable reward subclass, those being the Shield, Coin, Chest classes, as well as the Reward class itself.
+For the LosingByCoins class, we were able to achieve 100\% line and branch coverage according to the report. However, after looking further into the report, we noticed that the overridden mouseClicked method inside of the class' constructor misses all four branches. We chose not to create test cases for this, as we were unsure of how to create tests for this method. Additionally, the corresponding methods that use this method are instead given specific X and Y values through the test cases. Additionally, we were able to confirm that, through play-testing our methods during the coding phase, we were able to confirm that this method works at a general level.
+
 \section{Findings}
 
+Through writing and running our tests, we were able to identify various methods, variables and branches that were seemingly unused or skipped during our coding phase.
+Additionally, while writing and running our tests for the chest class, we identified a variable inside of the chest class that followed the same behaviour as the "collected" boolean. As a result, whenever these two variables were used together, the second branch involving the secondary variable would never run. As a result, we removed the second variable and all associated methods, which allowed us to achieve 100\% line and branch coverage for that class. All other reward classes did not have any issues.
+Furthermore, we were able to reveal a bug in our compilation of JavaDoc comments, that being that we did not add the plugin for JavaDoc comments. By revelaing this bug, we were able to improve the quality of our code by now being able to create a JavaDoc index file, which explains each class and method.
 
 % ================================
 \end{document}
 % ================================
-```
