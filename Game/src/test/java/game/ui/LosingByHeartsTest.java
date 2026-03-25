@@ -129,4 +129,32 @@ public class LosingByHeartsTest {
         assertEquals(GameState.LOST, game.getState()); 
     }
 
+    @Test
+    public void checkClickXTooSmall(){
+        assertFalse(lh.isClickInsideButton(lh.getBX()-1, lh.getBY()+10));
+    }
+
+    @Test
+    public void checkClickXTooLarge(){
+        assertFalse(lh.isClickInsideButton(lh.getBX()+lh.getBWidth()+1, lh.getBY()+10));
+    }
+
+    @Test
+    public void checkClickYTooSmall(){
+        assertFalse(lh.isClickInsideButton(lh.getBX()+10, lh.getBY()-1));
+    }
+
+    @Test
+    public void checkClickYTooLarge(){
+        assertFalse(lh.isClickInsideButton(lh.getBX()+10, lh.getBY()+lh.getBHeight()+1));
+    }
+
+    @Test
+    public void checkHandleMouseOutside(){
+        assertTrue(gv.gameLoop.isRunning());
+
+        lh.handleMouse(0, 0, cardLayout, container);
+
+        assertTrue(gv.gameLoop.isRunning());
+    }
 }
