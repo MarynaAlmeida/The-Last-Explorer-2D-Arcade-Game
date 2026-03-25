@@ -89,4 +89,17 @@ public class HomePageTest {
         assertNotNull(hp);
     }
 
+    @Test
+    public void checkHandleMouseInside(){
+        assertDoesNotThrow(() -> 
+            hp.handleMouse(hp.getButtonX()+10, hp.getButtonY()+10, container, cardLayout)
+        );
+    }
+
+    @Test
+    public void checkHandleMouseOutside(){
+        assertDoesNotThrow(() -> 
+            hp.handleMouse(0, 0, container, cardLayout)
+        );
+    }
 }
