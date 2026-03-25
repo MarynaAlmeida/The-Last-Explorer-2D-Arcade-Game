@@ -173,7 +173,24 @@ public class GameViewTest {
         gameV.setSize(500, 500);
         assertDoesNotThrow(() -> gameV.drawVisibleRewards(g2));
     }
+    //integration 
+    //hearts losing
+    @Test
+    public void checkLostStateHearts(){
+        game.startGame();
+        game.updateHearts(-6);
+        game.tick();
+        assertEquals(GameState.LOST, game.getState());
+    }
 
+    //losing by coins
+    @Test
+    public void checkLostStateCoins(){
+        game.startGame();
+        game.updateScore(-100);
+        game.tick();
+        assertEquals(GameState.LOST, game.getState());
+    }
     
 }
 
