@@ -1,5 +1,4 @@
 package game.entities.enemies;
-
 import game.entities.Explorer;
 import game.main.Game;
 import game.main.GameMap;
@@ -9,22 +8,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the abstract StaticEnemy class.
- * Uses a minimal concrete implementation to test shared behavior.
+ * Unit and integration tests for the abstract StaticEnemy class.
  *
  * @author Harman Bains
  * @version 1.0
  */
-
 public class StaticEnemiesTest {
-
     private Explorer explorer;
     private StaticEnemy enemy;
     private Game game;
 
-    /**
-     * Concrete test subclass (minimal implementation)
-     */
+    // Concrete of testing abstract class
     private static class TestStaticEnemy extends StaticEnemy {
         public TestStaticEnemy(Position position, int damageValue) {
             super(position, damageValue);
@@ -127,7 +121,7 @@ public class StaticEnemiesTest {
         enemy = new TestStaticEnemy(new Position(5, 5), -3);
         enemy.setGame(game);
 
-        explorer.activateShield(5); // shield ON
+        explorer.activateShield(5);
         int initialHearts = game.getHearts();
 
         enemy.onCollision(explorer);

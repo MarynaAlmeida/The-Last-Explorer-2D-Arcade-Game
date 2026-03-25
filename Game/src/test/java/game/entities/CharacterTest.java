@@ -1,22 +1,25 @@
 package game.entities;
+import game.entities.enemies.MovingEnemy;
+import game.entities.enemies.StaticEnemy;
+import game.entities.enemies.rewards.Reward;
 import game.enums.Direction;
 import game.main.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import game.main.GameMap;
 import java.util.ArrayList;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 /**
- * Unit tests for the abstract Character class.
+ * Unit and integration tests for the abstract Character class.
  *
  * @author Harman Bains
  * @version 1.0
  */
 public class CharacterTest {
 
-    // concrete of testing abstract class
+    // Concrete of testing abstract class
     private static class TestCharacter extends Character {
         public TestCharacter(Position position, GameMap map) {
             super(position, map);
@@ -24,22 +27,25 @@ public class CharacterTest {
     }
 
     private Character theCharacter;
+    List<Reward> rewards;
+    List<MovingEnemy> movingEnemies;
+    List<StaticEnemy> staticEnemies;
 
     @BeforeEach
-    void setUp() {
+    void mapGameSetUp() {
 
         GameMap map = new GameMap();
         map.loadMap(
-                "src/test/java/game/entities/map.txt",
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>()
+                "src/test/resources/map.txt",
+               rewards = new ArrayList<>(),
+                movingEnemies = new ArrayList<>(),
+                staticEnemies = new ArrayList<>()
         );
         theCharacter = new TestCharacter(new Position(4, 4), map);
     }
 
     @Test
-    void testCharacterMovementsandDirections(){
+    void testCharacterMovementsAndDirections(){
 
         Position currentPosition = theCharacter.getPosition();
 
@@ -69,7 +75,7 @@ public class CharacterTest {
     @Test
     void testCanMoveToFindingNullInstances() {
         assertFalse(theCharacter.canMoveTo(null),
-                "position is null means canMoveto method is false");
+                "position is null means can-Move-to method is false");
 
         GameMap initialMap = theCharacter.map;
         theCharacter.map = null;
@@ -86,7 +92,6 @@ public class CharacterTest {
 
         assertFalse(theCharacter.canMoveTo(new Position(4, -1)),
                 "negative y means canMoveTo is false");
-
     }
 
     }

@@ -1,4 +1,6 @@
 package game.entities;
+import game.entities.enemies.MovingEnemy;
+import game.entities.enemies.StaticEnemy;
 import game.entities.enemies.rewards.Coin;
 import game.entities.enemies.rewards.Reward;
 import game.entities.enemies.rewards.Shield;
@@ -7,8 +9,15 @@ import game.main.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit and integration tests for the Explorer class.
+ *
+ * @author Harman Bains
+ * @version 1.0
+ */
 public class ExplorerTest {
     private Explorer explorer;
 
@@ -22,15 +31,18 @@ public class ExplorerTest {
     }
 
     private DemoGame demoGame;
+    List<Reward> rewards;
+    List<MovingEnemy> movingEnemies;
+    List<StaticEnemy> staticEnemies;
 
     @BeforeEach
-    void setUp() {
+    void mapGameSetUp() {
         GameMap map = new GameMap();
         map.loadMap(
-                "src/test/java/game/entities/map.txt",
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>()
+                "src/test/resources/map.txt",
+                rewards = new ArrayList<>(),
+                movingEnemies = new ArrayList<>(),
+                staticEnemies = new ArrayList<>()
         );
 
         Position currentPosition = new Position(0, 0);
@@ -47,7 +59,7 @@ public class ExplorerTest {
     }
 
     @Test
-    void testTheShieldisUpdatingToZero(){
+    void testTheShieldIsUpdatingToZero(){
         explorer.activateShield(1);
         explorer.updateShield();
 
@@ -56,7 +68,7 @@ public class ExplorerTest {
     }
 
     @Test
-    void testTheShieldisUpdatingConstant(){
+    void testTheShieldIsUpdatingConstant(){
         explorer.activateShield(0);
         explorer.updateShield();
 
@@ -65,7 +77,7 @@ public class ExplorerTest {
     }
 
     @Test
-    void testTheShieldisUpdatingAboveZero(){
+    void testTheShieldIsUpdatingAboveZero(){
         explorer.activateShield(2);
         explorer.updateShield();
 
@@ -98,7 +110,7 @@ public class ExplorerTest {
 
     @Test
     void testEarningShieldResultsInUpdatesScore() {
-        Reward shield = new Shield(new Position(0,0),0, 0);
+        Reward shield = new Shield(new Position(0,0), 0);
         explorer.collectReward(shield);
         assertEquals(0, demoGame.score);
     }
