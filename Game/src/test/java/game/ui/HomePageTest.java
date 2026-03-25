@@ -102,4 +102,25 @@ public class HomePageTest {
             hp.handleMouse(0, 0, container, cardLayout)
         );
     }
+
+    @Test
+    public void checkClickXSmall(){
+        assertFalse(hp.isClickInsideButton(hp.getButtonX()-1, hp.getButtonY()+10));
+    }
+
+    @Test
+    public void checkClickXLarge(){
+        assertFalse(hp.isClickInsideButton(hp.getButtonX()+hp.getButtonW()+1, hp.getButtonY()+10));
+    }
+
+    @Test
+    public void checkClickYSmall(){
+        assertFalse(hp.isClickInsideButton(hp.getButtonX()+10, hp.getButtonY()-1));
+    }
+
+    @Test
+    public void checkClickYLarge(){
+        assertFalse(hp.isClickInsideButton(hp.getButtonX()+10, hp.getButtonY()+hp.getButtonH()+1));
+    }
 }
+
