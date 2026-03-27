@@ -85,16 +85,6 @@ public class Cell {
     }
 
     /**
-     * Applying a position to a cell.
-     *
-     * @param position the position of this cell.
-     */
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    /**
      * Returns the current position of cell.
      *
      * @return position.
