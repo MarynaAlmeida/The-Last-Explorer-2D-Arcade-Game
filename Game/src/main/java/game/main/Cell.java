@@ -12,7 +12,7 @@ import game.entities.Entity;
  */
 public class Cell {
     private Position position;
-    private CellType type;
+    private final CellType type;
     private Entity entity;
 
     /**
