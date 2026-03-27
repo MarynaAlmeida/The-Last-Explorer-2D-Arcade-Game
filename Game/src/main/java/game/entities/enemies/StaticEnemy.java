@@ -28,7 +28,7 @@ public abstract class StaticEnemy extends Entity {
     }
 
     /**
-     * Returns the specific damage happening with this static enemy upon collison.
+     * Returns the specific damage happening with this static enemy upon collision.
      *
      * @return the damage quantity.
      */
@@ -41,7 +41,7 @@ public abstract class StaticEnemy extends Entity {
      * Case of a collision with the explorer.
      * Damage occurs except when the explorer has a shield active.
      *
-     * @param explorer the explorer who encounters collison.
+     * @param explorer the explorer who encounters collision.
      */
     public void onCollision(Explorer explorer) {
         if (!explorer.isShieldActive()) {
