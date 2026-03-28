@@ -114,10 +114,10 @@ public class LosingByHeartsTest {
     @Test 
     //did it loop stop?
     public void checkLoop(){
-        assertTrue(gv.gameLoop.isRunning()); //should be running
+        assertTrue(gv.getTimer().isRunning()); //should be running
         //button pressed
         lh.handleMouse(lh.getButtonX()+10, lh.getButtonY()+10, cardLayout, container);
-        assertFalse(gv.gameLoop.isRunning()); //should stop
+        assertFalse(gv.getTimer().isRunning()); //should stop
         
     }
 
@@ -151,10 +151,10 @@ public class LosingByHeartsTest {
 
     @Test
     public void checkHandleMouseOutside(){
-        assertTrue(gv.gameLoop.isRunning());
+        assertTrue(gv.getTimer().isRunning());
 
         lh.handleMouse(0, 0, cardLayout, container);
 
-        assertTrue(gv.gameLoop.isRunning());
+        assertTrue(gv.getTimer().isRunning());
     }
 }

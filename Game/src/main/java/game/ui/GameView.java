@@ -22,8 +22,8 @@ import game.enums.GameState;
  * */
 public class GameView extends JPanel implements ActionListener{
     private Game game;
-    Timer gameLoop;
-    int tileSize = 32;
+    private Timer gameLoop;
+    private int tileSize = 32;
     private Image hedgeImage;
     private Image thornImage;
     private Image treeImage;
@@ -110,6 +110,15 @@ public class GameView extends JPanel implements ActionListener{
      */
     public boolean getTutorialStatus() {
         return isTutorialActive;
+    }
+
+    /**
+     * Acts as a getter method for the gameLoop variable.
+     * 
+     * @return gameLoop Timer.
+     */
+    public Timer getTimer(){
+        return gameLoop;
     }
 
     /**
@@ -225,7 +234,7 @@ public class GameView extends JPanel implements ActionListener{
                         // tileSize * 1.09 lets you modify the size of the object
                         g.drawImage(treeImage, x, y, (int) (tileSize * 1.09) ,(int) (tileSize * 1.09) , null);
                         break;
-                    case EMPTY:
+                    default:
                         break;
                 }
             }
@@ -422,7 +431,7 @@ public class GameView extends JPanel implements ActionListener{
                         // tileSize * 1.09 lets you modify the size of the object
                         g.drawImage(treeImage, x, y, (int) (zoomedInTileSize * 1.09) ,(int) (zoomedInTileSize * 1.09) , null);
                         break;
-                    case EMPTY:
+                    default:
                         break;
                 }
             }
@@ -569,14 +578,13 @@ public class GameView extends JPanel implements ActionListener{
      * to restart without any previous GameView panels staying on the screen.</p>
      */
     public void stopLoop() {
-        if (gameLoop != null) {
-            gameLoop.stop();
+        if (getTimer() != null) {
+            getTimer().stop();
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
         if (!isTutorialActive && !isMapToggled) {
             game.tick();
         }
