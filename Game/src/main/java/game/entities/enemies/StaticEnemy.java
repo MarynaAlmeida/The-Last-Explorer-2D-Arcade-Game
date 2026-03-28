@@ -21,10 +21,12 @@ public abstract class StaticEnemy extends Entity {
      *
      * @param position    the enemy grid position on map.
      * @param damageValue the damage happening when the explorer collides with enemy.
+     * @param game        the variable of the game itself
      */
-    public StaticEnemy(Position position, int damageValue) {
+    public StaticEnemy(Position position, int damageValue, Game game) {
         super(position);
         this.damageValue = damageValue;
+        this.game = game;
     }
 
     /**

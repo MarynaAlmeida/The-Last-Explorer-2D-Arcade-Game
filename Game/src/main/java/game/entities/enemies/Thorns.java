@@ -1,5 +1,6 @@
 package game.entities.enemies;
 import game.entities.Explorer;
+import game.main.Game;
 import game.main.Position;
 
 
@@ -16,8 +17,8 @@ public class Thorns extends StaticEnemy {
      * @param position    thorn trap's grid position on map.
      * @param damageValue the damage occurring once contacted.
      */
-    public Thorns(Position position, int damageValue) {
-        super(position, damageValue);
+    public Thorns(Position position, int damageValue, Game game) {
+        super(position, damageValue, game);
     }
 
     /**
