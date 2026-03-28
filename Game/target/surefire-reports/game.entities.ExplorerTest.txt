@@ -1,0 +1,14 @@
+-------------------------------------------------------------------------------
+Test set: game.entities.ExplorerTest
+-------------------------------------------------------------------------------
+Tests run: 8, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.005 s <<< FAILURE! -- in game.entities.ExplorerTest
+game.entities.ExplorerTest.testEarningShieldResultsInUpdatesScore -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The constructor Shield(Position, int, int) is undefined
+
+	at game.entities.ExplorerTest.testEarningShieldResultsInUpdatesScore(ExplorerTest.java:113)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
