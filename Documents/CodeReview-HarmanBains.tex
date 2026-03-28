@@ -1,0 +1,35 @@
+
+% ================================
+% SFU CMPT 276 ASSIGNMENT 4 REPORT
+% ================================
+
+\documentclass[12pt,letterpaper]{article}
+
+% Packages
+\usepackage[margin=0.5in]{geometry}
+
+% Title of tex report
+\title{Assignment 4 Report}
+
+\author{Harman Bains}
+
+\begin{document}
+
+\maketitle
+
+% Information for report
+\begin{tabular}{ll}
+\textbf{Course/Assignment \# :} & CMPT 276 D300, Assignment 4 \\
+
+\end{tabular}
+
+% Body of report:
+
+\section{Code Smells Identified}
+My reviewer was Jayden who identified 5 code smells during the code reviewing. The first was a feature envy in static enemy Java file. This was regarding the on collision method in static enemy which was reliant on games data and methods in order to conduct arithmetic in its own class. The second was a missing initialization of a dependency in static enemy Java file. This was regarding the variable of type game called game that was not initialized in the constructor which a null exception would result if on collision method called for the variable. The last smell code found in static enemy was improper naming in the Java comments. This is a small issue such as typos and grammar that needed cleaning up. The fourth code smell was dead code in the cell java file regarding the set position method. It was noted to not contributing as this was also evident in cell test also for the position test method. The last smell code was missing immutability in the cell Java file. This was regarding the cell type variable being initialized at first.
+
+\section{Steps and Re-factoring}
+
+% ================================
+\end{document}
+% ================================
