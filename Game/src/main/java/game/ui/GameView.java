@@ -43,8 +43,7 @@ public class GameView extends JPanel implements ActionListener{
     private Image fullHeartImage;
     private Image halfHeartImage;
     private Image emptyHeartImage;
-    private Image tutorialPage;
-    private boolean isTutorialActive = true;
+    
     private CardLayout cardLayout;
     private JPanel container;
 
@@ -53,6 +52,8 @@ public class GameView extends JPanel implements ActionListener{
 
     private int zoomedInTotalTilesForWidth;
     private int zoomedInTotalTilesForHeight;
+
+    private TutorialView tutorialView;
 
 /**
  * Creates and stores all icon images in the game.
@@ -63,6 +64,7 @@ public class GameView extends JPanel implements ActionListener{
         this.game = game;
         this.container = container;
         this.cardLayout = cardLayout;
+        this.tutorialView = new TutorialView();
         this.explorerImage = new ImageIcon("../Assets/Icons/Explorer.png").getImage();
         this.treeImage = new ImageIcon("../Assets/Icons/Tree.png").getImage();
         this.hedgeImage = new ImageIcon("../Assets/Icons/Hedge.png").getImage();
@@ -81,7 +83,7 @@ public class GameView extends JPanel implements ActionListener{
         this.fullHeartImage = new ImageIcon("../Assets/Icons/Heart.png").getImage();
         this.halfHeartImage = new ImageIcon("../Assets/Icons/HalfHeart.png").getImage();
         this.emptyHeartImage = new ImageIcon("../Assets/Icons/EmptyHeart.png").getImage();
-        this.tutorialPage = new ImageIcon("../Assets/Icons/Tutorial.png").getImage();
+        
         this.explorerTurnImage = new ImageIcon("../Assets/Icons/ExplorerTurn.png").getImage();
 
         // Gets the width and height of the game map and calculates its dimension with the tile size
@@ -98,19 +100,12 @@ public class GameView extends JPanel implements ActionListener{
 
         gameLoop = new Timer(50, this); // every 50 miliseconds we are going to repaint (20 frames/sec)
         gameLoop.start();
-        GameInput input = new GameInput(game, this);
+        GameInput input = new GameInput(game, this, this.tutorialView);
         addKeyListener(input);
         setFocusable(true);
     }
  
-    /**
-     * Acts as a getter method for the isTutorialActive variable.
-     * 
-     * @return a boolean indicating if the tutorial is still active or not.
-     */
-    public boolean getTutorialStatus() {
-        return isTutorialActive;
-    }
+    
 
     /**
      * Acts as a getter method for the gameLoop variable.
@@ -119,15 +114,6 @@ public class GameView extends JPanel implements ActionListener{
      */
     public Timer getTimer(){
         return gameLoop;
-    }
-
-    /**
-     * Acts as a setter method for the isTutorialActive variable.
-     * 
-     * @param status the status of the tutorial variable.
-     */
-    public void setTutorialState(boolean status) {
-        this.isTutorialActive = status;
     }
 
     /**
@@ -147,15 +133,6 @@ public class GameView extends JPanel implements ActionListener{
     }
 
     /**
-     * Paints the tutorial window.
-     * 
-     * @param g the graphics context for drawing.
-     */
-    private void paintTutorial(Graphics g) {
-        g.drawImage(tutorialPage, 0, 0, getWidth(), getHeight(), null);
-    }
-
-    /**
      * Paints all the enemies, barriers and rewards on the game panel.
      * 
      * @param g the graphics context for drawing.
@@ -165,17 +142,19 @@ public class GameView extends JPanel implements ActionListener{
 
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        if (mapToggled() && !isTutorialActive) {
+        if (mapToggled() && !(tutorialView.getTutorialStatus())) {
             drawWholeMap(g);
         } else {
             drawPartialMap(g);
         }
 
-        if (isTutorialActive) {
-            paintTutorial(g);
+        if (tutorialView.getTutorialStatus()) {
+            tutorialView.setSize(getWidth(), getHeight());
+            tutorialView.paintTutorial(g);
         }
     }
 
+    
     /**
      * Draws the entire map.
      * 
@@ -585,7 +564,7 @@ public class GameView extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (!isTutorialActive && !isMapToggled) {
+        if (!(tutorialView.getTutorialStatus()) && !isMapToggled) {
             game.tick();
         }
 

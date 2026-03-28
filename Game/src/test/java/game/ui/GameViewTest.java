@@ -25,25 +25,26 @@ import org.junit.jupiter.api.BeforeEach;
 public class GameViewTest {
     private GameView gameV;
     private Game game;
+    private TutorialView tutorialView;
 
     @BeforeEach 
     public void setUp(){
         game = new Game();
         CardLayout cardLayout = new CardLayout();
         JPanel container = new JPanel(cardLayout);
-        
+        tutorialView = new TutorialView();
         gameV= new GameView(game, container, cardLayout);
     }
 
     @Test 
     public void checkgetTutorial(){
-        assertTrue(gameV.getTutorialStatus());
+        assertTrue(tutorialView.getTutorialStatus());
     }   
 
     @Test 
     public void checksetTutorial(){
-        gameV.setTutorialState(false);
-        assertFalse(gameV.getTutorialStatus());
+        tutorialView.setTutorialState(false);
+        assertFalse(tutorialView.getTutorialStatus());
     }
 
     @Test 
@@ -107,7 +108,7 @@ public class GameViewTest {
         Graphics2D g2 = img.createGraphics();
 
         gameV.setSize(300, 300);
-        gameV.setTutorialState(false);
+        tutorialView.setTutorialState(false);
         assertDoesNotThrow(()-> gameV.paintComponent(g2));
     }
 
@@ -117,7 +118,7 @@ public class GameViewTest {
         BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
         gameV.setSize(500, 500);
-        gameV.setTutorialState(false);
+        tutorialView.setTutorialState(false);
         gameV.toggleMap();
         assertDoesNotThrow(() -> gameV.paintComponent(g2));
     }
