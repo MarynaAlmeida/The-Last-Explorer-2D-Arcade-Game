@@ -160,9 +160,10 @@ public class Game{
      * Shield can create immunity against damage.
      *
      * @param damageValue the damage collision towards explorer between enemy.
+     * @param explorer the character who will face a collision.
      */
-    public void staticEnemyDamage(int damageValue) {
-        if (!explorer.isShieldActive() && !invincible) {
+    public void staticEnemyDamage(int damageValue, Explorer explorer) {
+        if (!explorer.isShieldActive()) {
             this.hearts -= damageValue;
             updateHearts(this.hearts);
         }

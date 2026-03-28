@@ -56,7 +56,7 @@ public abstract class StaticEnemy extends Entity {
      */
     public void onCollision(Explorer explorer) {
         if (game != null) {
-            game.staticEnemyDamage(damageValue);
+            game.staticEnemyDamage(damageValue, explorer);
         }
     }
 }
