@@ -161,7 +161,7 @@ public class Game{
      *
      * @param damageValue the damage collision towards explorer between enemy.
      */
-    public void applyDamage(int damageValue) {
+    public void staticEnemyDamage(int damageValue) {
         if (!explorer.isShieldActive() && !invincible) {
             this.hearts -= damageValue;
             updateHearts(this.hearts);
