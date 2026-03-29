@@ -34,7 +34,7 @@ public class Chest extends Reward {
      * @param playerCollectedCoins the current # of coins within player
      * @return true when the chest can open along with bonus given, else false
      */
-    public boolean attemptOpening(int playerCollectedCoins) {
+    public boolean canOpenChest(int playerCollectedCoins) {
         if (collected) {
             return false;
         }
@@ -59,7 +59,6 @@ public class Chest extends Reward {
      *
      * @return coin count needed
      */
-    @SuppressWarnings("unused")
     public int sufficientCoins(){
         return coinRequirement;
     }

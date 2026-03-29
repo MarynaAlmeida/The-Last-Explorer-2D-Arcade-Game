@@ -275,7 +275,7 @@ public class Game{
                 if(reward instanceof Chest) {
                     Chest chest = (Chest) reward;
                     if(!chest.isCollected()) {
-                        if(chest.attemptOpening(this.coinsCollected)) {
+                        if(chest.canOpenChest(this.coinsCollected)) {
                             this.updateScore(chest.bonusScore());
                         }
                     }
