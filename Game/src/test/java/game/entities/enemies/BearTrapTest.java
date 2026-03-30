@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the abstract BearTrap class.
+ * Unit and integration tests for the BearTrap class.
  *
  * @author Harman Bains
  * @version 1.0

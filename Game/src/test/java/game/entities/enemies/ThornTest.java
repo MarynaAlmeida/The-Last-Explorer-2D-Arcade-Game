@@ -1,5 +1,4 @@
 package game.entities.enemies;
-
 import game.entities.Explorer;
 import game.main.Game;
 import game.main.GameMap;
@@ -9,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the abstract Thorn class.
+ * Unit and integration tests for the Thorn class.
  *
  * @author Harman Bains
  * @version 1.0
