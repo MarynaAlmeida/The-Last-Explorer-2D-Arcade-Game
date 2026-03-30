@@ -1,6 +1,8 @@
 package game.main;
 
 import game.ui.GameView;
+import game.ui.TutorialView;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,6 +21,7 @@ public class GameInputTest {
     private Game game;
     private GameView gameView;
     private GameInput gameInput;
+    private TutorialView tutorialView;
 
     @BeforeEach
     void refreshSetup() {
@@ -28,7 +31,8 @@ public class GameInputTest {
         CardLayout cardLayout = new CardLayout();
         gameView = new GameView(game, container, cardLayout);
         gameView.stopLoop();
-        gameInput = new GameInput(game, gameView);
+        TutorialView tutorialView = new TutorialView();
+        gameInput = new GameInput(game, gameView, tutorialView);
     }
 
     private KeyEvent makeKey(int keyCode, char keyChar) {
@@ -37,21 +41,21 @@ public class GameInputTest {
 
     @Test
     void testPressingQWhileTutorialActiveDeactivatesTutorial() {
-        gameView.setTutorialState(true);
+        tutorialView.setTutorialState(true);
         gameInput.keyPressed(makeKey(KeyEvent.VK_Q, 'q'));
-        assertFalse(gameView.getTutorialStatus());
+        assertFalse(tutorialView.getTutorialStatus());
     }
 
     @Test
     void testPressingNonQWhileTutorialActiveDoesNotDeactivateTutorial() {
-        gameView.setTutorialState(true);
+        tutorialView.setTutorialState(true);
         gameInput.keyPressed(makeKey(KeyEvent.VK_W, 'w'));
-        assertTrue(gameView.getTutorialStatus());
+        assertTrue(tutorialView.getTutorialStatus());
     }
 
     @Test
     void testPressingMTogglesMap() {
-        gameView.setTutorialState(false);
+        tutorialView.setTutorialState(false);
         assertFalse(gameView.mapToggled());
         gameInput.keyPressed(makeKey(KeyEvent.VK_M, 'm'));
         assertTrue(gameView.mapToggled());
@@ -59,7 +63,7 @@ public class GameInputTest {
 
     @Test
     void testPressingMTwiceTogglesMapBackOff() {
-        gameView.setTutorialState(false);
+        tutorialView.setTutorialState(false);
         gameInput.keyPressed(makeKey(KeyEvent.VK_M, 'm'));
         gameInput.keyPressed(makeKey(KeyEvent.VK_M, 'm'));
         assertFalse(gameView.mapToggled());
@@ -67,7 +71,7 @@ public class GameInputTest {
 
     @Test
     void testPressingMovementKeyWhileMapToggledDoesNotMoveExplorer() {
-        gameView.setTutorialState(false);
+        tutorialView.setTutorialState(false);
         gameView.toggleMap();
         Position before = game.getExplorer().getPosition();
         gameInput.keyPressed(makeKey(KeyEvent.VK_D, 'd'));
@@ -76,7 +80,7 @@ public class GameInputTest {
 
     @Test
     void testKeyReleasedDoesNothing() {
-        gameView.setTutorialState(false);
+        tutorialView.setTutorialState(false);
         Position before = game.getExplorer().getPosition();
         gameInput.keyReleased(makeKey(KeyEvent.VK_D, 'd'));
         assertEquals(before, game.getExplorer().getPosition());
@@ -84,7 +88,7 @@ public class GameInputTest {
 
     @Test
     void testKeyTypedDoesNothing() {
-        gameView.setTutorialState(false);
+        tutorialView.setTutorialState(false);
         Position before = game.getExplorer().getPosition();
         gameInput.keyTyped(makeKey(KeyEvent.VK_D, 'd'));
         assertEquals(before, game.getExplorer().getPosition());

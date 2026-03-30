@@ -57,21 +57,21 @@ public class LosingByHeartsTest {
 
     @Test 
     public void checkBWidth(){
-        assertEquals(80, lh.getBWidth());
+        assertEquals(80, lh.getButtonWidth());
     }
     @Test 
     public void checkBHeight(){
-        assertEquals(40, lh.getBHeight());
+        assertEquals(40, lh.getButtonHeight());
     }
 
     @Test 
     public void checkBX(){
-        assertEquals((gv.getPreferredSize().width - lh.getBWidth())/2, lh.getBX());
+        assertEquals((gv.getPreferredSize().width - lh.getButtonWidth())/2, lh.getButtonX());
     }
 
     @Test 
     public void checkBY(){
-        assertEquals(((gv.getPreferredSize().height - lh.getBHeight())/2) + 100, lh.getBY());
+        assertEquals(((gv.getPreferredSize().height - lh.getButtonHeight())/2) + 100, lh.getButtonY());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class LosingByHeartsTest {
      //inside the box
      @Test 
     public void checkClickInside(){
-        assertTrue(lh.isClickInsideButton(lh.getBX()+10, lh.getBY()+10)); //this will be inside the box and should trigger the homepage view
+        assertTrue(lh.isClickInsideButton(lh.getButtonX()+10, lh.getButtonY()+10)); //this will be inside the box and should trigger the homepage view
     }
     //outside the box
     @Test 
@@ -99,7 +99,7 @@ public class LosingByHeartsTest {
     //right on the edge
     @Test 
     public void checkClickOutside1(){
-        assertTrue(lh.isClickInsideButton(lh.getBX(), lh.getBY())); //this will be inside the box and should trigger the homepage view
+        assertTrue(lh.isClickInsideButton(lh.getButtonX(), lh.getButtonY())); //this will be inside the box and should trigger the homepage view
     }
     //edge cases
 
@@ -114,10 +114,10 @@ public class LosingByHeartsTest {
     @Test 
     //did it loop stop?
     public void checkLoop(){
-        assertTrue(gv.gameLoop.isRunning()); //should be running
+        assertTrue(gv.getTimer().isRunning()); //should be running
         //button pressed
-        lh.handleMouse(lh.getBX()+10, lh.getBY()+10, cardLayout, container);
-        assertFalse(gv.gameLoop.isRunning()); //should stop
+        lh.handleMouse(lh.getButtonX()+10, lh.getButtonY()+10, cardLayout, container);
+        assertFalse(gv.getTimer().isRunning()); //should stop
         
     }
 
@@ -131,30 +131,30 @@ public class LosingByHeartsTest {
 
     @Test
     public void checkClickXTooSmall(){
-        assertFalse(lh.isClickInsideButton(lh.getBX()-1, lh.getBY()+10));
+        assertFalse(lh.isClickInsideButton(lh.getButtonX()-1, lh.getButtonY()+10));
     }
 
     @Test
     public void checkClickXTooLarge(){
-        assertFalse(lh.isClickInsideButton(lh.getBX()+lh.getBWidth()+1, lh.getBY()+10));
+        assertFalse(lh.isClickInsideButton(lh.getButtonX()+lh.getButtonWidth()+1, lh.getButtonY()+10));
     }
 
     @Test
     public void checkClickYTooSmall(){
-        assertFalse(lh.isClickInsideButton(lh.getBX()+10, lh.getBY()-1));
+        assertFalse(lh.isClickInsideButton(lh.getButtonX()+10, lh.getButtonY()-1));
     }
 
     @Test
     public void checkClickYTooLarge(){
-        assertFalse(lh.isClickInsideButton(lh.getBX()+10, lh.getBY()+lh.getBHeight()+1));
+        assertFalse(lh.isClickInsideButton(lh.getButtonX()+10, lh.getButtonY()+lh.getButtonHeight()+1));
     }
 
     @Test
     public void checkHandleMouseOutside(){
-        assertTrue(gv.gameLoop.isRunning());
+        assertTrue(gv.getTimer().isRunning());
 
         lh.handleMouse(0, 0, cardLayout, container);
 
-        assertTrue(gv.gameLoop.isRunning());
+        assertTrue(gv.getTimer().isRunning());
     }
 }

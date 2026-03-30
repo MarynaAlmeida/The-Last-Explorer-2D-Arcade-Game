@@ -1,0 +1,13 @@
+
+target/
+*.class
+*.jar
+
+.DS_Store
+.AppleDouble
+
+.vscode/
+
+
+*.iml
+.idea/
