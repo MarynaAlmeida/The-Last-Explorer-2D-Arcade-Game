@@ -11,7 +11,6 @@ import game.main.Position;
 public class Chest extends Reward {
 
     private int coinRequirement;
-    private boolean isChestOpened;
     private int bonusValue;
 
     /**
@@ -24,7 +23,6 @@ public class Chest extends Reward {
     public Chest(Position pos, int coinRequirement, int bonusValue) {
         super(pos, bonusValue);
         this.coinRequirement = coinRequirement;
-        this.isChestOpened = false;
         this.bonusValue = bonusValue;
         this.collected = false;
     }
@@ -37,24 +35,14 @@ public class Chest extends Reward {
      * @return true when the chest can open along with bonus given, else false
      */
     public boolean attemptOpening(int playerCollectedCoins) {
-        if (isChestOpened || collected) {
+        if (collected) {
             return false;
         }
         if (playerCollectedCoins >= coinRequirement) {
-            isChestOpened = true;
             collected = true;
             return true;
         }
         return false;
-    }
-
-    /**
-     * Returns if the chest can open.
-     *
-     * @return true for chest opening, else false
-     */
-    public boolean canChestOpen(){
-        return isChestOpened;
     }
 
     /**

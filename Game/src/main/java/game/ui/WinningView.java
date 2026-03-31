@@ -23,7 +23,7 @@ public class WinningView extends JPanel{
         this.chest = new ImageIcon("../Assets/Icons/ClosedChest.png").getImage();
         this.game = game;
         this.height = game.getMap().getHeight() * 32;
-        this.width = game.getMap().getWidth() * 32; //pixels
+        this.width = game.getMap().getWidth() * 32; //converting grid to pixels format
         
         this.setPreferredSize(new Dimension(width, height));
     }

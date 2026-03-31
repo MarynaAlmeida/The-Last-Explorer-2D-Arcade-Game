@@ -3,7 +3,6 @@ import game.enums.Direction;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-
 import game.main.GameMap;
 import game.main.Position;
 import org.junit.jupiter.api.Test;
@@ -130,7 +129,6 @@ public class MovingEnemyTest {
         }
        assertTrue(nonZeroVelocity, "Enemy should have had moved to an open area");
     }
-
 
     @Test
     void testOppositeDirection_UP() {

@@ -1,6 +1,8 @@
 package game.main;
 
 import game.ui.GameView;
+import game.ui.TutorialView;
+
 import java.awt.event.*;
 
 /**
@@ -14,6 +16,7 @@ import java.awt.event.*;
 public class GameInput implements KeyListener{
     private Game game;
     private GameView gameView;
+    private TutorialView tutorialView;
 
     /**
      * Initializes the {@link Game} and {@link GameView} class objects.
@@ -21,16 +24,17 @@ public class GameInput implements KeyListener{
      * @param game the {@link Game} object that this game should work with to record/send keystrokes.
      * @param gameView the {@link GameView} object that this game should work with to update visuals based on keystrokes.
      */
-    public GameInput(Game game, GameView gameView){
+    public GameInput(Game game, GameView gameView, TutorialView tutorialView){
         this.game = game;
         this.gameView = gameView;
+        this.tutorialView = tutorialView;
     }
 
     @Override
     public void keyPressed(KeyEvent k){
-        if (gameView.getTutorialStatus()) {
+        if (tutorialView.getTutorialStatus()) {
             if (k.getKeyCode() == KeyEvent.VK_Q) {
-                gameView.setTutorialState(false);
+                tutorialView.setTutorialState(false);
             }
             return;
         }

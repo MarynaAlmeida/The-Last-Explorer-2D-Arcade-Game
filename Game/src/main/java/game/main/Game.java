@@ -28,8 +28,6 @@ public class Game{
     private int hearts;
     private int maxHearts;
     private int MovingEnemyDamage;
-    private int shieldSpawnCooldown;
-    private int ticksSinceLastShieldSpawn;
     private GameView view;
     public boolean invincible = false;
     public int invincibleCounter = 0;
@@ -54,8 +52,6 @@ public class Game{
         this.MovingEnemyDamage = 1;
         this.score = 0;
         this.coinsCollected = 0;
-        this.shieldSpawnCooldown = 20;
-        this.ticksSinceLastShieldSpawn = 0;
         this.onStaticEntity = false;
         this.chest = new Chest(new Position(24, 2), 10, 3);
     }
@@ -270,28 +266,28 @@ public class Game{
         onStaticEntity = standingOnHazard;
         explorer.updateShield();
 
-        ticksSinceLastShieldSpawn++;
-        if(ticksSinceLastShieldSpawn >= shieldSpawnCooldown){
-            ticksSinceLastShieldSpawn = 0;
-
-            for (Reward shield : rewards) {
-                if (!shield.isCollected() && shield.getValue() == 0) {
-                    shield.setUncollected();
-                }
-            }
-        }
-
         for (Reward reward : rewards) {
+            if (reward instanceof Shield) {
+                ((Shield) reward).updateOnBoard();
+            }
+
             if (reward.getPosition().equals(explorerPos)) {
                 if(reward instanceof Chest) {
                     Chest chest = (Chest) reward;
-                    if(!chest.canChestOpen()) {
+                    if(!chest.isCollected()) {
                         if(chest.attemptOpening(this.coinsCollected)) {
                             this.updateScore(chest.bonusScore());
                         }
                     }
                     continue;
                 }
+                
+                if (reward instanceof Shield) {
+                    if (!((Shield) reward).isSpawned()) {
+                        continue;
+                    }
+                }
+
                 if (!reward.isCollected()) {
                     explorer.collectReward(reward);
                     if(reward instanceof Coin) {

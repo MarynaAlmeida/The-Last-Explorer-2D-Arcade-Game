@@ -5,12 +5,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import game.enums.GameState;
-import game.main.*;
-import game.ui.GameView;
 
-import game.enums.GameState;
-import game.entities.enemies.rewards.Reward;
+import game.main.*;
+
 
 /**
  * Handles visuals for the losing screen by hearts including background,
@@ -44,10 +41,10 @@ public class LosingbyHearts extends JPanel{
 
         this.boxW = 300; //need test run
         this.boxH = 250;
-        this.buttonW = 80;
-        this.buttonH = 40;
-        this.buttonX = (gv.getPreferredSize().width - buttonW) /2 ;
-        this.buttonY = ((gv.getPreferredSize().height-buttonH) /2) + 100;
+        buttonW = 80;
+        buttonH = 40;
+        buttonX = (gv.getPreferredSize().width - buttonW) /2 ;
+        buttonY = ((gv.getPreferredSize().height-buttonH) /2) + 100;
         //adding image instead of a button
         //using mouse event
 
@@ -69,20 +66,20 @@ public class LosingbyHearts extends JPanel{
     }
 
     //getters for button height and width first
-    public int getBWidth(){
+    public int getButtonWidth(){
         return this.buttonW;
     }
 
-    public int getBHeight(){
+    public int getButtonHeight(){
         return this.buttonH;
     }
 
     //getters for Button x and y
-    public int getBX(){
+    public int getButtonX(){
         return this.buttonX;
     }
 
-    public int getBY(){
+    public int getButtonY(){
         return this.buttonY;
     }
 
@@ -99,7 +96,7 @@ public class LosingbyHearts extends JPanel{
     //mouse event boundary
 
     public boolean isClickInsideButton(int x, int y) {
-        return x >= getBX() && x <= getBX() + getBWidth() && y >= getBY() && y <= getBY() + getBHeight();
+        return x >= getButtonX() && x <= getButtonX() + getButtonWidth() && y >= getButtonY() && y <= getButtonY() + getButtonHeight();
     }
     /**
      * Draws the background the title and the back button
@@ -122,9 +119,7 @@ public class LosingbyHearts extends JPanel{
         for(int i=0; i<4; i++){
             g.drawImage(heart, startX + (i*(size+10)), startY, size, size, null);
         }
-        g.drawImage(backbutton,getBX(), getBY(), getBWidth(), getBHeight(), null);
+        g.drawImage(backbutton,getButtonX(), getButtonY(), getButtonWidth(), getButtonHeight(), null);
     }
-
-    //the button takes you back to the home page 
 
 }

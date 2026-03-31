@@ -28,7 +28,7 @@ public abstract class Character extends Entity{
 
     /**
      * Attempts to move character in the specified direction.
-     * 
+     *
      * <p>The new position is calcuated based on the direction
      * and validity is checked before the move is performed.</p>
      *
@@ -39,6 +39,8 @@ public abstract class Character extends Entity{
         Position currentPos = this.getPosition();
         int x = currentPos.getX();
         int y = currentPos.getY();
+
+        if (dir == null) return false;
 
         switch(dir){
             case LEFT:

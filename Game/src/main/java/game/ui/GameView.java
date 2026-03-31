@@ -22,8 +22,8 @@ import game.enums.GameState;
  * */
 public class GameView extends JPanel implements ActionListener{
     private Game game;
-    Timer gameLoop;
-    int tileSize = 32;
+    private Timer gameLoop;
+    private int tileSize = 32;
     private Image hedgeImage;
     private Image thornImage;
     private Image treeImage;
@@ -43,8 +43,7 @@ public class GameView extends JPanel implements ActionListener{
     private Image fullHeartImage;
     private Image halfHeartImage;
     private Image emptyHeartImage;
-    private Image tutorialPage;
-    private boolean isTutorialActive = true;
+    
     private CardLayout cardLayout;
     private JPanel container;
 
@@ -53,6 +52,8 @@ public class GameView extends JPanel implements ActionListener{
 
     private int zoomedInTotalTilesForWidth;
     private int zoomedInTotalTilesForHeight;
+
+    private TutorialView tutorialView;
 
 /**
  * Creates and stores all icon images in the game.
@@ -63,6 +64,7 @@ public class GameView extends JPanel implements ActionListener{
         this.game = game;
         this.container = container;
         this.cardLayout = cardLayout;
+        this.tutorialView = new TutorialView();
         this.explorerImage = new ImageIcon("../Assets/Icons/Explorer.png").getImage();
         this.treeImage = new ImageIcon("../Assets/Icons/Tree.png").getImage();
         this.hedgeImage = new ImageIcon("../Assets/Icons/Hedge.png").getImage();
@@ -81,7 +83,7 @@ public class GameView extends JPanel implements ActionListener{
         this.fullHeartImage = new ImageIcon("../Assets/Icons/Heart.png").getImage();
         this.halfHeartImage = new ImageIcon("../Assets/Icons/HalfHeart.png").getImage();
         this.emptyHeartImage = new ImageIcon("../Assets/Icons/EmptyHeart.png").getImage();
-        this.tutorialPage = new ImageIcon("../Assets/Icons/Tutorial.png").getImage();
+        
         this.explorerTurnImage = new ImageIcon("../Assets/Icons/ExplorerTurn.png").getImage();
 
         // Gets the width and height of the game map and calculates its dimension with the tile size
@@ -98,27 +100,20 @@ public class GameView extends JPanel implements ActionListener{
 
         gameLoop = new Timer(50, this); // every 50 miliseconds we are going to repaint (20 frames/sec)
         gameLoop.start();
-        GameInput input = new GameInput(game, this);
+        GameInput input = new GameInput(game, this, this.tutorialView);
         addKeyListener(input);
         setFocusable(true);
     }
+ 
+    
 
     /**
-     * Acts as a getter method for the isTutorialActive variable.
+     * Acts as a getter method for the gameLoop variable.
      * 
-     * @return a boolean indicating if the tutorial is still active or not.
+     * @return gameLoop Timer.
      */
-    public boolean getTutorialStatus() {
-        return isTutorialActive;
-    }
-
-    /**
-     * Acts as a setter method for the isTutorialActive variable.
-     * 
-     * @param status the status of the tutorial variable.
-     */
-    public void setTutorialState(boolean status) {
-        this.isTutorialActive = status;
+    public Timer getTimer(){
+        return gameLoop;
     }
 
     /**
@@ -138,15 +133,6 @@ public class GameView extends JPanel implements ActionListener{
     }
 
     /**
-     * Paints the tutorial window.
-     * 
-     * @param g the graphics context for drawing.
-     */
-    private void paintTutorial(Graphics g) {
-        g.drawImage(tutorialPage, 0, 0, getWidth(), getHeight(), null);
-    }
-
-    /**
      * Paints all the enemies, barriers and rewards on the game panel.
      * 
      * @param g the graphics context for drawing.
@@ -156,17 +142,19 @@ public class GameView extends JPanel implements ActionListener{
 
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        if (mapToggled() && !isTutorialActive) {
+        if (mapToggled() && !(tutorialView.getTutorialStatus())) {
             drawWholeMap(g);
         } else {
             drawPartialMap(g);
         }
 
-        if (isTutorialActive) {
-            paintTutorial(g);
+        if (tutorialView.getTutorialStatus()) {
+            tutorialView.setSize(getWidth(), getHeight());
+            tutorialView.paintTutorial(g);
         }
     }
 
+    
     /**
      * Draws the entire map.
      * 
@@ -225,7 +213,7 @@ public class GameView extends JPanel implements ActionListener{
                         // tileSize * 1.09 lets you modify the size of the object
                         g.drawImage(treeImage, x, y, (int) (tileSize * 1.09) ,(int) (tileSize * 1.09) , null);
                         break;
-                    case EMPTY:
+                    default:
                         break;
                 }
             }
@@ -291,7 +279,7 @@ public class GameView extends JPanel implements ActionListener{
             Position rPos = r.getPosition();
             if (r instanceof Chest) {
                 Chest chest = (Chest) r;
-                if(chest.canChestOpen()){
+                if(chest.isCollected()){
                     g.drawImage(openChestImage, rPos.getX() * tileSize, rPos.getY() * tileSize, tileSize, tileSize, null);
                 }
                 else {
@@ -303,11 +291,12 @@ public class GameView extends JPanel implements ActionListener{
                     g.drawImage(coinImage,rPos.getX() * tileSize + 8, rPos.getY() * tileSize + 8, (int) (tileSize * 0.5), (int) (tileSize * 0.5),null );
                 }
                 else if(r instanceof Shield) {
-                    g.drawImage(shieldImage,rPos.getX() * tileSize + 10, rPos.getY() * tileSize + 10, (int) (tileSize * 0.6), (int) (tileSize * 0.6),null );
+                    if (((Shield) r).isSpawned()) {
+                        g.drawImage(shieldImage,rPos.getX() * tileSize + 10, rPos.getY() * tileSize + 10, (int) (tileSize * 0.6), (int) (tileSize * 0.6),null );
+                    }
                 }
             }
         }
-        
     }
 
     /**
@@ -421,7 +410,7 @@ public class GameView extends JPanel implements ActionListener{
                         // tileSize * 1.09 lets you modify the size of the object
                         g.drawImage(treeImage, x, y, (int) (zoomedInTileSize * 1.09) ,(int) (zoomedInTileSize * 1.09) , null);
                         break;
-                    case EMPTY:
+                    default:
                         break;
                 }
             }
@@ -538,7 +527,7 @@ public class GameView extends JPanel implements ActionListener{
 
                 if (r instanceof Chest) {
                     Chest chest = (Chest) r;
-                    if(chest.canChestOpen()){
+                    if(chest.isCollected()){
                         g.drawImage(openChestImage,rewardXCell, rewardYCell, zoomedInTileSize, zoomedInTileSize, null);
                     }
                     else {
@@ -551,7 +540,9 @@ public class GameView extends JPanel implements ActionListener{
                         g.drawImage(coinImage, rewardXCell + 12, rewardYCell +12, (int) (zoomedInTileSize * 0.5), (int) (zoomedInTileSize * 0.5),null );
                     }
                     else if(r instanceof Shield) {
-                        g.drawImage(shieldImage, rewardXCell + 17, rewardYCell + 17, (int) (zoomedInTileSize * 0.6), (int) (zoomedInTileSize * 0.6),null );
+                        if (((Shield) r).isSpawned()) {
+                            g.drawImage(shieldImage, rewardXCell + 17, rewardYCell + 17, (int) (zoomedInTileSize * 0.6), (int) (zoomedInTileSize * 0.6),null );
+                        }
                     }
                 }
             }
@@ -566,15 +557,14 @@ public class GameView extends JPanel implements ActionListener{
      * to restart without any previous GameView panels staying on the screen.</p>
      */
     public void stopLoop() {
-        if (gameLoop != null) {
-            gameLoop.stop();
+        if (getTimer() != null) {
+            getTimer().stop();
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
-        if (!isTutorialActive && !isMapToggled) {
+        if (!(tutorialView.getTutorialStatus()) && !isMapToggled) {
             game.tick();
         }
 
