@@ -7,10 +7,9 @@ import java.util.Objects;
 /**
  * Represents a position on the game map.
  * 
- * <p>This class does not contain information on the position of objects. Instead, associated classes, such as
- * {@link Entity} and it's subclasses, utilize this class.</p>
+ * <p>Stores coordinates (x, y) and provides methods for comparison and distance calculation.</p>
  * 
- * @author Maryna Almeida
+ * @author Jayden Pai
  * @version 1.0
  */
 public class Position{
@@ -68,7 +67,7 @@ public class Position{
 
     /**
      * Generates a hash code for this position using its coordinates.
-     * Ensures compatibility with hash based collections since equals was overriden.
+     * <p>Ensures compatibility with hash based collections since equals was overridden.</p>
      * 
      * @return the hash code for this position.
      */
@@ -91,9 +90,9 @@ public class Position{
 
     /**
      * Returns a list of positions directly adjacent to this one.
-     * 
+     *
      * <p>This method does not check whether the returned positions are valid.</p>
-     * 
+     *
      * @return a list containing the four adjacent positions.
      */
     public List<Position> getAdjacentPositions(){
