@@ -30,7 +30,7 @@ public class LosingByHeartsTest {
         container = new JPanel(cardLayout);
         
         gv = new GameView(game, container, cardLayout);
-        lh = new LosingbyHearts(game, gv, cardLayout, container);
+        lh = new LosingbyHearts(gv, cardLayout, container);
 
     }
 
@@ -44,7 +44,7 @@ public class LosingByHeartsTest {
             public void paintComponent(Graphics g) {}
         };
 
-        lh = new LosingbyHearts(game, gv, null, null);
+        lh = new LosingbyHearts(gv, null, null);
 
         BufferedImage img = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();

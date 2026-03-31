@@ -18,7 +18,7 @@ public class HomePage extends JPanel{
     private Image text;
     private Image start;
     private int buttonX, buttonY, buttonW, buttonH;
-    private Game g;
+    private Game game;
     private GameView gv;
     //need a start button too
     /**
@@ -29,7 +29,7 @@ public class HomePage extends JPanel{
      * @param view the game view start button leads to
      */
     public HomePage(Game game, JPanel container, CardLayout cardLayout, GameView view){
-        this.g = game;
+        this.game = game;
         this.gv = view;
         this.background = new ImageIcon("../Assets/Icons/HomePage.png").getImage();
         this.start = new ImageIcon("../Assets/Icons/HomeButton.png").getImage();

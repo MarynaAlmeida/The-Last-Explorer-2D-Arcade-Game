@@ -11,7 +11,6 @@ import java.awt.*;
 public class WinningView extends JPanel{
     private Image winningBg;
     private Image chest;
-    private Game game;
     private int width;
     private int height;
     /**
@@ -21,7 +20,6 @@ public class WinningView extends JPanel{
     public WinningView(Game game){
         this.winningBg = new ImageIcon("../Assets/Icons/WinBackground.png").getImage();
         this.chest = new ImageIcon("../Assets/Icons/ClosedChest.png").getImage();
-        this.game = game;
         this.height = game.getMap().getHeight() * 32;
         this.width = game.getMap().getWidth() * 32; //converting grid to pixels format
         
