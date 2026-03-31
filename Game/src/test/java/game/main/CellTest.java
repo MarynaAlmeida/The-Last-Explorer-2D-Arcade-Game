@@ -14,12 +14,10 @@ public class CellTest {
 
     @Test
     void testSetsAndGetsPosition() {
-        Position origin = new Position(0, 0);
-        Cell cell = new Cell(origin, CellType.START);
 
         Position setterPosition = new Position(3, 4);
-        cell.setPosition(setterPosition);
-        assertEquals(setterPosition, cell.getPosition(), "Position must match the arguments");
+        Cell updatedCell = new Cell(setterPosition, CellType.EMPTY);
+        assertEquals(setterPosition, updatedCell.getPosition(), "Position must match the arguments");
     }
 
     @Test
