@@ -15,7 +15,7 @@ public class Explorer extends Character{
     private Direction facing = Direction.RIGHT;
     private boolean hasShield;
     private int shieldTicksRemaining;
-    Game game;
+    private Game game;
 
     /**
      * Initializes explorer in specific position with no active shield.
@@ -75,9 +75,7 @@ public class Explorer extends Character{
             Shield s = (Shield) reward;
             activateShield(s.getEffectDuration());
         }
-        else if(reward instanceof Coin) {
-            game.updateScore(reward.getValue());
-        }
+        game.updateScore(reward.getValue());
         reward.collect();
     }
 
@@ -119,5 +117,6 @@ public class Explorer extends Character{
      */
     public void deactivateShield() {
         hasShield = false;
+        shieldTicksRemaining = 0;
     }
 }
