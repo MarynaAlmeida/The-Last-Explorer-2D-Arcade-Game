@@ -33,7 +33,7 @@ public class Main {
         GameView view = new GameView(explorerGame, container, cardLayout);
         WinningView win = new WinningView(explorerGame);
         LosingByCoins loseC = new LosingByCoins(explorerGame, view, cardLayout, container);
-        LosingbyHearts loseH = new LosingbyHearts(explorerGame, view, cardLayout, container);
+        LosingbyHearts loseH = new LosingbyHearts(view, cardLayout, container);
         HomePage home = new HomePage(explorerGame, container, cardLayout, view);
 
         container.add(home, "START");
@@ -68,7 +68,7 @@ public class Main {
         GameView view = new GameView(explorerGame, container, cardLayout);
         WinningView win = new WinningView(explorerGame);
         LosingByCoins loseC = new LosingByCoins(explorerGame, view, cardLayout, container);
-        LosingbyHearts loseH = new LosingbyHearts(explorerGame, view, cardLayout, container);
+        LosingbyHearts loseH = new LosingbyHearts(view, cardLayout, container);
         HomePage home = new HomePage(explorerGame, container, cardLayout, view);
 
         container.removeAll();
