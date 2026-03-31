@@ -87,22 +87,4 @@ public class Position{
         int disty = this.y - other.y;
         return Math.sqrt(distx * distx + disty * disty);
     }
-
-    /**
-     * Returns a list of positions directly adjacent to this one.
-     *
-     * <p>This method does not check whether the returned positions are valid.</p>
-     *
-     * @return a list containing the four adjacent positions.
-     */
-    public List<Position> getAdjacentPositions(){
-        List<Position> adj = new ArrayList<>();
-
-        adj.add(new Position(x, y - 1));
-        adj.add(new Position(x, y + 1));
-        adj.add(new Position(x - 1, y));
-        adj.add(new Position(x + 1, y));
-
-        return adj;
-    }
 }
