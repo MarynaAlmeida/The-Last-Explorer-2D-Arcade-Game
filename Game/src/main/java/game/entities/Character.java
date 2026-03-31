@@ -55,8 +55,6 @@ public abstract class Character extends Entity{
             case DOWN:
                 y++;
                 break;
-            default:
-                return false;
         }
 
         Position newPos = new Position(x, y);
