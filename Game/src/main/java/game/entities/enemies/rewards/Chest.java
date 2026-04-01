@@ -35,10 +35,7 @@ public class Chest extends Reward {
      * @return true when the chest can open along with bonus given, else false
      */
     public boolean canOpenChest(int playerCollectedCoins) {
-        if (collected) {
-            return false;
-        }
-        if (playerCollectedCoins >= coinRequirement) {
+        if (playerCollectedCoins >= coinRequirement && !collected) {
             collected = true;
             return true;
         }

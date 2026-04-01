@@ -14,11 +14,10 @@ import game.main.Main;
 /**
  * Handles visuals for the losing screen by coins including background,
  * coin images and game over text
- * @author Komal Kaur
+ * @author Komal Kaur, Nathaniel Chen
  * @version 1.0
  */
 public class LosingByCoins extends JPanel{
-    //NO BUTTON YET CHECK!!
     private Game g;
     private GameView gv;
     private Image coins;
@@ -61,34 +60,67 @@ public class LosingByCoins extends JPanel{
         });
     }
 
-    //getters for button height and width first
+    /**
+     * Gets the width of the button that the user can click.
+     * 
+     * @return the width that the button should be.
+     */
     public int getBWidth(){
         return this.buttonW;
     }
 
+    /**
+     *
+     * Gets the height of the button that the user can click.
+     * 
+     * @return the height that the button should be.
+     */
     public int getBHeight(){
         return this.buttonH;
     }
 
-    //getters for Button x and y
+    /**
+     * Gets the starting X position of the button.
+     * 
+     * @return the starting X position of the button.
+     */
     public int getBX(){
         return this.buttonX;
     }
 
+    /**
+     * Gets the starting Y position of the button.
+     * 
+     * @return the starting Y position of the button.
+     */
     public int getBY(){
         return this.buttonY;
     }
 
-
-    //box getters
+    /**
+     * Gets the height of the displayed box showing the player has lost.
+     * 
+     * @return the height that the box should be.
+     */
     public int getBoxHeight(){
         return this.boxH;
     }
     
+    /**
+     * Gets the width of the displayed box showing the player has lost.
+     * 
+     * @return the width that the box should be.
+     */
     public int getBoxWidth(){
         return this.boxW;
     }
 
+    /**
+     * Checks whether the X and Y coordinates of a given click is within the restart button. 
+     * @param x the x position of the click.
+     * @param y the y position of the click.
+     * @return true if the x and y position are within the parameters of the button's x and y values, and false otherwise.
+     */
     public boolean isClickInsideButton(int x, int y) {
         return x >= getBX() && x <= getBX() + getBWidth() && y >= getBY() && y <= getBY() + getBHeight();
     }
