@@ -1,0 +1,55 @@
+\documentclass[12pt]{article}
+\usepackage[margin=0.5in]{geometry}
+
+\title{CMPT 276 Assignment 4 Report}
+\author{Komal Kaur}
+\date{March 31, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Code Smells Identified in Teammate's Code}
+
+\noindent\textbf{Character Class}
+\begin{enumerate}
+    \item \textbf{Contradictory Javadoc Comment} \\
+    The Javadoc comment stated: "Represents a position on the game map. This class does not contain information on the position of objects", which directly contradicts itself.
+
+    \item \textbf{Incorrect Javadoc Comments} \\
+    A typo was found on line 32 of the Character class in the word "calculated". Additionally, line 74 states "Checks that position and null are not null", where the second "null" should instead be MAP.
+
+    \item \textbf{Unreachable Default Case} \\
+    In Character.java, the default: return false; case within the switch statement is never reached because the null condition is checked before the switch is executed.
+\end{enumerate}
+
+\noindent\textbf{Position Class}
+\begin{enumerate}
+    \item \textbf{Dead Code} \\
+    The method getAdjacentPositions() in Position.java is not used anywhere in the codebase, making it dead code.
+\end{enumerate}
+
+\newpage
+\section{Refactoring Performed in My Own Code}
+
+\begin{enumerate}
+    \item \textbf{Unused Variable and Confusing Variable Name} \\
+    private Game game / private Game g was only being set in the constructor and not used anywhere else. Additionally, private Game g and the parameter in paintComponent(Graphics g) shared the same variable name. To resolve this, the unused variable private Game game was removed from the LosingByHearts and HomePage classes, all affected classes were updated, and the game parameter was removed from the LosingByHearts constructor.
+
+    \item \textbf{HomePage: Unused Imports} \\
+    Some imports such as game.main and game.entities were not being used. To resolve this, all unused imports were removed.
+
+    \item \textbf{LosingByHearts: Unused Imports, Confusing Comments, and Poor Getter Names} \\
+    Some imports were not being used, some comments appeared confusingly at the end of methods and constructors, and getter names getBX, getBY, getBWidth, getBHeight were not descriptive enough. To resolve this, unused imports were removed, misplaced comments were deleted, and the getter names were renamed to getButtonX, getButtonY, getButtonH, and getButtonW.
+
+    \item \textbf{WinningView: Vague Comments} \\
+    Some comments lacked sufficient explanation, for example just saying "pixels" with no context. To resolve this, comments were updated to be more descriptive, for example changing "pixels" to "converting grid to pixels format."
+
+    \item \textbf{GameView: Class Too Large Due to Tutorial Logic} \\
+    Having the tutorial implementation inside GameView made the class too large and caused it to diverge from its purpose of handling game world visuals. A new class TutorialView was created with getters and a paintTutorial() method. GameView was updated to use the public getters from TutorialView, and the parameters of the GameInput class were updated accordingly.
+
+    \item \textbf{GameView: Minor Code Smells} \\
+    In drawBarriers and drawVisibleBarriers, case Empty: break was used where default: break would be more appropriate. Line 579 contained commented-out code that needed to be removed, and gameLoop and tileSize were not declared as private. To resolve this, gameLoop and tileSize were made private, a getter was added for tileSize in GameView, affected classes were updated, the last case in both barrier methods was changed to a default case, and the commented-out code on line 579 was deleted.
+\end{enumerate}
+
+\end{document}
+
