@@ -43,7 +43,7 @@ public class GameView extends JPanel implements ActionListener{
     private Image fullHeartImage;
     private Image halfHeartImage;
     private Image emptyHeartImage;
-    private Image tutorialPage;
+    Image tutorialPage;
     private boolean isTutorialActive = true;
     private CardLayout cardLayout;
     private JPanel container;

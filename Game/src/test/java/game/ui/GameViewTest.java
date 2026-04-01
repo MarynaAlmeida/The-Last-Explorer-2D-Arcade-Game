@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.CardLayout;
+
 import game.main.Game;
 
 public class GameViewTest {
