@@ -16,7 +16,6 @@ import game.main.*;
  */
 public class LosingbyHearts extends JPanel{
     //check for the button IMPORTANT
-    private Game g;
     private GameView gv;
     private Image backbutton;
     private Image gameover;
@@ -30,8 +29,7 @@ public class LosingbyHearts extends JPanel{
      * @param container the container to store all the views 
      */
     
-    public LosingbyHearts(Game g, GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
-        this.g = g;
+    public LosingbyHearts(GameView gv, CardLayout cardLayout, JPanel container){ //so that losing view is drawn OVER the gameview
         this.gv = gv;
         this.backbutton = new ImageIcon("../Assets/Icons/buttonHeart.png").getImage();
         this.heart = new ImageIcon("../Assets/Icons/EmptyHeart.png").getImage();

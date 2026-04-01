@@ -8,6 +8,10 @@ import javax.swing.JPanel;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+
+import java.awt.CardLayout;
+
+
 import game.entities.enemies.rewards.Chest;
 import game.entities.enemies.rewards.Reward;
 import game.entities.enemies.rewards.Shield;
