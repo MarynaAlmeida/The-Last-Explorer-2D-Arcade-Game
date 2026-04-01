@@ -156,6 +156,20 @@ public class Game{
     }
 
     /**
+     * Cause damage specifically applying to static enemies.
+     * Shield can create immunity against damage.
+     *
+     * @param damageValue the damage collision towards explorer between enemy.
+     * @param explorer the character who will face a collision.
+     */
+    public void staticEnemyDamage(int damageValue, Explorer explorer) {
+        if (!explorer.isShieldActive()) {
+            this.hearts -= damageValue;
+            updateHearts(this.hearts);
+        }
+    }
+
+    /**
      * Acts as the setter for updating the explorer's total score.
      *
      * @param amountToIncrease the amount to increment or decrement the explorer's score.

@@ -1,0 +1,61 @@
+\documentclass[12pt]{article}
+\usepackage[margin=0.5in]{geometry}
+
+\title{CMPT 276 Assignment 4 Report}
+\author{Jayden Pai}
+\date{March 31, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Code Smells Identified}
+I received a review from Komal, who identified 5 smells in my implemented code. 2 Javadoc comment typos were found in the Character class, and 1 contradictory Javadoc 
+comment was found in the Position class. 2 instances of Dead code were also identified in both the Character and Position classes. \\
+
+\noindent\textbf{Position Class}
+\begin{enumerate}
+	\item \textbf{Unused Method} \\
+	The method getAdjacentPositions() was not called anywhere, except in PositionTest.java. After reviewing the relevant files, no usages were found, making this dead code.
+	
+	\item \textbf{Contradictory Javadoc Comment} \\
+	The class level Javadoc comment stated: "Represents a position on the game map.
+	This class does not contain information on the position of objects", which directly contradicts the purpose of the Position class. This is misleading and could cause
+	confusion as the class clearly does contain positional information, i.e. (x, y) coordinates. 
+\end{enumerate}
+
+\noindent\textbf{Character Class}
+\begin{enumerate}
+	\item \textbf{Dead Code} \\
+	A default: return false; case existed within a switch statement in Character.java. Since a null check is performed before the switch is reached, and the Direction enum only contains UP, DOWN, LEFT, and RIGHT, all possible cases are already handled explicitly. The default branch is therefore unreachable.
+	
+	\item \textbf{Incorrect Javadoc Comments} \\
+	2 misspelled Javadoc comments were found. On line 32, the word calculated was misspelled. On line 74, the statement "Checks that position and null are not null" incorrectly used the word "null" twice.
+\end{enumerate}
+
+\newpage
+\section{Refactoring Performed}
+After receiving the review, all 5 identified code smells were verified and resolved. The refactoring was performed on Position.java and Character.java, 
+with tests rerun after each change to ensure program behaviour remained correct. Changing the Javadoc comments naturally did not affect the tests. Similarly, removing the identified dead code did not affect the results of the tests, confirming that they were indeed unused and unnecessary (with a minor exception, discussed below). \\
+
+\noindent\textbf{Position Class}
+\begin{enumerate}
+	\item \textbf{Unused Method} \\
+	The method getAdjacentPositions() was deleted entirely. Before removal, usages were searched for using IntelliJ's "Find Usages" feature. The only references found were two tests in PositionTest.java, which were also removed since the method itself was being deleted (this is the minor exception). No other usages of getAdjacentPositions() existed in non test classes, confirming it was safe to remove.
+	
+	\item \textbf{Contradictory Javadoc Comment} \\
+	The contradictory line was removed and replaced with an accurate description: "Stores coordinates (x, y) and provides methods for comparison and distance calculation." This ensures the class level Javadoc comment correctly reflects the purpose of the class.
+\end{enumerate}
+
+\noindent\textbf{Character Class}
+\begin{enumerate}
+	\item \textbf{Dead Code} \\
+	The default: return false; case was removed from the switch statement in the move() method as it is unreachable considering the initial null check and the Direction enum.
+	
+	\item \textbf{Incorrect Javadoc Comments} \\
+	The 2 inaccurate Javadoc comments were located and verified as incorrect. The typo in "calculated" on line 32 and the comment on line 74 were corrected. In the latter, "null" was replaced by "map" to correctly reflect the code being described.
+\end{enumerate}
+
+\noindent During the refactoring process, additional Javadoc comment typos were also discovered and corrected in Position.java and Character.java:
+added a missing \textless /p\textgreater\ tag in Character.java, added a \textless p\textgreater, \textless /p\textgreater\ tag in Position.java for clarity, and corrected a typo in the word "overridden" in Position.java. Again, tests were rerun after each change to ensure the program behaved as expected.
+
+\end{document}

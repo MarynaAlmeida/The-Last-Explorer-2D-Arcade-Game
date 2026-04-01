@@ -8,7 +8,7 @@ import java.util.List;
  * Unit tests for the Position class.
  *
  * @author Jayden Pai
- * @version 1.0
+ * @version 2.0
  */
 public class PositionTest {
     @Test
@@ -98,21 +98,9 @@ public class PositionTest {
         assertEquals(5.0, p1.distanceTo(p2), 0.0001);
     }
 
-
     @Test
-    void testAdjacentPositionsReturnsExactlyFour() {
-        Position p = new Position(5, 5);
-        assertEquals(4, p.getAdjacentPositions().size());
-    }
-
-    @Test
-    void testAdjacentPositionsContainsCorrectNeighbours() {
-        Position p = new Position(5, 5);
-        List<Position> adj = p.getAdjacentPositions();
-
-        assertTrue(adj.contains(new Position(5, 4)));
-        assertTrue(adj.contains(new Position(5, 6)));
-        assertTrue(adj.contains(new Position(4, 5)));
-        assertTrue(adj.contains(new Position(6, 5)));
+    void testPositionNotEqualToDifferentType() {
+        Position p = new Position(2, 3);
+        assertNotEquals(p, "not a position");
     }
 }

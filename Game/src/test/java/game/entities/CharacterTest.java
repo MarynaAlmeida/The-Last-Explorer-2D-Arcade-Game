@@ -11,16 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 /**
- * Unit tests for the abstract Character class.
+ * Unit and integration tests for the abstract Character class.
  *
  * @author Harman Bains
  * @version 1.0
  */
 public class CharacterTest {
 
-    // concrete of testing abstract class
+    // Concrete of testing abstract class
     private static class TestCharacter extends Character {
         public TestCharacter(Position position, GameMap map) {
             super(position, map);
@@ -46,7 +45,7 @@ public class CharacterTest {
     }
 
     @Test
-    void testCharacterMovementsandDirections(){
+    void testCharacterMovementsAndDirections(){
 
         Position currentPosition = theCharacter.getPosition();
 
@@ -76,7 +75,7 @@ public class CharacterTest {
     @Test
     void testCanMoveToFindingNullInstances() {
         assertFalse(theCharacter.canMoveTo(null),
-                "position is null means canMoveto method is false");
+                "position is null means can-Move-to method is false");
 
         GameMap initialMap = theCharacter.map;
         theCharacter.map = null;

@@ -12,7 +12,7 @@ import game.entities.Entity;
  */
 public class Cell {
     private Position position;
-    private CellType type;
+    private final CellType type;
     private Entity entity;
 
     /**
@@ -82,16 +82,6 @@ public class Cell {
      */
     public CellType getType() {
         return type;
-    }
-
-    /**
-     * Applying a position to a cell.
-     *
-     * @param position the position of this cell.
-     */
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     /**
