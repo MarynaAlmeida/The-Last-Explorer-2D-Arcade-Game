@@ -1,7 +1,6 @@
 package game.ui;
 
 import game.main.Game;
-import game.main.Main;
 
 import javax.swing.*;
 
@@ -10,7 +9,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import game.ui.GameView;
 /**
  * Handles visuals for the homepage including background, title and start button
  * @author Komal Kaur
