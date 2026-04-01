@@ -31,7 +31,7 @@ public class GameInputTest {
         CardLayout cardLayout = new CardLayout();
         gameView = new GameView(game, container, cardLayout);
         gameView.stopLoop();
-        TutorialView tutorialView = new TutorialView();
+        tutorialView = new TutorialView();
         gameInput = new GameInput(game, gameView, tutorialView);
     }
 
