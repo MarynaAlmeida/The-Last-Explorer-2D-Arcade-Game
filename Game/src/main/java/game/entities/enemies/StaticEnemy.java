@@ -21,14 +21,16 @@ public abstract class StaticEnemy extends Entity {
      *
      * @param position    the enemy grid position on map.
      * @param damageValue the damage happening when the explorer collides with enemy.
+     * @param game        the variable of the game itself
      */
     public StaticEnemy(Position position, int damageValue) {
         super(position);
         this.damageValue = damageValue;
+        this.game = null;
     }
 
     /**
-     * Returns the specific damage happening with this static enemy upon collison.
+     * Returns the specific damage happening with this static enemy upon collision.
      *
      * @return the damage quantity.
      */
@@ -38,23 +40,23 @@ public abstract class StaticEnemy extends Entity {
     }
 
     /**
-     * Case of a collision with the explorer.
-     * Damage occurs except when the explorer has a shield active.
-     *
-     * @param explorer the explorer who encounters collison.
-     */
-    public void onCollision(Explorer explorer) {
-        if (!explorer.isShieldActive()) {
-            game.updateHearts(game.getHearts()-damageValue);
-        }
-    }
-
-    /**
      * Setter for the game variable.
      *
      * @param game the variable which will set up the game.
      */
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    /**
+     * Case of a collision with the explorer.
+     * Damage occurs when game active and static enemy damage within range to explorer.
+     *
+     * @param explorer the explorer who encounters collision.
+     */
+    public void onCollision(Explorer explorer) {
+        if (game != null) {
+            game.staticEnemyDamage(damageValue, explorer);
+        }
     }
 }

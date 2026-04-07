@@ -428,7 +428,7 @@ public class GameTest {
         game.getRewards().clear();
         Position chestPos = new Position(3, 11);
         Chest chest = new Chest(chestPos, 0, 10);
-        chest.attemptOpening(0); // pre open chest
+        chest.canOpenChest(0); // pre open chest
         game.getRewards().add(chest);
         game.getExplorer().setPosition(chestPos);
         game.tick();

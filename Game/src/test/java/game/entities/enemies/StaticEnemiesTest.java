@@ -80,13 +80,12 @@ public class StaticEnemiesTest {
 
     @Test
     void testOnCollisionDoesNotDamageWhenShieldActive() {
-        int damage = 3;
+        int damage = 1;
         enemy = new TestStaticEnemy(new Position(2, 2), damage);
         enemy.setGame(game);
 
-        explorer.activateShield(5); // shield ON
         int initialHearts = game.getHearts();
-
+        explorer.activateShield(5);// shield ON
         enemy.onCollision(explorer);
 
         assertEquals(initialHearts, game.getHearts());
@@ -96,11 +95,8 @@ public class StaticEnemiesTest {
     void testZeroDamageDoesNotAffectHearts() {
         enemy = new TestStaticEnemy(new Position(3, 3), 0);
         enemy.setGame(game);
-
         int initialHearts = game.getHearts();
-
         enemy.onCollision(explorer);
-
         assertEquals(initialHearts, game.getHearts());
     }
 
@@ -121,9 +117,8 @@ public class StaticEnemiesTest {
         enemy = new TestStaticEnemy(new Position(5, 5), -3);
         enemy.setGame(game);
 
-        explorer.activateShield(5);
         int initialHearts = game.getHearts();
-
+        explorer.activateShield(20);
         enemy.onCollision(explorer);
 
         assertEquals(initialHearts, game.getHearts());

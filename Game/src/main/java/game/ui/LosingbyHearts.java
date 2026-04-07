@@ -109,11 +109,11 @@ public class LosingbyHearts extends JPanel{
 
         g.setColor(Color.WHITE);
         g.fillRect(boxX, boxY, boxW, boxH);
-        g.drawImage(gameover, boxH + 10, boxY+10, getBoxWidth(), getBoxHeight(), null);
+        g.drawImage(gameover, boxH + 10, boxY+10, boxX, boxY, null);
         
         int size = 32;
-        int startX = getBoxWidth() + 70;
-        int startY = getBoxHeight() + 100;
+        int startX = boxX + 70;
+        int startY = boxY + 100;
         for(int i=0; i<4; i++){
             g.drawImage(heart, startX + (i*(size+10)), startY, size, size, null);
         }

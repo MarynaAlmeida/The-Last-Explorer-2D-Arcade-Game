@@ -8,19 +8,21 @@ import game.main.Position;
 
 /**
  * Abstract base class for all enemies that navigate the map to the explorer.
+ * 
+ *  @author Maryna Almeida
+ * @version 2.0
  * */
 
 public class MovingEnemy extends Character {
     protected int moveSpeed;
-    Position defaulPosition;
-    protected int pixelX;
-    protected int pixelY;
+    private int pixelX;
+    private int pixelY;
     private int velocityX = 0;
     private int velocityY = 0;
-    protected Direction currentDir;
+    private Direction currentDir;
     private int tileSize = 32;
-    Direction[] directions = Direction.values();
-    Random random = new Random();
+    private Direction[] directions = Direction.values();
+    private Random random = new Random();
     
     /**
      * Initializes a moving enemy at a specific grid position, converting it to
@@ -35,30 +37,27 @@ public class MovingEnemy extends Character {
         pixelX = pos.getX() * tileSize;
         pixelY = pos.getY() * tileSize;
         updateDirection(Direction.RIGHT);
-        this.defaulPosition = new Position(pos.getX(), pos.getY());
-        
     }
     /**
      * Converts pixel movements back into pixel coordinates to check for collision/traversability.
      */
 
     void move() {
-       this.pixelX += velocityX;
-       this.pixelY += velocityY;
+       int potentialX = pixelX + velocityX;
+       int potentialY = pixelY + velocityY;
+    
        /** Converts pixels back to grid coordinates. */
-       int gridX = this.pixelX / tileSize;
-       int gridY = this.pixelY / tileSize;
-       Position newGridPos = new Position(gridX, gridY);
+       int gridX = potentialX / tileSize;
+       int gridY = potentialY / tileSize;
+       Position potentialGridPos = new Position(gridX, gridY);
 
        /** Checks if the cell at that position is tranversable. */
-       if(map.isValidEnemyMove(newGridPos)) {
-           this.setPosition(newGridPos);
+       if(map.isValidEnemyMove(potentialGridPos)) {
+           this.pixelX += velocityX;
+           this.pixelY += velocityY;
+           this.setPosition(potentialGridPos);
        }
-       else{
-        /** If enemy hits a hedge or tree, step back. */
-           this.pixelX -= velocityX;
-           this.pixelY -= velocityY;
-
+       else {
            /** Resets the velocity, so a new path can be chosen. */
            this.velocityX = 0;
            this.velocityY = 0;
@@ -77,10 +76,14 @@ public class MovingEnemy extends Character {
         return this.pixelY;
     }
 
+    /** @return current velocity in the y-direction.
+    */
     public int getVelocityX() {
         return this.velocityX;
     }
 
+    /** @return current velocity in the x-direction.
+    */
     public int getVelocityY() {
         return this.velocityY;
     }
@@ -144,5 +147,4 @@ public class MovingEnemy extends Character {
         };
         
     }
-
 }

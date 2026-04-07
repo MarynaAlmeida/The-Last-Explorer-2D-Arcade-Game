@@ -7,7 +7,7 @@ import game.enums.Direction;
 /**
  * Represents an abstract character class.
  * 
- * <p>This is a subclass that extends from {@link Entity}.
+ * <p>This is a subclass that extends from {@link Entity}.</p>
  * 
  * @author Jayden Pai
  * @version 1.0
@@ -29,7 +29,7 @@ public abstract class Character extends Entity{
     /**
      * Attempts to move character in the specified direction.
      *
-     * <p>The new position is calcuated based on the direction
+     * <p>The new position is calculated based on the direction
      * and validity is checked before the move is performed.</p>
      *
      * @param dir the direction to move the character.
@@ -55,8 +55,6 @@ public abstract class Character extends Entity{
             case DOWN:
                 y++;
                 break;
-            default:
-                return false;
         }
 
         Position newPos = new Position(x, y);
@@ -71,7 +69,7 @@ public abstract class Character extends Entity{
     /**
      * Determines whether the character can move to the specified position.
      * 
-     * <p>Checks that position and null are not null and verifies using game map
+     * <p>Checks that position and map are not null and verifies using game map
      * that the move is valid.</p>
      *
      * @param pos the position to check
