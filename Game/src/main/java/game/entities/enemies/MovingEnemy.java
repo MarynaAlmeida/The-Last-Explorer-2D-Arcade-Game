@@ -64,25 +64,29 @@ public class MovingEnemy extends Character {
        }
    }
 
-   /** @return current x-coordinate in pixels.
+   /** Returns pixel coordinates.
+    * @return current x-coordinate in pixels.
    */
     public int getPixelX() {
         return this.pixelX;
     }
 
-    /** @return current y-coordinate in pixels.
+    /** Returns pixel coordinates.
+     * @return current y-coordinate in pixels.
     */
     public int getPixelY() {
         return this.pixelY;
     }
 
-    /** @return current velocity in the y-direction.
+    /** Returns velocity in the y-direction.
+     * @return current velocity in the y-direction.
     */
     public int getVelocityX() {
         return this.velocityX;
     }
 
-    /** @return current velocity in the x-direction.
+    /** Returns velocity in the x-direction.
+     * @return current velocity in the x-direction.
     */
     public int getVelocityY() {
         return this.velocityY;

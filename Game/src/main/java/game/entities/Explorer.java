@@ -30,7 +30,7 @@ public class Explorer extends Character{
     }
     
     /**
-     * Ats as a getter for the direction the explorer is facing.
+     * Acts as a getter for the direction the explorer is facing.
      * 
      * @return the direction that the explorer is facing.
      */
@@ -99,10 +99,9 @@ public class Explorer extends Character{
         return hasShield;
     }
 
-    /* 
+    /**
      * Decrements shield timer by one tick
-     * and deactivates shield once the timer reaches zero.
-     * */
+     * and deactivates shield once the timer reaches zero. */
     public void updateShield() {
         if(shieldTicksRemaining > 0) {
             shieldTicksRemaining--;

@@ -183,7 +183,7 @@ public class Game{
      * pixel position. Otherwise, it calculates the pixel position based on the
      * entity's grid coordinates multiplied by the tile size.</p>
      * @param e the entity that the x-coordinate is being asked.
-     * @retun x-coordinate in pixel.
+     * @return x-coordinate in pixel.
      */
     public int getPixelX(Entity e) {
         if( e instanceof MovingEnemy) {
@@ -197,7 +197,7 @@ public class Game{
      * pixel position. Otherwise, it calculates the pixel position based on the
      * entity's grid coordinates multiplied by the tile size.</p>
      * @param e the entity that the y-coordinate is being asked.
-     * @retun y-coordinate in pixel.
+     * @return y-coordinate in pixel.
      */
     public int getPixelY(Entity e) {
         if( e instanceof MovingEnemy) {
