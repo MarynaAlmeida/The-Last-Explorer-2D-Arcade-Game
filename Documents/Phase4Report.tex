@@ -1,6 +1,7 @@
 \documentclass[12pt,letterpaper]{article}
 
 % Packages
+\usepackage{hyperref}
 \usepackage[margin=0.5in]{geometry}
 
 % Title of tex report
@@ -23,11 +24,26 @@
 % Body of report:
 
 \section{Game}
+The Last Explorer takes place inside of a forest. The main character is an explorer, who has entered this forest maze to find a treasure chest. In order to unlock the chest, the user/explorer must gather all coins that are in the maze, then go to the chest to win the game. There are many obstacles in the maze, including static enemies such as thorns and bear traps, moving enemies such as pirates and animals, and static objects such as trees and hedges that block the player from moving. \\
+
+We remained relatively faithful to our original design for our game, with our movement commands, entities, and reward ideas being the same. Additionally, we kept our scoring and winning/losing mechanics the same, with the user winning by getting all coins and then touching the chest, and losing by losing all of their coins or hearts. \\
+
+Although most of our game ideas were the same after implementing and testing the game, we did change a few features of the game to increase the quality of life of our game. First, we did not surround the chest in hedges. Instead, we kept the chest accessible, but didn't allow the user to interact with it until it is unlocked by collecting all the coins on the map. Second, we modified the shield reward so that it blocks all damage coming in from moving enemies, but disappears once the explorer goes on top of a static trap, such as a thorn or bear trap. Additionally, we decreased the damage that the player takes from moving enemies to half a heart instead of a full heart. \\
+
+We chose to make the chest locked instead of surrounding it with bushes, as we believe that it makes more logical sense to lock the chest instead of creating additional barriers for the explorer to navigate through. Additionally, we found that the coding logic for locking and unlocking the chest worked well with the rest of our code, compared to creating and removing barriers that were set when the game was first launched. \\
+
+We also found through our playtesting that the moving enemies that hurt the explorer sometimes move too fast for the user to react to. As a result, we found that blocking all damage from moving enemies with the shield would be more beneficial for the user, while still ensuring that the user cannot carelessly abuse the shield by running through static objects as well. \\
+
+Additionally, we found that the difficulty when the explorer loses one heart each time they run into a moving enemy was too high. As a result, we chose to decrease the damage down to half a heart, as opposed to the full heart that we intended it to be. \\
 
 \section{Lessons Learned}
 There were three major lessons learned during the whole project. The first was to be communicative. It is significant that every team member was to be open and transparent about issues and not hold back information for figuring out themselves if it is too difficult. The second lesson was to take sacrifices whenever necessary. An example with one group member was with a water damaged laptop who had work complete but unable to utilize their device. This resulted in sacrificing their own git commits and having other group members do the work for them. This was a simple copy and paste that can be sacrifice meaningful for the project rather than concerning a person’s own contributions. The last major lesson learned was engagement within the group. It was observed that if one or multiple group members did have not recently have git commit history or was communicating online, then it would make the group project have to pivot to a different direction, so its important that people stay in touch. 
 
 \section{Tutorial}
+
+We have chosen to do a video demo to show all aspects of our game. Below is a link to the demo video of our game:
+\href{https://youtu.be/MbtjnOlAMnE}{The Last Explorer Demo}
+
 
 % ================================
 \end{document}
