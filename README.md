@@ -1,6 +1,7 @@
 # The Last Explorer: 2D Arcade Game - CMPT276
 A 2D arcade style game built using Java and managed with Maven for Introduction to Software Engineering (CMPT276) class. 
 Players take on the role of an adventurer navigating in a maze environement to survive and complete challenges.
+
 *(Note: Developed as part of a collaborative team project at SFU.)*
 
 ## How to play the game
